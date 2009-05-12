@@ -1,0 +1,18 @@
+{% load date_filters %}
+
+<div class="asset-meta icon-{{ entry.type_id }}">
+    <a href="{% url asset entry.id %}#comments" class="comment-count">{{ entry.comment_count }} <span>Comment{{ entry.comment_count|pluralize }}</span></a>
+    <span class="separator">|</span>
+    <span class="favorite-action favorite-count{% if entry.links.favorites.by_user %} scored{% endif %}" id="favorite-{{ entry.id }}">{{ entry.favorite_count }}</span>
+    <span class="separator">|</span>
+    <span class="byline">
+    {% block byline %}
+        posted by <span class="vcard author">
+            <a href="{{ entry.author.get_absolute_url }}">{{ entry.author.display_name }}</a>
+        </span>
+        <span class="date">
+            <abbr class="published" title="{{ entry.published|date_microformat }}"><a href="{{ entry.get_absolute_url }}">{{ entry.published|pithy_timesince:"on " }}</a></abbr>
+        </span>
+    {% endblock %}
+    </span>
+</div>

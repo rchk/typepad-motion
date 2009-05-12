@@ -1,0 +1,14 @@
+{% extends "assets/body/base.html" %}
+{% load date_filters %}
+
+{% block title %}{% endblock %}
+{% block media %}{% endblock %}
+{% block activity %}
+    <i>{{ event.actor.display_name }} favorited {% ifequal entry.type_id "audio" %}an{% else %}a{% endifequal %}
+    <a href="{{ entry.get_absolute_url }}">
+    {% ifnotequal entry.type_id "post" %}
+        {{ entry.type_id }}
+    {% endifnotequal %}
+    post by {{ entry.author.display_name }}</a> <abbr class="published" title="{{ event.published|date_microformat }}">{{ event.published|pithy_timesince:"on " }}</abbr>.</i>
+{% endblock %}
+{% block content %}{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% comment %}
+Template used for displaying the member directory for the group.
+{% endcomment %}
+
+{% block head_title %}{{ block.super }}: Members{% endblock %}
+{% block page_id %}members-list{% endblock %}
+{% block page_layout %}{% endblock %}
+
+{% block content_body %}
+    
+    {% if request.user.is_superuser %}
+    <div style="float: right;"><a href="{% url export_members %}">Export Member List</a></div>
+    {% endif %}
+
+    <h1 id="page-title">
+    {% if rel %}
+        {% ifequal rel "following" %}
+            {{ member.display_name }} follows {{ page_obj.paginator.count }} {% ifequal page_obj.paginator.count 1 %}person{% else %}people{% endifequal %}.
+        {% else %}
+            {{ member.display_name }}'s {{ page_obj.paginator.count }} Follower{{ page_obj.paginator.count|pluralize }}</h1>
+        {% endifequal %}
+    {% else %}
+        {{ page_obj.paginator.count }} Member{{ page_obj.paginator.count|pluralize }}
+        <span class="range">Showing {{ page_obj.paginator.offset }}-{{ page_obj.end_index }}</span>
+    {% endif %}
+    </h1>
+
+    {% if page_obj.has_previous %}
+    {% include "bits/pagination.html" %}
+    {% endif %}
+
+    <ul class="member-list">
+        {% for membership in page_obj.object_list %}
+        {% with membership.target as member %}
+        <li class="member-listitem {% cycle '' 'even' %}">
+            <div class="userpic">
+                {% with member as user %}
+                    {% include "assets/bits/userpic.html" %}
+                {% endwith %}
+                <div class="user-info">
+                    <a href="{{ member.get_absolute_url }}" class="name">{{ member.display_name }}</a>
+                </div>
+            </div>
+            <div class="member-info">
+                <h4><a href="{{ member.get_absolute_url }}" class="name">{{ member.display_name }}</a></h4>
+            </div>
+        </li>
+        {% endwith %}
+        {% endfor %}
+    </ul>
+
+    {% include "bits/pagination.html" %}
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% comment %}
+Template used for displaying a list of the users followers.
+{% endcomment %}
+
+<div class="widget-followers widget pkg {% if not followers %}empty{% endif %}">
+    <h3>Followers</h3>
+    <div class="widget-content">
+        <div class="summary">
+            <span class="count">
+                {{ followers.total_results }}
+            </span>
+            <label>
+                Follower{{ followers.total_results|pluralize }}
+            </label>
+        </div>
+        <ul>
+            {% for rel in followers %}
+            {% with rel.target as member %}
+            {% include "bits/list_member.html" %}
+            {% endwith %}
+            {% endfor %}
+        </ul>
+        {% if followers %}
+        <div class="more"><a href="{% url followers userid=member.id %}">
+        {% ifequal view "home" %}
+            &gt;&gt;
+        {% else %}
+            view all
+        {% endifequal %}
+        </a></div>
+        {% endif %}
+    </div>
+</div>

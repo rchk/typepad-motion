@@ -1,0 +1,26 @@
+{% load generic_filters %}
+
+{% url home as url_home %}
+{% url group_events as url_group_events %}
+{% url following_events as url_following_events %}
+{% url members as url_members %}
+
+<div id="nav">
+    <div id="nav-inner">
+        <ul>
+            
+            {% if user.is_authenticated %}
+                {% if settings.home_member_events %}
+                <li class="home{% ifequal view 'home' %} current{% endifequal %}"><a href="{{ url_home }}">Following</a></li>
+                <li class="events{% if request.path|regex_starts_with:url_group_events %} current{% endif %}"><a href="{{ url_group_events }}">Public Timeline</a></li>
+                {% else %}
+                <li class="home{% ifequal view 'home' %} current{% endifequal %}"><a href="{{ url_home }}">Public Timeline</a></li>
+                <li class="following{% if request.path|regex_starts_with:url_following_events %} current{% endif %}"><a href="{{ url_following_events }}">Following</a></li>
+                {% endif %}
+            {% else %}
+            <li class="home{% ifequal view 'home' %} current{% endifequal %}"><a href="{{ url_home }}">Public Timeline</a></li>
+            {% endif %}
+            <li class="members{% if request.path|regex_starts_with:url_members %} current{% endif %}{% if request.path|regex_search:"^/events/\d+$" %} current{% endif %}"><a href="{{ url_members }}">Members</a></li>
+        </ul>
+    </div><!-- end #nav-inner -->
+</div><!-- end #nav -->

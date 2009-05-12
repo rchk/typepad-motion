@@ -1,0 +1,68 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="spacegiraffe 1.0" />
+<link rel="stylesheet" href="{{ MEDIA_URL }}themes/{{ settings.theme }}/style.css" type="text/css" />
+<link rel="start" href="{% url home %}" title="Home" />
+<link rel="shortcut icon" type="image/x-icon" href="{{ MEDIA_URL }}favicon.ico" />
+<script type="text/javascript" src="{{ MEDIA_URL }}jquery/jquery.js"></script>
+
+<!-- jQuery Plugins & Functions - FIXME: Concatenate before releasing Motion -->
+
+{% if user.is_authenticated and user.can_post and dwim %}
+<!-- Ajax Form Handler -->
+<script type="text/javascript" src="{{ MEDIA_URL }}jquery/jquery.form.js"></script>
+{% endif %}
+
+<!-- JSON Functions -->
+<script type="text/javascript" src="{{ MEDIA_URL }}jquery/jquery.json-1.3.min.js"></script>
+
+<!-- Timing Functions -->
+<script type="text/javascript" src="{{ MEDIA_URL }}jquery/jquery.timeout.interval.idle.js"></script>
+
+<!-- Form Submission -->
+<script type="text/javascript" src="{{ MEDIA_URL }}jquery/jquery.form.js"></script>
+
+<!-- Image Popup Functions -->
+{# <link rel="stylesheet" href="{{ MEDIA_URL }}jquery/themes/thickbox.css" type="text/css" /> #}
+{# <script type="text/javascript" src="{{ MEDIA_URL }}jquery/thickbox.js"></script> #}
+
+<!-- Userpic flyouts for TypePad following -->
+<script type="text/javascript" src="{{ request.application.user_flyouts_script }}"></script>
+
+{% if debug %}
+<script type="text/javascript" src="{{ MEDIA_URL }}jquery/jquery.dump.js"></script>
+{% endif %}
+
+<script type="text/javascript" src="{{ MEDIA_URL }}motion.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+// user data
+{% if user.is_authenticated %}
+user = {
+    is_authenticated: true,{% if user.is_admin %}
+    is_admin: true,{% endif %}{% if user.is_staff %}
+    is_staff: true,{% endif %}{% if user.can_post %}
+    can_post: true,{% endif %}
+    name: '{{ user.display_name|escapejs }}',
+    email: '{{ user.email|escapejs }}',
+    url: '{{ user.aboutMe|escapejs }}',
+    userpic: '{{ user.userpic|escapejs }}',
+    oauth_token: '{{ request.oauth_client.token.key }}'
+};
+{% endif %}
+settings.upload_xhr_endpoint = '{{ upload_xhr_endpoint|escapejs }}';
+{% if settings.dwim_enabled %}
+settings.dwim_enabled = true;
+{% endif %}
+/* ]]> */
+</script>
+<script type="text/javascript" language="javascript" src="{{ request.get_session_synchronization_url }}"></script>
+
+<!-- Audio Player for audio files -->
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}soundmanager/inlineplayer.css" />
+<script type="text/javascript" src="{{ MEDIA_URL }}soundmanager/soundmanager2-nodebug-jsmin.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}soundmanager/inlineplayer.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+soundManager.url = '{{ MEDIA_URL }}soundmanager/';
+/* ]]> */
+</script>

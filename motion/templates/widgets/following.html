@@ -1,0 +1,29 @@
+<div class="widget-following widget pkg {% if not following %}empty{% endif %}">
+    <h3>Following</h3>
+    <div class="widget-content">
+        <div class="summary">
+            <label>
+                Following
+            </label>
+            <span class="count">
+                {{ following.total_results }}
+            </span>
+        </div>
+        <ul>
+            {% for rel in following %}
+            {% with rel.target as member %}
+            {% include "bits/list_member.html" %}
+            {% endwith %}
+            {% endfor %}
+        </ul>
+        {% if following %}
+        <div class="more"><a href="{% url following userid=member.id %}">
+        {% ifequal view "home" %}
+            &gt;&gt;
+        {% else %}
+            view all
+        {% endifequal %}
+        </a></div>
+        {% endif %}
+    </div>
+</div>

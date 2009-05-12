@@ -1,0 +1,62 @@
+{% load date_filters %}
+
+<div id="comment-{{ comment.id }}" class="comment comment-by-author">
+
+    {# delete comment button #}
+    {% if user.is_superuser %}
+        <div class="controls">
+        {% include "bits/delete_comment.html" %}
+        </div>
+    {% else %}
+        {% if settings.allow_users_to_delete_posts and user.is_authenticated %}
+            {% ifequal comment.author.id user.id %}
+                <div class="controls">
+                {% include "bits/delete_comment.html" %}
+                </div>
+            {% endifequal %}
+        {% endif %}
+    {% endif %}
+
+    <div class="inner">
+        <!--div class="userpic">
+            {% spaceless %}
+            <a href="{{ comment.author.get_absolute_url }}" class="userpic-link">
+                {% with comment.author.links.rel__avatar.width__40 as userpic %}
+                <img src="{{ userpic.href }}" width="40" height="40" alt="{{ comment.author.display_name }}" />
+                {% endwith %}
+                <span class="auth-icon">
+                </span>
+            </a>
+            {% endspaceless %}
+        </div-->
+        {% with comment.author as user %}
+            {% include "assets/bits/userpic.html" %}
+        {% endwith %}
+        <div class="user-info">
+            <a href="{{ comment.author.get_absolute_url }}" class="name">{{ comment.author.display_name }}</a>
+        </div>
+    </div>
+    <div class="comment-content">
+        <div class="comment-content-inner">
+            {{ comment.content|urlize|linebreaks }}
+        </div>
+    </div>
+    <div class="comment-footer">
+        <div class="asset-meta">
+            <span class="byline">
+                {% spaceless %}
+                <a class="commenter-profile" href="{{ comment.author.get_absolute_url }}">
+                    {% with comment.author.links.rel__avatar.width__16 as userpic %}
+                    <img alt="Author Profile Page" src="{{ userpic.href }}" width="16" height="16" />
+                    {% endwith %}
+                </a>
+                {% endspaceless %}
+                <span class="vcard author">
+                    <a title="{{ comment.author.get_absolute_url }}" href="{{ comment.author.get_absolute_url }}">{{ comment.author.display_name }}</a>
+                </span>
+                <span class="sep">|</span>
+                <a href="{{ comment.link }}"><abbr class="published" title="{{ comment.published|date_microformat }}">{{ comment.published|pithy_timesince }}</abbr></a>
+            </span>
+        </div>
+    </div>
+</div>

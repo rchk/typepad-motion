@@ -1,0 +1,54 @@
+from django.conf.urls.defaults import *
+
+urlpatterns = patterns('motion.views',
+    # main index
+    url(r'^$', 'home', name='home'),
+    url(r'^page/(?P<page>\d+)$', 'home'),
+
+    # file upload callback
+    url(r'^upload_complete$', 'upload_complete', name='upload_complete'),
+
+    # post permalink
+    url(r'^entry/(?P<postid>\w+)', 'AssetView', name='asset'),
+
+    # group events
+    url(r'^events$', 'GroupEventsView', name='group_events'),
+    url(r'^events/page/(?P<page>\d+)$', 'GroupEventsView'),
+
+    # following inbox
+    url(r'^following$', 'FollowingEventsView', name='following_events'),
+    url(r'^following/page/(?P<page>\d+)$', 'FollowingEventsView'),
+
+    # member pages
+    url(r'^members$', 'MembersView', name='members'),
+    url(r'^members/page/(?P<page>\d+)$', 'MembersView'),
+    url(r'^members/(?P<userid>\w+)$', 'MemberView', name='member'),
+    url(r'^members/(?P<userid>\w+)/page/(?P<page>\d+)$', 'MemberView'),
+    url(r'^members/(?P<userid>\w+)/following$', 'RelationshipsView', {'rel': 'following'}, name='following'),
+    url(r'^members/(?P<userid>\w+)/followers$', 'RelationshipsView', {'rel': 'followers'}, name='followers'),
+    url(r'^members/(?P<userid>\w+)/(?P<rel>following|followers)/page/(?P<page>\d+)$', 'RelationshipsView'),
+)
+
+urlpatterns += patterns('motion.dwim',
+    url(r'^ajax/url_render$', 'url_render'),
+)
+
+urlpatterns += patterns('motion.ajax',
+    url(r'^ajax/more_comments$', 'more_comments'),
+    url(r'^ajax/favorite$', 'favorite'),
+    url(r'^ajax/upload_url$', 'upload_url', name='upload-url'),
+)
+
+# Feeds
+from motion.feeds import PublicEventsFeed, MemberFeed, CommentsFeed
+urlpatterns += patterns('',
+    ## TODO this is how Django does feed URLS - do we want a different style?
+    url(r'^feeds/(?P<url>.*)$', 'django.contrib.syndication.views.feed',
+        {'feed_dict':
+            {
+                'events'  : PublicEventsFeed, # home/index page feed
+                'members' : MemberFeed,       # member page feed
+                'comments': CommentsFeed,     # permalink comments feed
+            }
+        }, name='feeds'),
+)

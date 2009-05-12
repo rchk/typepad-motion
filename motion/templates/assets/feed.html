@@ -1,0 +1,7 @@
+{% load withblock %}
+
+{% with obj as entry %}
+    {% withblock %}assets/body/{{ entry.type_id }}.html{% as template_name %}
+        {% include template_name %}
+    {% endwithblock %}
+{% endwith %}

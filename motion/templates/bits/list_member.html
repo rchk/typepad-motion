@@ -1,0 +1,14 @@
+<li style="z-index:{{ forloop.revcounter }};">
+    <div class="userpic">
+        {% spaceless %}
+        <a class="userpic-link source-user-avatar" href="{{ member.get_absolute_url }}">
+            {% with member.links.rel__avatar.width__24 as userpic %}
+            <img src="{{ userpic.href }}" alt="{{ member.display_name }}" title="{{ member.display_name }}" width="24" height="24" class="photo" />
+            {% endwith %}
+        </a>
+        {% endspaceless %}
+        <div class="user-info">
+            <a href="{{ member.get_absolute_url }}" class="name">{{ member.display_name }}</a>
+        </div>
+    </div>
+</li>

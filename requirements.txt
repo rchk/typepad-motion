@@ -1,0 +1,8 @@
+oauth
+simplejson>=2.0.0
+httplib2>=0.4.0
+Django>=1.0.2
+-e svn+http://svn.sixapart.com/repos/typeapp/trunk/libraries/python/remoteobjects/#egg=remoteobjects
+-e svn+http://svn.sixapart.com/repos/typeapp/trunk/libraries/python/batchhttp/#egg=batchhttp
+-e svn+http://svn.sixapart.com/repos/typeapp/trunk/libraries/python/typepad/#egg=typepad
+-e svn+http://svn.sixapart.com/repos/typeapp/trunk/libraries/python/typepadapp/#egg=typepadapp

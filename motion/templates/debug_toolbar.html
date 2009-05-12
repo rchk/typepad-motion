@@ -1,0 +1,65 @@
+<script type="text/javascript" charset="utf-8">
+    // When jQuery is sourced, it's going to overwrite whatever might be in the
+    // '$' variable, so store a reference of it in a temporary variable...
+    var _$ = window.$;
+    if (typeof jQuery == 'undefined') {
+        var jquery_url = '/static/jquery/jquery.js';
+        document.write(unescape('%3Cscript src="' + jquery_url + '" type="text/javascript"%3E%3C/script%3E'));
+    }
+</script>
+{% comment %}
+<link rel="stylesheet" type="text/css" href="http://alexgorbatchev.com/pub/sh/2.0.296/styles/shCore.css" />
+<link rel="stylesheet" type="text/css" href="http://alexgorbatchev.com/pub/sh/2.0.296/styles/shThemeDefault.css" />
+<script type="text/javascript" src="http://alexgorbatchev.com/pub/sh/2.0.296/scripts/shCore.js"></script>
+<script type="text/javascript" src="http://alexgorbatchev.com/pub/sh/2.0.296/scripts/shBrushJScript.js"></script>
+<script type="text/javascript" src="http://alexgorbatchev.com/pub/sh/2.0.296/scripts/shBrushPlain.js"></script>
+{% endcomment %}
+<script type="text/javascript" src="/static/debug.js"></script>
+<style type="text/css">
+    @import url(/static/debug.css);
+</style>
+<div id="debug-toolbar">
+    <div id="debug-summary">
+        <span>Requests: <span class="stat">{{ toolbar.batch_request_count }}</span> batch / <span class="stat">{{ toolbar.subrequest_count }}</span> sub, <span class="stat">{{ toolbar.request_time }}</span>ms</span><br/>
+        <span>{{ toolbar.time_summary }}</span>
+        <a href="#" id="debug-close">X</a>
+    </div>
+    <div id="debug-details" style="display: none;">
+        <ul id="debug-requests">
+            {% for request in toolbar.requests %}
+            <li class="debug-request {% cycle 'debug-request-odd' 'debug-request-even' %}">
+                <div class="debug-request-summary">Batch Request: {{ request.stats.subrequests|length }} subrequests [{{ request.stats.time|stringformat:".3f" }} seconds]</div>
+                <ul class="debug-subrequests" style="display: none;">
+                {% for subrequest in request.stats.subrequests %}
+                    <li class="debug-subrequest {% cycle 'debug-subrequest-odd' 'debug-subrequest-even' %}">
+                        <div class="debug-subrequest-summary">
+                            <span class="stat">{{ subrequest.stats.status }}</span> <a href="{{ subrequest.stats.http_uri }}">{{ subrequest.stats.uri }}</a> [<span class="stat">{{ subrequest.stats.length }}</span> bytes] 
+                            <a href="#" class="subrequest-display-stacktrace">stacktrace</a>
+                            <a href="#" class="subrequest-display-payload">payload</a>
+                        </div>
+                        <div class="debug-subrequest-body" style="display: none;">
+                            <pre class="brush: {% ifequal subrequest.stats.content_type "application/json" %}js{% else %}plain{% endifequal %}">{{ subrequest.stats.body }}</pre>
+                        </div>
+                        <ul class="debug-subrequest-stacktrace" style="display: none;">
+                            {% for trace in subrequest.opened_stack %}
+                            <li>
+                                <div><span class="debug-filename">{{ trace.0 }}</span> in <span class="debug-funcname">{{ trace.2 }}</span></div>
+                                <div class="debug-strace-line"><span class="debug-lineno">{{ trace.1 }}.</span> <span class="debug-statement">{{ trace.3 }}</span></div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<script type="text/javascript" charset="utf-8">
+    // Now that jQuery is done loading, put the '$' variable back to what it was...
+    var $ = _$;
+{% comment %}
+    SyntaxHighlighter.defaults['auto-links'] = false;
+    SyntaxHighlighter.all();
+{% endcomment %}
+</script>

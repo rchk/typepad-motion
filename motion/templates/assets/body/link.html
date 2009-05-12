@@ -1,0 +1,5 @@
+{% extends 'assets/body/base.html' %}
+{% load generic_filters %}
+
+{% block title %}<h2><a href="{{ entry.link }}">{{ entry.link_title|truncatechars:35 }}</a></h2>{% endblock %}
+{% block content %}{{ entry.content|urlize|linebreaksbr }}{% endblock %}

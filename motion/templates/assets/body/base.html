@@ -1,0 +1,16 @@
+{# base template for entry content #}
+{% load typepad_filters %}
+
+{% block title %}{% if entry.title %}<h2><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h2>{% endif %}{% endblock %}
+{% block media %}{% endblock %}
+{% block activity %}{% endblock %}
+{% block content %}
+{% if entry.content %}
+    {% ifequal view "home" %}
+        {{ entry.content|urlize|linebreaks|truncatewords:settings.paragraph_wordcount }}
+        {{ entry|morelink:settings.paragraph_wordcount }}
+    {% else %}
+        {{ entry.content|urlize|linebreaks }}
+    {% endifequal %}
+{% endif %}
+{% endblock %}

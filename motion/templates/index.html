@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block page_id %}group-events{% endblock %}
+{% block head_title %}{{ block.super }}: Recent Activity{% endblock %}
+
+{% block feed %}
+    <link rel="alternate" type="application/atom+xml" title="Recent Entries" href="{% url feeds url="events" %}" />
+{% endblock %}
+
+{% block beta_widgets %}
+    {% include "widgets/members.html" %}
+    {# include "widgets/popular_entries.html" #}
+    {# include "widgets/gallery.html" #}
+{% endblock %}
+
+{% block content_head %}
+    <div id="user-compose-friends" class="pkg">
+        {% if user.is_authenticated %}
+        <div id="user-compose-friends-inner" class="pkg">
+            {% include "bits/compose_form.html" %}
+            {% include "bits/friends.html" %}
+        </div><!-- end #user-compose-friends-inner -->
+        {% endif %}
+    </div><!-- end #user-compose-friends -->
+{% endblock %}
+
+{% block content_body %}
+    {% if dwim %}
+    <div class="actions" id="compose-preview" style="display:none">
+        <h3>Post Preview</h3>
+        <ul>
+            <li id="compose-preview-inner" class="asset action-asset hentry"></li>
+        </ul>
+    </div><!-- end .actions#compose-preview -->
+    {% endif %}
+
+    <div class="actions">
+        {% with page_obj.object_list as events %}
+        {% include "bits/event_list.html" %}
+        {% endwith %}
+    </div><!-- end .actions -->
+{% endblock %}

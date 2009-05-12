@@ -1,0 +1,52 @@
+{% load generic_filters %}
+{% load withblock %}
+
+<!-- Entry -->
+<li id="{{ entry.id }}" class="asset action-asset hentry {{ entry.type_id }} {% if entry.author.is_superuser %}admin{% endif %}">
+    {% ifequal view "permalink" %}
+    {# delete entry button #}
+    {% if user.is_superuser %}
+        <div class="controls">
+        {% include "bits/delete_entry.html" %}
+        </div>
+    {% else %}
+        {% if settings.allow_users_to_delete_posts and user.is_authenticated %}
+            {% ifequal entry.author.id user.id %}
+                <div class="controls">
+                {% include "bits/delete_entry.html" %}
+                </div>
+            {% endifequal %}
+        {% endif %}
+    {% endif %}
+    {% endifequal %}
+
+    {% if event and event.is_added_favorite %}
+        <div class="icon icon-favorite"></div>
+    {% else %}
+        <div class="icon icon-{{ entry.type_id }}"></div>
+    {% endif %}
+    {% with entry.author as user %}
+        {% include "assets/bits/userpic.html" %}
+    {% endwith %}
+    <div class="asset-content entry-content">
+        <div class="asset-body">
+        {% if event and event.is_added_favorite %}
+            {% include "assets/body/favorite.html" %}
+        {% else %}
+            {# Asset body is determined by the type of asset #}
+            {% withblock %}assets/body/{{ entry.type_id }}.html{% as template_name %}
+                {% include template_name %}
+            {% endwithblock %}
+        {% endif %}
+        </div>
+    </div>
+    {% if event %}
+        {% if event.is_new_asset and not entry.is_comment %}
+            {% include "assets/bits/footer.html" %}
+        {% endif %}
+    {% else %}
+        {% if not entry.is_comment %}
+            {% include "assets/bits/footer.html" %}
+        {% endif %}
+    {% endif %}
+</li>

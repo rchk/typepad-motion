@@ -1,0 +1,13 @@
+<div class="widget widget-members">
+    <h3>{{ memberships.total_results }} Member{{ memberships.total_results|pluralize }}</h3>
+    <div class="widget-content members">
+        <ul>
+        {% for membership in memberships %}
+            {% with membership.source as member %}
+                {% include "bits/list_member.html" %}
+            {% endwith %}
+        {% endfor %}
+        </ul>
+        <div class="more"><a href="{% url members %}">view all</a></div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<div id="friends">
+    <div id="friends-innner">
+        <div id="compose-userpic">
+            {% spaceless %}
+            <a href="{{ user.get_absolute_url }}">
+                <img id="compose-userpic-img" src="{{ user.userpic }}" height="50" width="50" alt="" />
+            </a>
+            {% endspaceless %}
+        </div><!-- end #compose-userpic -->
+        <div id="user-meta" class="pkg">
+            <div id="user-username">{{ user.display_name }}</div>
+            <div id="user-counts">
+                {{ actions.total_results|default:"0" }} action{{ actions.total_results|default:"0"|pluralize }}
+            </div>
+        </div>
+        {% with user as member %}
+        {% include "widgets/following.html" %}
+        {% include "widgets/followers.html" %}
+        {% endwith %}
+    </div><!-- end #friends-inner -->
+</div><!-- end #friends -->

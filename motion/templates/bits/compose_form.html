@@ -1,0 +1,77 @@
+                            <div id="compose">
+                                <div id="compose-inner">
+                                    <div id="compose-content">
+                                        {% if not dwim %}
+                                        <p id="compose-prompt">
+                                            Add something!
+                                        </p><!-- end #compose-prompt -->
+                                        {% endif %}
+
+                                        <form id="form-compose" method="post" action="" enctype="multipart/form-data">
+                                            <input type="hidden" id="compose-class" name="post_type" value="{{ form.post_type.data|default:"post" }}" />
+                                            <input type="hidden" name="redirect_to" value="{{ settings.frontend_url }}{% url upload_complete %}" />
+                                            <input type="hidden" id="compose-asset" name="asset" value="" />
+                                            {% if not dwim %}
+                                            <ul id="entry-types">
+                                                {% for type in settings.post_types %}
+                                                <li id="entry-{{ type.id }}"><a href="#" title="{{ type.label }}">{{ type.label }}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                            {% endif %}
+                                            <div id="entry-fields">
+                                                {% if not dwim %}
+                                                <div id="field-url" class="field" style="display:none">
+                                                    {% if form.errors.url %}<div class="form-error">{{ form.errors.url|join:" " }}</div>{% endif %}
+                                                    {{ form.url }}
+                                                </div>
+                                                <div id="field-file" class="field" style="display:none">
+                                                    <label id="label-audio" for="compose-file">Select audio file</label>
+                                                    <label id="label-photo" for="compose-file">Select photo file</label>
+                                                    {% if form.errors.file %}<div class="form-error">{{ form.errors.file|join:" " }}</div>{% endif %}
+                                                    {{ form.file }}<br />
+                                                    <em id="hint-audio">Only MP3 audio files are supported.</em>
+                                                    <em id="hint-photo">Only GIF, JPEG and PNG image files are supported.</em>
+                                                </div><!-- end #field-file -->
+                                                <div id="field-embed" class="field" style="display:none">
+                                                    {% if form.errors.embed %}<div class="form-error">{{ form.errors.embed|join:" " }}</div>{% endif %}
+                                                    {{ form.embed }}
+                                                </div><!-- end #field-embed -->
+                                                {% endif %}
+                                                <div id="field-body" class="field">
+                                                    {% if dwim %}
+                                                    <div id="dwim-tip">
+                                                        Start entering stuff and the right thing happens. It's <em><strong>magical</strong></em>! <a href="#" target="_blank">Learn more...</a>
+                                                        <span id="dwim-tip-bottom"></span>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% if form.errors.body %}<div class="form-error">{{ form.errors.body|join:" " }}</div>{% endif %}
+                                                    {{ form.body }}
+                                                </div>
+                                                {% if dwim %}
+                                                <div id="entry-fields-optional">
+                                                    <div id="field-title" class="field">
+                                                        {% if form.errors.title %}<div class="form-error">{{ form.errors.title|join:" " }}</div>{% endif %}
+                                                        {{ form.title }}
+                                                        {# <input type="text" id="compose-title" name="title" title="Title" /> #}
+                                                    </div>
+                                                    <div id="field-file" class="field">
+                                                        <label for="compose-file">Attach a file</label>
+                                                        {% if form.errors.file %}<div class="form-error">{{ form.errors.file|join:" " }}</div>{% endif %}
+                                                        {{ form.file }}<br />
+                                                        {# <input type="file" name="file" title="Select file" /><br /> #}
+                                                        <em>Only MP3, GIF, JPEG and PNG files types are supported.</em>
+                                                    </div><!-- end #field-file -->
+                                                </div><!-- end #entry-fields-optional -->
+                                                {% endif %}
+                                            </div>
+                                            <p class="submit-wrapper">
+                                                {% if dwim %}
+                                                <a href="#more-options" id="more-options" class="more-options">+ more options</a>
+                                                <a href="#live-preview" id="live-preview" class="live-preview">+ live preview</a>
+                                                {% endif %}
+                                                <button id="post-submit" name="post" value="Post">Post It!</button>
+                                            </p>
+                                        </form>
+                                    </div><!-- end #compose-content -->
+                                </div><!-- end #compose-inner -->
+                            </div><!-- end #compose -->
