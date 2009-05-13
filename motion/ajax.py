@@ -21,7 +21,7 @@ def more_comments(request):
     typepad.client.batch_request()
     from django.contrib.auth import get_user
     request.user = get_user(request)
-    asset = models.Asset.get_asset(asset_id)
+    asset = models.Asset.get_by_id(asset_id)
     comments = asset.comments.filter(start_index=offset, max_results=settings.COMMENTS_PER_PAGE)
     typepad.client.complete_batch()
 
@@ -51,7 +51,7 @@ def favorite(request):
     typepad.client.batch_request()
     from django.contrib.auth import get_user
     request.user = get_user(request)
-    asset = models.Asset.get_asset(asset_id)
+    asset = models.Asset.get_by_id(asset_id)
     typepad.client.complete_batch()
 
     if action == 'favorite':
@@ -59,7 +59,7 @@ def favorite(request):
         favorite.in_reply_to = asset.asset_ref
         request.user.favorites.post(favorite)
     else:
-        favorite = models.Favorite.get_favorite(request.user.id, asset_id)
+        favorite = models.Favorite.get_by_user_asset(request.user.id, asset_id)
         favorite.delete()
 
     return http.HttpResponse('OK')

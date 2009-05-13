@@ -40,7 +40,7 @@ class MemberFeed(Feed):
             raise ObjectDoesNotExist
         userid = bits[0]
         typepad.client.batch_request()
-        models.User.get_user(userid)
+        models.User.get_by_id(userid)
         typepad.client.complete_batch()
         return user
 
@@ -71,7 +71,7 @@ class CommentsFeed(Feed):
             raise ObjectDoesNotExist
         assetid = bits[0]
         typepad.client.batch_request()
-        asset = models.Asset.get_asset(assetid)
+        asset = models.Asset.get_by_id(assetid)
         typepad.client.complete_batch()
         return asset
 
