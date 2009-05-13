@@ -32,9 +32,6 @@
         {% with comment.author as user %}
             {% include "assets/bits/userpic.html" %}
         {% endwith %}
-        <div class="user-info">
-            <a href="{{ comment.author.get_absolute_url }}" class="name">{{ comment.author.display_name }}</a>
-        </div>
     </div>
     <div class="comment-content">
         <div class="comment-content-inner">

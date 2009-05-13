@@ -39,9 +39,6 @@ Template used for displaying the member directory for the group.
                 {% with member as user %}
                     {% include "assets/bits/userpic.html" %}
                 {% endwith %}
-                <div class="user-info">
-                    <a href="{{ member.get_absolute_url }}" class="name">{{ member.display_name }}</a>
-                </div>
             </div>
             <div class="member-info">
                 <h4><a href="{{ member.get_absolute_url }}" class="name">{{ member.display_name }}</a></h4>
