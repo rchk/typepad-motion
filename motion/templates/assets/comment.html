@@ -1,6 +1,6 @@
 {% load date_filters %}
 
-<div id="comment-{{ comment.id }}" class="comment comment-by-author">
+<div id="comment-{{ comment.id }}" class="comment {% ifequal entry.author.id comment.author.id %}comment-by-author{% endifequal %}">
 
     {# delete comment button #}
     {% if user.is_superuser %}

@@ -10,18 +10,18 @@
     {% endblock %}
 </head>
 
-<body id="motion" class="{% block page_id %}{% endblock %} {% block page_layout %}layout-wtt{% endblock %} noscript">
+<body id="motion" class="design-background {% block page_id %}{% endblock %} {% block page_layout %}layout-wtt{% endblock %} noscript">
     <div id="container">
         <div id="container-inner">
 
             {% include "banners/header.html" %}
 
 
-            <div id="content">
+            <div id="content" class="design-content-border design-content-font design-content-color">
                 <div id="content-inner">
 
                     {% block content_head %}
-                    <div id="user-compose-friends">
+                    <div id="user-compose-friends" class="design-compose-background">
                         {% if user.is_authenticated %}
                         <form class="submit-wrapper" method="GET" action="{% url home %}">
                             <button>POST STUFF</button>
