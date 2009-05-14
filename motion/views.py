@@ -7,10 +7,10 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import SiteProfileNotAvailable
 
-from typepadapp import models, signals
 from motion import forms
 import typepad
-
+import typepadapp.forms
+from typepadapp import models, signals
 from typepadapp.views.base import TypePadView
 
 
@@ -178,7 +178,7 @@ class MemberView(AssetEventView):
         except SiteProfileNotAvailable:
             pass
         else:
-            profileform = forms.UserProfileForm(instance=profile)
+            profileform = typepadapp.forms.UserProfileForm(instance=profile)
             if request.user.id == self.context['member'].id:
                 self.context['profileform'] = profileform
             else:
@@ -194,7 +194,7 @@ class MemberView(AssetEventView):
             return HttpResponseForbidden("User can't edit another user's profile")
 
         profile = member.get_profile()
-        profileform = forms.UserProfileForm(request.POST, instance=profile)
+        profileform = typepadapp.forms.UserProfileForm(request.POST, instance=profile)
 
         if profileform.is_valid():
             profileform.save()
