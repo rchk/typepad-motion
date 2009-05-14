@@ -1,3 +1,4 @@
+{% load i18n %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -12,10 +13,10 @@
 </head>
 
 <body id="motion" class="error">
-    <p>Whoops! Can you try that again?
-        <a href="/">Return to the home page.</a></p>
+    <p>{% trans "Whoops! Can you try that again?" %}
+        <a href="/">{% trans "Return to the home page." %}</a></p>
     <p><img src="{{ MEDIA_URL }}images/fail.png"
-        height="620" width="502" alt="Spacegiraffe is having a massage"
-        title="Spacegiraffe is having a massage" /></p>
+        height="620" width="502" alt="{% trans "Spacegiraffe is having a massage" %}"
+        title="{% trans "Spacegiraffe is having a massage" %}" /></p>
 </body>
 </html>

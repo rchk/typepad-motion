@@ -1,3 +1,4 @@
+{% load i18n %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -21,13 +22,15 @@
                 <div id="content-inner">
 
                     {% block content_head %}
+                    {% if settings.allow_posting %}
                     <div id="user-compose-friends" class="design-compose-background">
                         {% if user.is_authenticated %}
                         <form class="submit-wrapper" method="GET" action="{% url home %}">
-                            <button>POST STUFF</button>
+                            <button>{% trans "POST STUFF" %}</button>
                         </form>
                         {% endif %}
                     </div><!-- end #user-compose-friends -->
+                    {% endif %}
                     {% endblock %}
 
                     {% block navigation %}

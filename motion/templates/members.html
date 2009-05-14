@@ -1,29 +1,36 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% comment %}
 Template used for displaying the member directory for the group.
 {% endcomment %}
 
-{% block head_title %}{{ block.super }}: Members{% endblock %}
+{% block head_title %}{% blocktrans with block.super as super %}{{ super }}: Members{% endblocktrans %}{% endblock %}
 {% block page_id %}members-list{% endblock %}
 {% block page_layout %}{% endblock %}
 
 {% block content_body %}
     
     {% if request.user.is_superuser %}
-    <div style="float: right;"><a href="{% url export_members %}">Export Member List</a></div>
+    <div style="float: right;"><a href="{% url export_members %}">{% trans "Export Member List" %}</a></div>
     {% endif %}
 
     <h1 id="page-title">
     {% if rel %}
         {% ifequal rel "following" %}
-            {{ member.display_name }} follows {{ page_obj.paginator.count }} {% ifequal page_obj.paginator.count 1 %}person{% else %}people{% endifequal %}.
+            {% ifequal page_obj.paginator.count 1 %}
+            {% blocktrans with member.display_name as name and page_obj.paginator.count as total %}{{ name }} follows {{ total }} person.{% endblocktrans %}
+            {% else %}
+            {% blocktrans with member.display_name as name and page_obj.paginator.count as total %}{{ name }} follows {{ total }} people.{% endblocktrans %}
+            {% endifequal %}
         {% else %}
-            {{ member.display_name }}'s {{ page_obj.paginator.count }} Follower{{ page_obj.paginator.count|pluralize }}</h1>
+            {% blocktrans with member.display_name as name and page_obj.paginator.count as total and page_obj.paginator.count|pluralize as pluralize %}
+            {{ name }}'s {{ total }} Follower{{ pluralize }}
+            {% endblocktrans %}</h1>
         {% endifequal %}
     {% else %}
-        {{ page_obj.paginator.count }} Member{{ page_obj.paginator.count|pluralize }}
-        <span class="range">Showing {{ page_obj.paginator.offset }}-{{ page_obj.end_index }}</span>
+        {% blocktrans with page_obj.paginator.count as total and page_obj.paginator.count|pluralize as pluralize %}{{ total }} Member{{ pluralize }}{% endblocktrans %}
+        <span class="range">{% blocktrans with page_obj.paginator.offset as offset and page_obj.end_index as end_index %}Showing {{ offset }}-{{ end_index }}{% endblocktrans %}</span>
     {% endif %}
     </h1>
 

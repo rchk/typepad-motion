@@ -18,17 +18,6 @@
     {% endif %}
 
     <div class="inner">
-        <!--div class="userpic">
-            {% spaceless %}
-            <a href="{{ comment.author.get_absolute_url }}" class="userpic-link">
-                {% with comment.author.links.rel__avatar.width__40 as userpic %}
-                <img src="{{ userpic.href }}" width="40" height="40" alt="{{ comment.author.display_name }}" />
-                {% endwith %}
-                <span class="auth-icon">
-                </span>
-            </a>
-            {% endspaceless %}
-        </div-->
         {% with comment.author as user %}
             {% include "assets/bits/userpic.html" %}
         {% endwith %}

@@ -40,7 +40,7 @@
 user = {
     is_authenticated: true,{% if user.is_admin %}
     is_admin: true,{% endif %}{% if user.is_staff %}
-    is_staff: true,{% endif %}{% if user.can_post %}
+    is_staff: true,{% endif %}{% if settings.allow_posting and user.can_post %}
     can_post: true,{% endif %}
     name: '{{ user.display_name|escapejs }}',
     email: '{{ user.email|escapejs }}',
@@ -50,8 +50,8 @@ user = {
 };
 {% endif %}
 settings.upload_xhr_endpoint = '{{ upload_xhr_endpoint|escapejs }}';
-{% if settings.dwim_enabled %}
-settings.dwim_enabled = true;
+{% if settings.use_dwim %}
+settings.use_dwim = true;
 {% endif %}
 /* ]]> */
 </script>

@@ -1,17 +1,18 @@
 {% if elsewhere %}
+{% load i18n %}
 <div id="elsewhere" class="widget-elsewhere widget pkg">
-    <h3 class="design-highlight-color">Elsewhere</h3>
+    <h3 class="design-highlight-color">{% trans "Elsewhere" %}</h3>
     <div class="widget-content">
         <ul class="action-listing">
             {% for account in elsewhere %}
             <li class="icon-service-{{ account.provider_name }}">
-                <a href="{{ account.url }}">{{ account.username }}</a>
+                <a href="{{ account.url }}">{{ account.provider_name }}</a>
             </li>
             {% endfor %}
         </ul>
         <div class="more">
-            <img src="{{ MEDIA_URL }}images/services/typepad.png" height="16" width="16" alt="TypePad" /> <a href="{{ member.typepad_url }}">View {{ member.display_name }}'s full TypePad profile.</a>
+            <img src="{{ MEDIA_URL }}images/services/typepad.png" height="16" width="16" alt="TypePad" /> <a href="{{ member.typepad_url }}">{% blocktrans with member.display_name as name %}View {{ name }}&rsquo;s full TypePad profile.{% endblocktrans %}</a>
         </div>
-    </div>
-</div>
+    </div><!-- end .widget-content -->
+</div><!-- end .widget-elsewhere#elsewhere -->
 {% endif %}

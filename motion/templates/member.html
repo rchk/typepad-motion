@@ -1,10 +1,11 @@
 {% extends "base.html" %}
+{% load i18n %}
 
-{% block head_title %}{{ block.super }}: {{ member.display_name }}'s Profile{% endblock %}
+{% block head_title %}{% blocktrans with block.super as super and member.display_name as name %}{{ super }}: {{ name }}'s Profile{% endblocktrans %}{% endblock %}
 {% block page_id %}user-profile{% endblock %}
 
 {% block feed %}
-    <link rel="alternate" type="application/atom+xml" title="Recent Entries from {{ member.display_name }}" href="{{ member.feed_url }}" />
+    <link rel="alternate" type="application/atom+xml" title="{% blocktrans with member.display_name as name %}Recent Entries from {{ name }}{% endblocktrans %}" href="{{ member.feed_url }}" />
 {% endblock %}
 
 {% block beta_widgets %}
@@ -25,14 +26,14 @@
 
             {% if member.about_me %}
             <p>
-                <strong>About Me:</strong>
+                <strong>{% trans "About Me:" %}</strong>
                 {{ member.about_me }}</em>
             </p>
             {% endif %}
 
             {% if member.interests %}
             <p>
-                <strong>Interests:</strong>
+                <strong>{% trans "Interests:" %}</strong>
                 {% for interest in member.interests %}
                 {{ interest }}{% if not forloop.last %}, {% endif %}
                 {% endfor %}
@@ -46,13 +47,13 @@
             {% include "bits/profile.html" %}
 
             {% if is_self %}
-            <p><a id="edit-profile-link" href="#">Edit Profile</a></p>
+            <p><a id="edit-profile-link" href="#">{% trans "Edit Profile" %}</a></p>
             {% endif %}
 
-            <p><a id="view-profile-link" href="{{ member.typepad_url }}">View {{ member.display_name }}'s full TypePad profile</a></p>
+            <p><a id="view-profile-link" href="{{ member.typepad_url }}">{% blocktrans with member.display_name as name %}View {{ name }}'s full TypePad profile{% endblocktrans %}</a></p>
             
             {% if member.email and request.user.is_superuser %}
-            <p><a href="mailto:{{ member.email }}">Email {{ member.display_name }}</a></p>
+            <p><a href="mailto:{{ member.email }}">{% blocktrans with member.display_name as name %}Email {{ name }}{% endblocktrans %}</a></p>
             {% endif %}
         </div>
     </div>

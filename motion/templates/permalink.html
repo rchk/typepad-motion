@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load generic_filters %}
 
 {% block head_title %}{{ block.super }}{% if entry.title %}: {{ entry.title }}{% endif %}{% endblock %}
@@ -17,7 +18,7 @@
 {% endblock %}
 
 {% block feed %}
-    <link rel="alternate" type="application/atom+xml" title="Recent Comments" href="{{ entry.feed_url }}" />
+    <link rel="alternate" type="application/atom+xml" title="{% trans "Recent Comments" %}" href="{{ entry.feed_url }}" />
 {% endblock %}
 
 {% block beta_widgets %}
@@ -33,7 +34,11 @@
 
     <div id="comments" class="actions comments">
         <div id="comments-list">
-            <h2 class="comments-header">{{ comments.total_results }} Comment{{ comments.total_results|pluralize }}</h2>
+            <h2 class="comments-header">
+                {% blocktrans with comments.total_results as total and comments.total_results|pluralize as pluralize %}
+                    {{ total }} Comment{{ pluralize }}
+                {% endblocktrans %}
+            </h2>
             <div id="comments-content" class="comments-content">
             {% for comment in comments %}
                 {% include "assets/comment.html" %}
@@ -41,11 +46,11 @@
             </div>
         </div>
 
-        <a href="#comments-list" id="more-comments" style="display:none;">Load more comments</a>
+        <a href="#comments-list" id="more-comments" style="display:none;">{% trans "Load more comments" %}</a>
 
-        {% if user.is_authenticated %}
+        {% if settings.allow_commenting and user.is_authenticated %}
         <div class="comments-open" id="comments-open">
-            <h2 class="comments-open-header">Leave a comment</h2>
+            <h2 class="comments-open-header">{% trans "Leave a comment" %}</h2>
             <form method="post" action="" name="comments_form" id="comments-form">
                 <div>{{ form.body }}</div>
                 <div>

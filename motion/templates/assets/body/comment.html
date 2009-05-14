@@ -1,8 +1,11 @@
 {% extends "assets/body/base.html" %}
+{% load i18n %}
 {% load date_filters %}
 
 {% block title %}{% endblock %}
 {% block media %}{% endblock %}
 {% block activity %}
-    <i>{{ event.actor.display_name }} <a href="{{ entry.get_absolute_url }}">commented</a> <abbr class="published" title="{{ entry.published|date_microformat }}">{{ entry.published|pithy_timesince:"on " }}</abbr>.</i>
+    <i>{% blocktrans with event.actor.display_name as name and entry.get_absolute_url as url and entry.published|date_microformat as published and entry.published|pithy_timesince:"on " as timestamp %}
+        {{ name }} <a href="{{ url }}">commented</a> <abbr class="published" title="{{ published }}">{{ timestamp }}</abbr>.
+    {% endblocktrans %}</i>
 {% endblock %}

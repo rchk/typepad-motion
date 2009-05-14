@@ -1,7 +1,8 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block page_id %}group-events{% endblock %}
-{% block head_title %}{{ block.super }}: Recent Activity{% endblock %}
+{% block head_title %}{% blocktrans with block.super as super %}{{ super }}: Recent Activity{% endblocktrans %}{% endblock %}
 
 {% block feed %}
     <link rel="alternate" type="application/atom+xml" title="Recent Entries" href="{% url feeds url="events" %}" />
@@ -14,20 +15,20 @@
 {% endblock %}
 
 {% block content_head %}
+    {% if settings.allow_posting and user.is_authenticated %}
     <div id="user-compose-friends" class="design-compose-background pkg">
-        {% if user.is_authenticated %}
         <div id="user-compose-friends-inner" class="pkg">
             {% include "bits/compose_form.html" %}
             {% include "bits/friends.html" %}
         </div><!-- end #user-compose-friends-inner -->
-        {% endif %}
     </div><!-- end #user-compose-friends -->
+    {% endif %}
 {% endblock %}
 
 {% block content_body %}
-    {% if dwim %}
+    {% if settings.use_dwim %}
     <div class="actions" id="compose-preview" style="display:none">
-        <h3>Post Preview</h3>
+        <h3>{% trans "Post Preview" %}</h3>
         <ul>
             <li id="compose-preview-inner" class="asset action-asset hentry"></li>
         </ul>
