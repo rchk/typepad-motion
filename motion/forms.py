@@ -17,11 +17,13 @@ class PostForm(forms.Form):
     """
     # Default text field messages
     body_default_text = u'Say something...'
+    title_default_text = u'Title'
     url_default_text = u'URL of web page'
     embed_default_text = u'Paste embed code'
 
     post_type = forms.CharField(widget=forms.HiddenInput())
     body = forms.CharField(widget=forms.Textarea(attrs={'rows': 5, 'cols': 50, 'title':body_default_text, 'id':'compose-body'}))
+    title = forms.CharField(widget=forms.TextInput(attrs={'title':title_default_text, 'id':'compose-title'}))
     url = forms.URLField(widget=forms.TextInput(attrs={'title':url_default_text, 'id':'compose-url'}))
     file = forms.FileField(widget=forms.FileInput(attrs={'name':'file', 'id':'compose-file'}))
     embed = forms.CharField(widget=forms.Textarea(attrs={'rows': 5, 'cols': 50, 'title':embed_default_text, 'id':'compose-embed'}))
@@ -33,8 +35,15 @@ class PostForm(forms.Form):
         self.fields['url'].required = post_type == 'link'
         self.fields['file'].required = post_type == 'photo' or post_type == 'audio'
         self.fields['embed'].required = post_type == 'embed'
+        self.fields['title'].required = False
         #log.debug('PostForm is_valid() fields: %s' % self.fields)
         return super(PostForm, self).is_valid(*args, **kwargs)
+
+    def clean_title(self):
+        # Check that the post body is valid.
+        if self.cleaned_data['title'] == self.title_default_text:
+            return ''
+        return self.cleaned_data['title']
 
     def clean_body(self):
         # Check that the post body is valid.
@@ -62,7 +71,10 @@ class PostForm(forms.Form):
             post.link = self.cleaned_data['url']
         else:
             post = typepadapp.models.Post()
-        post.title = ''
+        if settings.USE_TITLES:
+            post.title = self.cleaned_data['title']
+        else:
+            post.title = ''
         post.content = self.cleaned_data['body']
         return post
 
