@@ -10,7 +10,7 @@ Template used for displaying the member directory for the group.
 {% block page_layout %}{% endblock %}
 
 {% block content_body %}
-    
+
     {% if request.user.is_superuser %}
     <div style="float: right;"><a href="{% url export_members %}">{% trans "Export Member List" %}</a></div>
     {% endif %}
@@ -24,9 +24,7 @@ Template used for displaying the member directory for the group.
             {% blocktrans with member.display_name as name and page_obj.paginator.count as total %}{{ name }} follows {{ total }} people.{% endblocktrans %}
             {% endifequal %}
         {% else %}
-            {% blocktrans with member.display_name as name and page_obj.paginator.count as total and page_obj.paginator.count|pluralize as pluralize %}
-            {{ name }}'s {{ total }} Follower{{ pluralize }}
-            {% endblocktrans %}</h1>
+            {% blocktrans with member.display_name as name and page_obj.paginator.count as total and page_obj.paginator.count|pluralize as pluralize %}{{ name }}'s {{ total }} Follower{{ pluralize }}{% endblocktrans %}
         {% endifequal %}
     {% else %}
         {% blocktrans with page_obj.paginator.count as total and page_obj.paginator.count|pluralize as pluralize %}{{ total }} Member{{ pluralize }}{% endblocktrans %}
@@ -39,20 +37,19 @@ Template used for displaying the member directory for the group.
     {% endif %}
 
     <ul class="member-list">
-        {% for membership in page_obj.object_list %}
-        {% with membership.target as member %}
-        <li class="member-listitem {% cycle '' 'even' %}">
-            <div class="userpic">
-                {% with member as user %}
-                    {% include "assets/bits/userpic.html" %}
+        {% if rel %}
+            {% for relationship in page_obj.object_list %}
+                {% with membership.target as member %}
+                    {% include "assets/bits/member_listitem.html" %}
                 {% endwith %}
-            </div>
-            <div class="member-info">
-                <h4><a href="{{ member.get_absolute_url }}" class="name">{{ member.display_name }}</a></h4>
-            </div>
-        </li>
-        {% endwith %}
-        {% endfor %}
+            {% endfor %}
+        {% else %}
+            {% for membership in page_obj.object_list %}
+                {% with membership.source as member %}
+                    {% include "assets/bits/member_listitem.html" %}
+                {% endwith %}
+            {% endfor %}
+        {% endif %}
     </ul>
 
     {% include "bits/pagination.html" %}

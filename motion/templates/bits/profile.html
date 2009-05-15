@@ -4,14 +4,14 @@
 
 {% if profileform %}
 <form id="profile-data-form" method="post" action="{% url member member.id %}">
-    <img src="{{ MEDIA_URL }}images/spinner.gif" class="spinner" />
+    <img src="{{ settings.media_url }}images/spinner.gif" class="spinner" />
     <ul id="profile-data">
         {% for field in profileform %}
         <li>
             <strong>{{ field.label_tag }}</strong>:
             <span class="show">
                <span class="value">{% formfieldvalue field %}</span>
-               <img src="{{ MEDIA_URL }}themes/{{ settings.theme }}/images/edit-field.png" />
+               <img src="{{ settings.media_url }}themes/{{ settings.theme }}/images/edit-field.png" />
             </span>
             <span class="edit">{{ field }}</span>
         </li>

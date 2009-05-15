@@ -1,38 +1,37 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="spacegiraffe 1.0" />
-<link rel="stylesheet" href="{{ MEDIA_URL }}themes/{{ settings.theme }}/style.css" type="text/css" />
+<link rel="stylesheet" href="{{ settings.media_url }}themes/{{ settings.theme }}/style.css" type="text/css" />
 <link rel="start" href="{% url home %}" title="Home" />
-<link rel="shortcut icon" type="image/x-icon" href="{{ MEDIA_URL }}favicon.ico" />
-<script type="text/javascript" src="{{ MEDIA_URL }}jquery/jquery.js"></script>
+<link rel="shortcut icon" type="image/x-icon" href="{{ settings.media_url }}favicon.ico" />
+<script type="text/javascript" src="{{ settings.media_url }}jquery/jquery.js"></script>
 
 <!-- jQuery Plugins & Functions - FIXME: Concatenate before releasing Motion -->
 
-{% if user.is_authenticated and user.can_post and dwim %}
+{% ifequal view "home" %}
+{% if user.is_authenticated and user.can_post and settings.use_dwim %}
 <!-- Ajax Form Handler -->
-<script type="text/javascript" src="{{ MEDIA_URL }}jquery/jquery.form.js"></script>
+<script type="text/javascript" src="{{ settings.media_url }}jquery/jquery.form.js"></script>
 {% endif %}
+{% endifequal %}
 
 <!-- JSON Functions -->
-<script type="text/javascript" src="{{ MEDIA_URL }}jquery/jquery.json-1.3.min.js"></script>
-
-<!-- Timing Functions -->
-<script type="text/javascript" src="{{ MEDIA_URL }}jquery/jquery.timeout.interval.idle.js"></script>
+<script type="text/javascript" src="{{ settings.media_url }}jquery/jquery.json-1.3.min.js"></script>
 
 <!-- Form Submission -->
-<script type="text/javascript" src="{{ MEDIA_URL }}jquery/jquery.form.js"></script>
+<script type="text/javascript" src="{{ settings.media_url }}jquery/jquery.form.js"></script>
 
 <!-- Image Popup Functions -->
-{# <link rel="stylesheet" href="{{ MEDIA_URL }}jquery/themes/thickbox.css" type="text/css" /> #}
-{# <script type="text/javascript" src="{{ MEDIA_URL }}jquery/thickbox.js"></script> #}
+{# <link rel="stylesheet" href="{{ settings.media_url }}jquery/themes/thickbox.css" type="text/css" /> #}
+{# <script type="text/javascript" src="{{ settings.media_url }}jquery/thickbox.js"></script> #}
 
 <!-- Userpic flyouts for TypePad following -->
 <script type="text/javascript" src="{{ request.application.user_flyouts_script }}"></script>
 
 {% if debug %}
-<script type="text/javascript" src="{{ MEDIA_URL }}jquery/jquery.dump.js"></script>
+<script type="text/javascript" src="{{ settings.media_url }}jquery/jquery.dump.js"></script>
 {% endif %}
 
-<script type="text/javascript" src="{{ MEDIA_URL }}motion.js"></script>
+<script type="text/javascript" src="{{ settings.media_url }}motion.js"></script>
 <script type="text/javascript">
 /* <![CDATA[ */
 // user data
@@ -50,7 +49,10 @@ user = {
 };
 {% endif %}
 settings.upload_xhr_endpoint = '{{ upload_xhr_endpoint|escapejs }}';
+settings.comments_url = '{% url comments_url %}';
+settings.favorite_url = '{% url favorite_url %}';
 {% if settings.use_dwim %}
+settings.render_url = '{% url render_url %}';
 settings.use_dwim = true;
 {% endif %}
 /* ]]> */
@@ -58,11 +60,11 @@ settings.use_dwim = true;
 <script type="text/javascript" language="javascript" src="{{ request.get_session_synchronization_url }}"></script>
 
 <!-- Audio Player for audio files -->
-<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}soundmanager/inlineplayer.css" />
-<script type="text/javascript" src="{{ MEDIA_URL }}soundmanager/soundmanager2-nodebug-jsmin.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}soundmanager/inlineplayer.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ settings.media_url }}soundmanager/inlineplayer.css" />
+<script type="text/javascript" src="{{ settings.media_url }}soundmanager/soundmanager2-nodebug-jsmin.js"></script>
+<script type="text/javascript" src="{{ settings.media_url }}soundmanager/inlineplayer.js"></script>
 <script type="text/javascript">
 /* <![CDATA[ */
-soundManager.url = '{{ MEDIA_URL }}soundmanager/';
+soundManager.url = '{{ settings.media_url }}soundmanager/';
 /* ]]> */
 </script>

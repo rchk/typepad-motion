@@ -1,6 +1,6 @@
 {% if page_obj.previous_link %}
 {% include "bits/pagination.html" %}
-{% endif %}  
+{% endif %}
 
 <ul>
 {% for event in events %}{% with event.object as entry %}

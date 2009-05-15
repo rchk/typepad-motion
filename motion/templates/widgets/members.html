@@ -1,9 +1,7 @@
 {% load i18n %}
 <div class="widget widget-members">
     <h3 class="design-highlight-color">
-        {% blocktrans with memberships.total_results as total and memberships.total_results|pluralize as pluralize %}
-            {{ total }} Member{{ pluralize }}
-        {% endblocktrans %}
+        {% blocktrans with memberships.total_results as total and memberships.total_results|pluralize as pluralize %}{{ total }} Member{{ pluralize }}{% endblocktrans %}
     </h3>
     <div class="widget-content members">
         <ul>
