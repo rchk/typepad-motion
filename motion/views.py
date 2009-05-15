@@ -32,12 +32,12 @@ class GroupEventsView(AssetEventView):
 
     def select_from_typepad(self, request, page=1, view='events', *args, **kwargs):
         self.object_list = request.group.events.filter(start_index=self.offset, max_results=self.limit)
-        memberships = request.group.memberships.filter(member=True)[1:settings.MEMBERS_PER_WIDGET]
+        memberships = request.group.memberships.filter(member=True)[:settings.MEMBERS_PER_WIDGET]
         if request.user.is_authenticated():
             following = request.user.following(group=request.group, max_results=7)
             followers = request.user.followers(group=request.group, max_results=7)
             actions = request.user.group_events(request.group, max_results=0)
-            upload_xhr_endpoint = reverse('upload-url')
+            upload_xhr_endpoint = reverse('upload_url')
             upload_complete_endpoint = urljoin(settings.FRONTEND_URL, reverse('upload_complete'))
         self.context.update(locals())
 
@@ -106,7 +106,7 @@ class AssetView(TypePadView):
             typepad.client.complete_batch()
 
             # Check permissions for deleting an asset
-            if request.user.is_superuser or (settings.ALLOW_USERS_TO_DELETE_POSTS and request.user.id == asset.author.id):
+            if request.user.is_superuser or (settings.ALLOW_USERS_TO_DELETE_POSTS and request.user.atom_id == asset.author.atom_id):
                 asset.delete()
                 if isinstance(asset, models.Comment):
                     # Return to permalink page
@@ -182,7 +182,7 @@ class MemberView(AssetEventView):
             pass
         else:
             profileform = typepadapp.forms.UserProfileForm(instance=profile)
-            if request.user.id == self.context['member'].id:
+            if request.user.atom_id == self.context['member'].atom_id:
                 self.context['profileform'] = profileform
             else:
                 self.context['profiledata'] = profileform
