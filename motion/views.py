@@ -1,3 +1,5 @@
+from urlparse import urljoin
+
 from django.conf import settings
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -36,6 +38,7 @@ class GroupEventsView(AssetEventView):
             followers = request.user.followers(group=request.group, max_results=7)
             actions = request.user.group_events(request.group, max_results=0)
             upload_xhr_endpoint = reverse('upload-url')
+            upload_complete_endpoint = urljoin(settings.FRONTEND_URL, reverse('upload_complete'))
         self.context.update(locals())
 
     def post(self, request, *args, **kwargs):

@@ -10,7 +10,7 @@
 
                                         <form id="form-compose" method="post" action="" enctype="multipart/form-data">
                                             <input type="hidden" id="compose-class" name="post_type" value="{{ form.post_type.data|default:"post" }}" />
-                                            <input type="hidden" name="redirect_to" value="{{ settings.frontend_url }}{% url upload_complete %}" />
+                                            <input type="hidden" name="redirect_to" value="{{ upload_complete_endpoint }}" />
                                             <input type="hidden" id="compose-asset" name="asset" value="" />
                                             {% if not settings.use_dwim %}
                                             <ul id="entry-types">
