@@ -28,7 +28,7 @@
                     on {{ timestamp }}
                 {% endblocktrans %}
                 {% else %}
-                {{ timestamp }}
+                {{ entry.published|pithy_timesince }}
                 {% endif %}
                 </a>
                 {% endspaceless %}
