@@ -40,7 +40,7 @@ urlpatterns += patterns('motion.ajax',
 )
 
 # terms of service / privacy pages
-urlpatterns += patterns('django.views.generic.simple',
+urlpatterns += patterns('typepadapp.views.generic.simple',
     url(r'^terms', 'direct_to_template', {'template': 'terms.html'}, name='terms'),
     url(r'^privacy', 'direct_to_template', {'template': 'privacy.html'}, name='privacy'),
 )
