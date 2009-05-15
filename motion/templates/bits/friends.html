@@ -11,7 +11,11 @@
         <div id="user-meta" class="pkg">
             <div id="user-username">{{ user.display_name }}</div>
             <div id="user-counts">
-                {% blocktrans with actions.total_results|default:"0" as total and actions.total_results|default:"0"|pluralize as pluralize %}{{ total }} action{{ pluralize }}{% endblocktrans %}
+                {% blocktrans count actions.total_results|default:"0" as count %}
+                    {{ count }} action
+                {% plural %}
+                    {{ count }} actions
+                {% endblocktrans %}
             </div>
         </div>
         {% with user as member %}

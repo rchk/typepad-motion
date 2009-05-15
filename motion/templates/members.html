@@ -18,17 +18,29 @@ Template used for displaying the member directory for the group.
     <h1 id="page-title">
     {% if rel %}
         {% ifequal rel "following" %}
-            {% ifequal page_obj.paginator.count 1 %}
-            {% blocktrans with member.display_name as name and page_obj.paginator.count as total %}{{ name }} follows {{ total }} person.{% endblocktrans %}
-            {% else %}
-            {% blocktrans with member.display_name as name and page_obj.paginator.count as total %}{{ name }} follows {{ total }} people.{% endblocktrans %}
-            {% endifequal %}
+            {% blocktrans count page_obj.paginator.count as count and member.display_name as name %}
+                {{ name }} follows {{ total }} person.
+            {% plural %}
+                {{ name }} follows {{ total }} people.
+            {% endblocktrans %}
         {% else %}
-            {% blocktrans with member.display_name as name and page_obj.paginator.count as total and page_obj.paginator.count|pluralize as pluralize %}{{ name }}'s {{ total }} Follower{{ pluralize }}{% endblocktrans %}
+            {% blocktrans count page_obj.paginator.count as count and member.display_name as name %}
+                {{ name }}'s {{ count }} Follower
+            {% plural %}
+                {{ name }}'s {{ count }} Followers
+            {% endblocktrans %}
         {% endifequal %}
     {% else %}
-        {% blocktrans with page_obj.paginator.count as total and page_obj.paginator.count|pluralize as pluralize %}{{ total }} Member{{ pluralize }}{% endblocktrans %}
-        <span class="range">{% blocktrans with page_obj.paginator.offset as offset and page_obj.end_index as end_index %}Showing {{ offset }}-{{ end_index }}{% endblocktrans %}</span>
+        {% blocktrans count page_obj.paginator.count as count %}
+            {{ count }} Member
+        {% plural %}
+            {{ count }} Members
+        {% endblocktrans %}
+        <span class="range">
+            {% blocktrans with page_obj.paginator.offset as offset and page_obj.end_index as end_index %}
+                Showing {{ offset }}-{{ end_index }}
+            {% endblocktrans %}
+        </span>
     {% endif %}
     </h1>
 

@@ -35,7 +35,11 @@
     <div id="comments" class="actions comments">
         <div id="comments-list">
             <h2 class="comments-header">
-                {% blocktrans with comments.total_results as total and comments.total_results|pluralize as pluralize %}{{ total }} Comment{{ pluralize }}{% endblocktrans %}
+                {% blocktrans count comments.total_results as count %}
+                    {{ count }} Comment
+                {% plural %}
+                    {{ count }} Comments
+                {% endblocktrans %}
             </h2>
             <div id="comments-content" class="comments-content">
             {% for comment in comments %}

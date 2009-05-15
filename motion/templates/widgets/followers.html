@@ -11,7 +11,11 @@ Template used for displaying a list of the users followers.
                 {{ followers.total_results }}
             </span>
             <label>
-                {% blocktrans with followers.total_results|pluralize as pluralize %}Follower{{ pluralize }}{% endblocktrans %}
+                {% blocktrans count followers.total_results as count %}
+                    Follower
+                {% plural %}
+                    Followers
+                {% endblocktrans %}
             </label>
         </div>
         <ul>

@@ -1,17 +1,38 @@
 {% load date_filters %}
+{% load i18n %}
 
 <div class="asset-meta icon-{{ entry.type_id }}">
-    <a href="{% url asset entry.id %}#comments" class="comment-count">{{ entry.comment_count }} <span>Comment{{ entry.comment_count|pluralize }}</span></a>
+    {% spaceless %}
+    <a href="{% url asset entry.id %}#comments" class="comment-count">
+        {% blocktrans count entry.comment_count as count %}
+            {{ count }} <span>Comment</span>
+        {% plural %}
+            {{ count }} <span>Comments</span>
+        {% endblocktrans %}
+    </a>
+    {% endspaceless %}
     <span class="separator">|</span>
     <span class="{% if settings.allow_rating %}favorite-action {% endif %}favorite-count{% if entry.links.favorites.by_user %} scored{% endif %}" id="favorite-{{ entry.id }}">{{ entry.favorite_count }}</span>
     <span class="separator">|</span>
     <span class="byline">
     {% block byline %}
-        posted by <span class="vcard author">
-            <a href="{{ entry.author.get_absolute_url }}">{{ entry.author.display_name }}</a>
-        </span>
+        {% blocktrans with entry.author.get_absolute_url as url and entry.author.display_name as name %}
+            posted by <span class="vcard author"><a href="{{ url }}">{{ name }}</a></span>
+        {% endblocktrans %}
         <span class="date">
-            <abbr class="published" title="{{ entry.published|date_microformat }}"><a href="{{ entry.get_absolute_url }}">{{ entry.published|pithy_timesince:"on " }}</a></abbr>
+            <abbr class="published" title="{{ entry.published|date_microformat }}">
+                {% spaceless %}
+                <a href="{{ entry.get_absolute_url }}">
+                {% if entry.published|is_relative %}
+                {% blocktrans with entry.published|pithy_timesince as timestamp %}
+                    on {{ timestamp }}
+                {% endblocktrans %}
+                {% else %}
+                {{ timestamp }}
+                {% endif %}
+                </a>
+                {% endspaceless %}
+            </abbr>
         </span>
     {% endblock %}
     </span>
