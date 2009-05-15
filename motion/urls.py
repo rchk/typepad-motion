@@ -30,13 +30,19 @@ urlpatterns = patterns('motion.views',
 )
 
 urlpatterns += patterns('motion.dwim',
-    url(r'^ajax/url_render$', 'url_render'),
+    url(r'^ajax/url_render$', 'url_render', name='render_url'),
 )
 
 urlpatterns += patterns('motion.ajax',
-    url(r'^ajax/more_comments$', 'more_comments'),
-    url(r'^ajax/favorite$', 'favorite'),
-    url(r'^ajax/upload_url$', 'upload_url', name='upload-url'),
+    url(r'^ajax/more_comments$', 'more_comments', name='comments_url'),
+    url(r'^ajax/favorite$', 'favorite', name='favorite_url'),
+    url(r'^ajax/upload_url$', 'upload_url', name='upload_url'),
+)
+
+# terms of service / privacy pages
+urlpatterns += patterns('django.views.generic.simple',
+    url(r'^terms', 'direct_to_template', {'template': 'terms.html'}, name='terms'),
+    url(r'^privacy', 'direct_to_template', {'template': 'privacy.html'}, name='privacy'),
 )
 
 # Feeds
