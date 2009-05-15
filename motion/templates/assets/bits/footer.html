@@ -3,7 +3,7 @@
 <div class="asset-meta icon-{{ entry.type_id }}">
     <a href="{% url asset entry.id %}#comments" class="comment-count">{{ entry.comment_count }} <span>Comment{{ entry.comment_count|pluralize }}</span></a>
     <span class="separator">|</span>
-    <span class="favorite-action favorite-count{% if entry.links.favorites.by_user %} scored{% endif %}" id="favorite-{{ entry.id }}">{{ entry.favorite_count }}</span>
+    <span class="{% if settings.allow_rating %}favorite-action {% endif %}favorite-count{% if entry.links.favorites.by_user %} scored{% endif %}" id="favorite-{{ entry.id }}">{{ entry.favorite_count }}</span>
     <span class="separator">|</span>
     <span class="byline">
     {% block byline %}
