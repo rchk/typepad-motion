@@ -25,7 +25,7 @@
                 <a href="{{ entry.get_absolute_url }}">
                 {% if entry.published|is_relative %}
                 {% blocktrans with entry.published|pithy_timesince as timestamp %}
-                    on {{ timestamp }}
+                    {{ timestamp }}
                 {% endblocktrans %}
                 {% else %}
                 {{ entry.published|pithy_timesince }}
