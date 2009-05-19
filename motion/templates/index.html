@@ -15,14 +15,14 @@
 {% endblock %}
 
 {% block content_head %}
-    {% if settings.allow_posting and user.is_authenticated %}
     <div id="user-compose-friends" class="design-compose-background pkg">
+        {% if settings.allow_posting and user.is_authenticated %}
         <div id="user-compose-friends-inner" class="pkg">
             {% include "bits/compose_form.html" %}
             {% include "bits/friends.html" %}
         </div><!-- end #user-compose-friends-inner -->
+        {% endif %}
     </div><!-- end #user-compose-friends -->
-    {% endif %}
 {% endblock %}
 
 {% block content_body %}
