@@ -37,7 +37,7 @@ h1 {
     font-weight: normal;
     clear: none;
 }
-textarea, input {
+textarea {
     font-family: inherit;
     background: #fff;
     padding: 2px;
