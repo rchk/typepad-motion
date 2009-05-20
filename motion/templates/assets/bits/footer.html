@@ -3,7 +3,7 @@
 
 <div class="asset-meta icon-{{ entry.type_id }}">
     {% spaceless %}
-    <a href="{% url asset entry.id %}#comments" class="comment-count">
+    <a href="{{ entry.get_absolute_url }}#comments" class="comment-count">
         {% blocktrans count entry.comment_count as count %}
             {{ count }} <span>Comment</span>
         {% plural %}
