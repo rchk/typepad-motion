@@ -40,8 +40,7 @@
                 <span class="vcard author">
                     <a title="{{ comment.author.get_absolute_url }}" href="{{ comment.author.get_absolute_url }}">{{ comment.author.display_name }}</a>
                 </span>
-                <span class="sep">|</span>
-                <a href="{{ comment.link }}"><abbr class="published" title="{{ comment.published|date_microformat }}">{{ comment.published|pithy_timesince }}</abbr></a>
+                <abbr class="published" title="{{ comment.published|date_microformat }}">{{ comment.published|pithy_timesince }}</abbr>
             </span>
         </div>
     </div>
