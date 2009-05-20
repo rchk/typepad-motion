@@ -88,7 +88,7 @@ class AssetView(TypePadView):
     template_name = "permalink.html"
 
     def select_from_typepad(self, request, postid, *args, **kwargs):
-        entry = models.Asset.get_by_id(postid)
+        entry = models.Asset.get_by_url_id(postid)
         comments = entry.comments.filter(start_index=1, max_results=settings.COMMENTS_PER_PAGE)
         self.context.update(locals())
 
@@ -102,11 +102,11 @@ class AssetView(TypePadView):
 
             typepad.client.batch_request()
             self.select_typepad_user(request)
-            asset = models.Asset.get_by_id(asset_id)
+            asset = models.Asset.get_by_url_id(asset_id)
             typepad.client.complete_batch()
 
             # Check permissions for deleting an asset
-            if request.user.is_superuser or (settings.ALLOW_USERS_TO_DELETE_POSTS and request.user.atom_id == asset.author.atom_id):
+            if request.user.is_superuser or (settings.ALLOW_USERS_TO_DELETE_POSTS and request.user.id == asset.author.id):
                 asset.delete()
                 if isinstance(asset, models.Comment):
                     # Return to permalink page
@@ -119,7 +119,7 @@ class AssetView(TypePadView):
         elif 'comment' in request.POST:
             if self.form_instance.is_valid():
                 typepad.client.batch_request()
-                asset = models.Asset.get_by_id(postid)
+                asset = models.Asset.get_by_url_id(postid)
                 typepad.client.complete_batch()
                 comment = self.form_instance.save()
                 asset.comments.post(comment)
@@ -158,7 +158,7 @@ class MemberView(AssetEventView):
         self.paginate_template = reverse('member', args=[userid]) + '/page/%d'
         # FIXME: this should be conditioned if possible, so we don't load
         # the same user twice if a user is viewing their own profile.
-        member = models.User.get_by_id(userid)
+        member = models.User.get_by_url_id(userid)
         elsewhere = member.elsewhere_accounts
         # following/followers are shown on TypePad-supplied widget now; no need to select these
         # following = member.following(group=request.group)
@@ -182,7 +182,7 @@ class MemberView(AssetEventView):
             pass
         else:
             profileform = typepadapp.forms.UserProfileForm(instance=profile)
-            if request.user.atom_id == self.context['member'].atom_id:
+            if request.user.id == self.context['member'].id:
                 self.context['profileform'] = profileform
             else:
                 self.context['profiledata'] = profileform
@@ -222,7 +222,7 @@ class RelationshipsView(TypePadView):
             raise Http404
 
         # Fetch logged-in group member
-        member = models.User.get_by_id(userid)
+        member = models.User.get_by_url_id(userid)
         paginate_template = reverse(rel, args=[userid]) + '/page/%d'
 
         self.object_list = getattr(member, rel)(start_index=self.offset, max_results=self.limit, group=request.group)

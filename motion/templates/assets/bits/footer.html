@@ -12,7 +12,7 @@
     </a>
     {% endspaceless %}
     <span class="separator">|</span>
-    <span class="{% if settings.allow_rating %}favorite-action {% endif %}favorite-count{% if entry.links.favorites.by_user %} scored{% endif %}" id="favorite-{{ entry.id }}">{{ entry.favorite_count }}</span>
+    <span class="{% if settings.allow_rating %}favorite-action {% endif %}favorite-count{% if entry.links.favorites.by_user %} scored{% endif %}" id="favorite-{{ entry.url_id }}">{% if entry.favorite_count %}{{ entry.favorite_count }}{% else %}&nbsp;{% endif %}</span>
     <span class="separator">|</span>
     <span class="byline">
     {% block byline %}
@@ -28,7 +28,7 @@
                     {{ timestamp }}
                 {% endblocktrans %}
                 {% else %}
-                {{ entry.published|pithy_timesince }}
+                    on {{ entry.published|pithy_timesince }}
                 {% endif %}
                 </a>
                 {% endspaceless %}

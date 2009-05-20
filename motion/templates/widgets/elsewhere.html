@@ -3,15 +3,15 @@
 <div id="elsewhere" class="widget-elsewhere widget pkg">
     <h3 class="design-highlight-color">{% trans "Elsewhere" %}</h3>
     <div class="widget-content">
-        <ul class="action-listing">
+        <ul>
             {% for account in elsewhere %}
-            <li class="icon-service-{{ account.provider_name }}">
-                <a href="{{ account.url }}">{{ account.provider_name }}</a>
+            <li>
+                <img class="service-icon" src="{{ account.provider_icon_url }}" height="16" width="16" alt="" /> <a href="{{ account.url }}" rel="me">{{ account.provider_name }}</a>
             </li>
             {% endfor %}
         </ul>
         <div class="more">
-            <img src="{{ settings.media_url }}images/services/typepad.png" height="16" width="16" alt="TypePad" /> <a href="{{ member.typepad_url }}">{% blocktrans with member.display_name as name %}View {{ name }}&rsquo;s full TypePad profile.{% endblocktrans %}</a>
+            <img src="{{ settings.media_url }}images/services/typepad.png" height="16" width="16" alt="TypePad" /> <a href="{{ member.typepad_url }}" rel="me">{% blocktrans with member.display_name as name %}View {{ name }}&rsquo;s full TypePad profile.{% endblocktrans %}</a>
         </div>
     </div><!-- end .widget-content -->
 </div><!-- end .widget-elsewhere#elsewhere -->

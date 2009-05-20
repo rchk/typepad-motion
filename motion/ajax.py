@@ -24,7 +24,7 @@ def more_comments(request):
     typepad.client.batch_request()
     from django.contrib.auth import get_user
     request.user = get_user(request)
-    asset = models.Asset.get_by_id(asset_id)
+    asset = models.Asset.get_by_url_id(asset_id)
     comments = asset.comments.filter(start_index=offset, max_results=settings.COMMENTS_PER_PAGE)
     typepad.client.complete_batch()
 
@@ -54,7 +54,7 @@ def favorite(request):
     typepad.client.batch_request()
     from django.contrib.auth import get_user
     request.user = get_user(request)
-    asset = models.Asset.get_by_id(asset_id)
+    asset = models.Asset.get_by_url_id(asset_id)
     typepad.client.complete_batch()
 
     if action == 'favorite':
@@ -62,7 +62,7 @@ def favorite(request):
         favorite.in_reply_to = asset.asset_ref
         request.user.favorites.post(favorite)
     else:
-        favorite = models.Favorite.get_by_user_asset(request.user.id, asset_id)
+        favorite = models.Favorite.get_by_user_asset(request.user.url_id, asset_id)
         favorite.delete()
 
     return http.HttpResponse('OK')
@@ -73,7 +73,7 @@ def upload_url(request):
     Return an upload URL that the client can use to POST a media asset.
     """
     ## TODO backend url from api
-    remote_url = urljoin(settings.BACKEND_URL, '/browser-upload.json')
+    remote_url = urljoin(settings.BACKEND_URL, models.APPLICATION.browser_upload_endpoint)
     url = request.oauth_client.get_file_upload_url(remote_url)
     url = 'for(;;);%s' % url # no third party sites allowed.
     return http.HttpResponse(url)

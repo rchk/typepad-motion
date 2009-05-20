@@ -2,7 +2,7 @@
 {% load withblock %}
 
 <!-- Entry -->
-<li id="{{ entry.id }}" class="asset action-asset hentry {{ entry.type_id }} {% if entry.author.is_superuser %}admin{% endif %}">
+<li id="{{ entry.url_id }}" class="asset {% if event %}action-asset{% endif %} hentry {{ entry.type_id }} {% if entry.author.is_superuser %}admin{% endif %}">
     {% ifequal view "permalink" %}
     {# delete entry button #}
     {% if user.is_superuser %}

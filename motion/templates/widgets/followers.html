@@ -26,7 +26,7 @@ Template used for displaying a list of the users followers.
             {% endfor %}
         </ul>
         {% if followers %}
-        <div class="more"><a href="{% url followers userid=member.id %}">
+        <div class="more"><a href="{% url followers userid=member.url_id %}">
         {% ifequal view "home" %}
             &gt;&gt;
         {% else %}

@@ -18,7 +18,7 @@
             {% endfor %}
         </ul>
         {% if following %}
-        <div class="more"><a href="{% url following userid=member.id %}">
+        <div class="more"><a href="{% url following userid=member.url_id %}">
         {% ifequal view "home" %}
             &gt;&gt;
         {% else %}
