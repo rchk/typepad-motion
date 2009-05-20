@@ -1,21 +1,6 @@
 {% load date_filters %}
 
-<div id="comment-{{ comment.id }}" class="comment {% ifequal entry.author.id comment.author.id %}comment-by-author{% endifequal %}">
-
-    {# delete comment button #}
-    {% if user.is_superuser %}
-        <div class="controls">
-        {% include "bits/delete_comment.html" %}
-        </div>
-    {% else %}
-        {% if settings.allow_users_to_delete_posts and user.is_authenticated %}
-            {% ifequal comment.author.id user.id %}
-                <div class="controls">
-                {% include "bits/delete_comment.html" %}
-                </div>
-            {% endifequal %}
-        {% endif %}
-    {% endif %}
+<div id="comment-{{ comment.url_id }}" class="comment {% ifequal entry.author.id comment.author.id %}comment-by-author{% endifequal %}">
 
     <div class="inner">
         {% with comment.author as user %}
@@ -23,6 +8,21 @@
         {% endwith %}
     </div>
     <div class="comment-content">
+        {# delete comment button #}
+        {% if user.is_superuser %}
+            <div class="controls">
+            {% include "bits/delete_comment.html" %}
+            </div>
+        {% else %}
+            {% if settings.allow_users_to_delete_posts and user.is_authenticated %}
+                {% ifequal comment.author.id user.id %}
+                    <div class="controls">
+                    {% include "bits/delete_comment.html" %}
+                    </div>
+                {% endifequal %}
+            {% endif %}
+        {% endif %}
+
         <div class="comment-content-inner">
             {{ comment.content|urlize|linebreaks }}
         </div>

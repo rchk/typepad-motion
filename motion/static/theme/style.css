@@ -685,13 +685,12 @@ body.error {
     z-index: 10;
     padding: 5px;
 }
-.comment .controls {
-    bottom: 22px;
-}
 
 .controls button {
     border: none;
     padding: 3px 10px;
+    cursor: hand; /* HACK - ie */
+    cursor: pointer;
 }
 button.button-delete {
     background-image: url(../../images/icons/cross.png);
@@ -1256,6 +1255,7 @@ button.button-delete {
 }
 .comment-content {
     background: url(images/comment-bg.gif) no-repeat 0 6px;
+    position: relative;
 }
 .comment-content-inner {
     padding: 10px 15px;
