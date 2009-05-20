@@ -3,7 +3,7 @@
 {% load withblock %}
 
 {% if profileform %}
-<form id="profile-data-form" method="post" action="{% url member member.url_id %}">
+<form id="profile-data-form" method="post" action="{{ member.get_absolute_url }}">
     <img src="{{ settings.media_url }}images/spinner.gif" class="spinner" />
     <ul id="profile-data">
         {% for field in profileform %}
