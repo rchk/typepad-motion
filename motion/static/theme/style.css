@@ -37,9 +37,8 @@ h1 {
     font-weight: normal;
     clear: none;
 }
-.ti,
-.ta,
-.pw {
+textarea, input {
+    font-family: inherit;
     background: #fff;
     padding: 2px;
 }
@@ -749,7 +748,6 @@ button.button-delete {
 .hover,
 .noscript .asset-meta,
 .hover .asset-meta,
-.mt-entry-archive .asset-meta,
 .user-profile .asset-meta {
     color: #555;
 }
@@ -846,7 +844,6 @@ button.button-delete {
 .hover a,
 .noscript .asset-meta a,
 .hover .asset-meta a,
-.mt-entry-archive .asset-meta a,
 .user-profile .asset-meta a {
     color: #069;
 }
@@ -1572,40 +1569,6 @@ button.button-delete {
     margin-bottom: 1em;
 }
 
-.field-header,
-.field-content {
-    line-height: 30px;
-}
-.field-header label {
-/*    font-weight: bold;*/
-    color: #777;
-}
-
-.field-content {
-    font-size: 15px;
-}
-.field-content select,
-.field-content input.ti,
-.field-content textarea.ta,
-.field-content input.pw {
-    margin: 0;
-    width: 318px;
-    font-size: 15px;
-    border: 1px solid #ddd;
-    border-top: 1px solid #aaa;
-    border-left: 1px solid #aaa;
-    background: #fcfcfc;
-}
-.field-content input.ti,
-.field-content textarea.ta,
-.field-content input.pw {
-    padding: 4px;
-}
-
-.field-content input.pw {
-    letter-spacing: 5px;
-}
-
 #profile-data-form .spinner {
     display: none;
 }
@@ -1629,10 +1592,6 @@ ul#profile-data li .edit {
 #profile_userpic-field .field-content label {
     display: block;
     margin-top: 5px;
-}
-
-.mt-profile-edit form {
-    margin-bottom: .75em;
 }
 
 .custom-field-radio-list {
