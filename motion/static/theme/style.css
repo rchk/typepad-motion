@@ -1666,6 +1666,7 @@ ul#profile-data li .edit {
 /* Pagination */
 
 .pagination {
+    clear: both;
     margin: 20px;
 }
 
