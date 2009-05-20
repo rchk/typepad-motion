@@ -1,4 +1,7 @@
+import os.path
+
 from django.conf.urls.defaults import *
+
 
 app_path = os.path.dirname(__file__)
 app_dir = os.path.basename(app_path)
