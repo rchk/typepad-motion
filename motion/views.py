@@ -167,6 +167,7 @@ class MemberView(AssetEventView):
         self.context.update(locals())
 
     def get(self, request, userid, *args, **kwargs):
+        self.context['is_self'] = request.user.id == self.context['member'].id
         elsewhere = self.context['elsewhere']
         if elsewhere:
             for acct in elsewhere:
@@ -182,7 +183,7 @@ class MemberView(AssetEventView):
             pass
         else:
             profileform = typepadapp.forms.UserProfileForm(instance=profile)
-            if request.user.id == self.context['member'].id:
+            if self.context['is_self']:
                 self.context['profileform'] = profileform
             else:
                 self.context['profiledata'] = profileform
