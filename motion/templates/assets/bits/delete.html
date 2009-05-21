@@ -1,8 +1,10 @@
 {% if entry.can_delete %}
+{% if user.is_superuser or settings.allow_users_to_delete_posts %}
 <div class="controls">
     <form id="delete-{{ entry.url_id }}" method="post" action="">
         <input type="hidden" name="asset-id" value="{{ entry.url_id }}" />
         <button class="button-delete" type="submit" onclick="return confirm('{{ _("Are you sure you want to delete this post?")|escapejs }}');" name="delete" title="Delete">Delete</button>
     </form>
 </div>
+{% endif %}
 {% endif %}
