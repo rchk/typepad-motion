@@ -1430,6 +1430,11 @@ button.button-delete {
 .profile-header-content #page-title {
     white-space: nowrap;
 }
+.profile-header-content .admin-options {
+    padding: 10px;
+    border: 1px solid #DDDDDD;
+    background-color: #F6F6F2;
+}
 .user-profile .recent-entry .asset {
     margin-bottom: 10px;
 }

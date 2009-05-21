@@ -52,8 +52,14 @@
 
             <p><a id="view-profile-link" href="{{ member.typepad_url }}">{% blocktrans with member.display_name as name %}View {{ name }}'s full TypePad profile{% endblocktrans %}</a></p>
             
-            {% if member.email and request.user.is_superuser %}
-            <p><a href="mailto:{{ member.email }}">{% blocktrans with member.display_name as name %}Email {{ name }}{% endblocktrans %}</a></p>
+            {% if user.is_superuser %}
+            <div class="admin-options">
+                <p><strong>Admin options:</strong></p>
+                {% if member.email %}
+                    <p><a href="mailto:{{ member.email }}">{% blocktrans with member.display_name as name %}Email {{ name }}{% endblocktrans %}</a></p>
+                {% endif %}
+                <!--p><a href="">{% blocktrans with member.display_name as name %}Ban {{ name }}{% endblocktrans %}</a></p-->
+            </div>
             {% endif %}
         </div>
     </div>
