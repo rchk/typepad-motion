@@ -9,45 +9,56 @@
 <div id="nav">
     <div id="nav-inner">
         <ul>
-            {% spaceless %}
-            {% block navigation_home %}
-            {% if user.is_authenticated %}
-                {% if settings.home_member_events %}
+        {% block navigation_items %}
+            {% if settings.featured_member %}
+
+                {# Featured user is homepage #}
+                <li class="home{% if request.path|regex_starts_with:url_group_events %} current{% endif %}">
+                    <a href="{{ url_group_events }}">{% trans "Public Timeline" %}</a>
+                </li>
+                {% if user.is_authenticated %}
+                    <li class="following{% if request.path|regex_starts_with:url_following_events %} current{% endif %}">
+                        <a href="{{ url_following_events }}">{% trans "Following" %}</a>
+                    </li>
+                {% endif %}
+                <li class="members{% if request.path|regex_starts_with:url_members %} current{% endif %}{% if request.path|regex_search:"/entry/\w+$" %} current{% endif %}">
+                    <a href="{{ url_members }}">{% trans "Members" %}</a>
+                </li>
+
+            {% else %}{% if settings.home_member_events %}
+
+                {# Following events is homepage #}
+                {% if user.is_authenticated %}
                     <li class="home{% ifequal view 'home' %} current{% endifequal %}">
                         <a href="{{ url_home }}">{% trans "Following" %}</a>
+                    </li>
+                    <li class="events{% if request.path|regex_starts_with:url_group_events %} current{% endif %}">
+                        <a href="{{ url_group_events }}">{% trans "Public Timeline" %}</a>
                     </li>
                 {% else %}
                     <li class="home{% ifequal view 'home' %} current{% endifequal %}">
                         <a href="{{ url_home }}">{% trans "Public Timeline" %}</a>
                     </li>
                 {% endif %}
-            {% else %}
-                <li class="home{% ifequal view 'home' %} current{% endifequal %}">
-                    <a href="{{ url_home }}">{% trans "Public Timeline" %}</a>
-                </li>
-            {% endif %}
-            {% endblock %}
-
-            {% block navigation_following %}
-            {% if user.is_authenticated %}
-                {% if settings.home_member_events %}
-                    <li class="events{% if request.path|regex_starts_with:url_group_events %} current{% endif %}">
-                        <a href="{{ url_group_events }}">{% trans "Public Timeline" %}</a>
-                    </li>
-                {% else %}
-                    <li class="following{% if request.path|regex_starts_with:url_following_events %} current{% endif %}">
-                        <a href="{{ url_following_events }}">{% trans "Following" %}</a>
-                    </li>
-                {% endif %}
-            {% endif %}
-            {% endblock %}
-
-            {% block navigation_members %}
                 <li class="members{% if request.path|regex_starts_with:url_members %} current{% endif %}{% if request.path|regex_search:"/entry/\w+$" %} current{% endif %}">
                     <a href="{{ url_members }}">{% trans "Members" %}</a>
                 </li>
-            {% endblock %}
-            {% endspaceless %}
+
+            {% else %}
+
+                {# Group events is homepage #}
+                <li class="home{% ifequal view 'home' %} current{% endifequal %}">
+                    <a href="{{ url_home }}">{% trans "Public Timeline" %}</a>
+                </li>
+                <li class="following{% if request.path|regex_starts_with:url_following_events %} current{% endif %}">
+                    <a href="{{ url_following_events }}">{% trans "Following" %}</a>
+                </li>
+                <li class="members{% if request.path|regex_starts_with:url_members %} current{% endif %}{% if request.path|regex_search:"/entry/\w+$" %} current{% endif %}">
+                    <a href="{{ url_members }}">{% trans "Members" %}</a>
+                </li>
+
+            {% endif %}{% endif %}
+        {% endblock %}
         </ul>
     </div><!-- end #nav-inner -->
 </div><!-- end #nav -->

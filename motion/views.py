@@ -16,6 +16,27 @@ from typepadapp import models, signals
 from typepadapp.views.base import TypePadView
 
 
+def home(request, page=1):
+    """
+    Determine the homepage view based on settings. Options are the list
+    of recent member activity, a featured user's profile page, or the list
+    of activity of people you are following in the group.
+    """
+    if settings.FEATURED_MEMBER:
+        # Home page is a featured user.
+        return MemberView(request, settings.FEATURED_MEMBER)
+    if settings.HOME_MEMBER_EVENTS:
+        from django.contrib.auth import get_user
+        typepad.client.batch_request()
+        user = get_user(request)
+        typepad.client.complete_batch()
+        if user.is_authenticated():
+            # Home page is the user's inbox.
+            return FollowingEventsView(request, page=page, view='home')
+    # Home page is group events.
+    return GroupEventsView(request, page=page, view='home')
+
+
 class AssetEventView(TypePadView):
     
     def filter_object_list(self):
@@ -66,14 +87,6 @@ class FollowingEventsView(AssetEventView):
         self.paginate_template = reverse('following_events') + '/page/%d'
         if request.user.is_authenticated():
             self.object_list = request.user.notifications.filter(start_index=self.offset, max_results=self.limit)
-
-
-def home(request, page=1):
-    if settings.HOME_MEMBER_EVENTS and request.user.is_authenticated():
-        # home page is the user's inbox
-        return FollowingEventsView(request, page=page, view='home')
-    # home page is group events
-    return GroupEventsView(request, page=page, view='home')
 
 
 class AssetView(TypePadView):
