@@ -19,9 +19,9 @@ Template used for displaying the member directory for the group.
     {% if rel %}
         {% ifequal rel "following" %}
             {% blocktrans count page_obj.paginator.count as count and member.display_name as name %}
-                {{ name }} follows {{ total }} person.
+                {{ name }} follows {{ count }} person.
             {% plural %}
-                {{ name }} follows {{ total }} people.
+                {{ name }} follows {{ count }} people.
             {% endblocktrans %}
         {% else %}
             {% blocktrans count page_obj.paginator.count as count and member.display_name as name %}
@@ -51,7 +51,7 @@ Template used for displaying the member directory for the group.
     <ul class="member-list">
         {% if rel %}
             {% for relationship in page_obj.object_list %}
-                {% with membership.target as member %}
+                {% with relationship.target as member %}
                     {% include "bits/member_listitem.html" %}
                 {% endwith %}
             {% endfor %}
