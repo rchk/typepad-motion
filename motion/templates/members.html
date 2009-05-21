@@ -11,7 +11,7 @@ Template used for displaying the member directory for the group.
 
 {% block content_body %}
 
-    {% if request.user.is_superuser %}
+    {% if request.user.is_superuser and not rel %}
     <div style="float: right;"><a href="{% url export_members %}">{% trans "Export Member List" %}</a></div>
     {% endif %}
 
