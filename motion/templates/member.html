@@ -50,8 +50,8 @@
             <p><a id="edit-profile-link" href="#">{% trans "Edit Profile" %}</a></p>
             {% endif %}
 
-            <p><a id="view-profile-link" href="{{ member.typepad_url }}">{% blocktrans with member.display_name as name %}View {{ name }}'s full TypePad profile{% endblocktrans %}</a></p>
-            
+            <p><img src="{{ settings.media_url }}images/services/typepad.png" height="16" width="16" alt="TypePad" /> <a href="{{ member.typepad_url }}" rel="me">{% blocktrans with member.display_name as name %}View {{ name }}&rsquo;s full TypePad profile{% endblocktrans %}</a></p>
+
             {% if user.is_superuser %}
             <div class="admin-options">
                 <p><strong>Admin options:</strong></p>
