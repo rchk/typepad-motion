@@ -74,8 +74,7 @@
 
     </div>
 
-    {# FIXME: make the URL here configurable #}
     {% if twitter_username %}
-    <script type="text/javascript" src="http://profile.typepad.com.tpapi-tp.dev.sixapart.com/services/embed/twitter_status.js?u={{ twitter_username|iriencode }}" defer="defer"></script>
+    <script type="text/javascript" src="http://profile.typepad.com/services/embed/twitter_status.js?u={{ twitter_username|iriencode }}" defer="defer"></script>
     {% endif %}
 {% endblock %}
