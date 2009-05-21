@@ -4,20 +4,7 @@
 <!-- Entry -->
 <li id="{{ entry.url_id }}" class="asset {% if event %}action-asset{% endif %} hentry {{ entry.type_id }} {% if entry.author.is_superuser %}admin{% endif %}">
     {% ifequal view "permalink" %}
-    {# delete entry button #}
-    {% if user.is_superuser %}
-        <div class="controls">
-        {% include "bits/delete_entry.html" %}
-        </div>
-    {% else %}
-        {% if settings.allow_users_to_delete_posts and user.is_authenticated %}
-            {% ifequal entry.author.id user.id %}
-                <div class="controls">
-                {% include "bits/delete_entry.html" %}
-                </div>
-            {% endifequal %}
-        {% endif %}
-    {% endif %}
+        {% include "assets/bits/delete.html" %}
     {% endifequal %}
 
     {% if event and event.is_added_favorite %}

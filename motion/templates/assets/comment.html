@@ -8,20 +8,9 @@
         {% endwith %}
     </div>
     <div class="comment-content">
-        {# delete comment button #}
-        {% if user.is_superuser %}
-            <div class="controls">
-            {% include "bits/delete_comment.html" %}
-            </div>
-        {% else %}
-            {% if settings.allow_users_to_delete_posts and user.is_authenticated %}
-                {% ifequal comment.author.id user.id %}
-                    <div class="controls">
-                    {% include "bits/delete_comment.html" %}
-                    </div>
-                {% endifequal %}
-            {% endif %}
-        {% endif %}
+        {% with comment as entry %}
+            {% include "assets/bits/delete.html" %}
+        {% endwith %}
 
         <div class="comment-content-inner">
             {{ comment.content|urlize|linebreaks }}
