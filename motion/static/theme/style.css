@@ -817,7 +817,7 @@ button.button-delete {
 }
 .asset .asset-meta .favorite-action,
 .asset .asset-meta .favorite-count {
-    background: url(images/favorite-stars.png) no-repeat right 0;
+    background: url(images/favorite-stars.png) no-repeat right -48px; /*0;*/
     margin: 5px 5px 0 0;
     padding-right: 22px;
     display: block;
@@ -827,16 +827,15 @@ button.button-delete {
     right: 0;
 }
 .asset .asset-meta .favorite-action:hover {
-    background-position: right -16px;
+    background-position: right -32px; /*-16px;*/
     cursor: hand; /* HACK - ie */
     cursor: pointer;
 }
-.asset .asset-meta .favorite-action.scored:hover,
-.asset .asset-meta .favorite-count.scored:hover, {
-    background-position: right -48px;
-}
 .asset .asset-meta .scored {
-    background-position: right -32px;
+    background-position: right 0; /*-32px;*/
+}
+.asset .asset-meta .scored:hover {
+    background-position: right 0; /*-48px;*/
 }
 .asset-meta a {
     color: #aaa;
