@@ -6,14 +6,14 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="generator" content="spacegiraffe 1.0" />
-    <link rel="stylesheet" href="{{ settings.media_url }}themes/motion2/style.css" type="text/css" />
+    <link rel="stylesheet" href="{{ settings.media_url }}themes/motion/style.css" type="text/css" />
     <link rel="start" href="{% url home %}" title="Home" />
     <link rel="shortcut icon" type="image/x-icon" href="{{ settings.media_url }}favicon.ico" />
     <title>{{ request.group.display_name }} / 404</title>
 </head>
 
 <body id="motion" class="error">
-    <p>{% trans "Sorry, we can't find that page." %}
+    <p>{% trans "Sorry, we can&rsquo;t find that page." %}
         <a href="{% url home %}">{% trans "Return to the home page." %}</a></p>
     <p><img src="{{ settings.media_url }}images/fail.png"
         height="620" width="502" alt="{% trans "Spacegiraffe is having a massage" %}"
