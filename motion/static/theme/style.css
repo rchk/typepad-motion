@@ -1422,7 +1422,7 @@ button.button-delete {
 .user-profile .recent-entry,
 .user-profile .actions,
 .user-profile .comment-threads {
-     margin-bottom: 15px;
+    margin-bottom: 15px;
 }
 .profile-header-content {
     margin-left: 125px;
@@ -1578,11 +1578,6 @@ ul#profile-data li {
     margin-left: 0;
     padding-left: 0;
     list-style: none;
-}
-
-ul#profile-data li .show-hover {
-    background-color: #ff0;
-    cursor: pointer;
 }
 
 ul#profile-data li .edit {

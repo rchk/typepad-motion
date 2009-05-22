@@ -3,6 +3,7 @@
 {% load withblock %}
 {% load i18n %}
 
+{% if profileform or profiledata %}
 <div class="actions">
     <h2 class="design-highlight-color">
     {% blocktrans with member.display_name as name %}
@@ -17,14 +18,20 @@
             {% for field in profileform %}
             <li>
                 <strong>{{ field.label_tag }}</strong>:
-                <span class="show">
-                   <span class="value">{% formfieldvalue field %}</span>
-                   <img src="{{ settings.media_url }}images/icons/edit-field.png" />
+                <span class="form-field">
+                    <span class="value">{% formfieldvalue field %}</span>
+                    <span class="edit">{{ field }}</span>
                 </span>
-                <span class="edit">{{ field }}</span>
             </li>
             {% endfor %}
         </ul>
+        <div id="profile-edit">
+            <img src="{{ settings.media_url }}images/icons/edit-field.png" />&nbsp;<a id="edit-profile-link" href="#">{% trans "Edit my profile" %}</a>
+        </div>
+        <div id="profile-buttons" style="display:none;">
+            <input id="profile-save" type="submit" value="Save" />
+            <input id="profile-cancel" type="submit" value="Cancel" />
+        </div>
     </form>
     {% else %}
        {% if profiledata %}
@@ -42,8 +49,6 @@
        </ul>
        {% endif %}
     {% endif %}
-    
-    {% if is_self %}
-        <p><img src="{{ settings.media_url }}images/icons/edit-field.png" />&nbsp;<a id="edit-profile-link" href="#">{% trans "Edit my profile" %}</a></p>
-    {% endif %}
+
 </div>
+{% endif %}
