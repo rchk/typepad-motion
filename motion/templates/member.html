@@ -9,6 +9,15 @@
 {% endblock %}
 
 {% block beta_widgets %}
+    {% if user.is_superuser %}
+        <div class="admin-options">
+            <p><strong>Admin options:</strong></p>
+            {% if member.email %}
+                <p><a href="mailto:{{ member.email }}">{% blocktrans with member.display_name as name %}Email {{ name }}{% endblocktrans %}</a></p>
+            {% endif %}
+            <!--p><a href="">{% blocktrans with member.display_name as name %}Ban {{ name }}{% endblocktrans %}</a></p-->
+        </div>
+    {% endif %}
     {% include "widgets/typepad_frame.html" %}
     {% include "widgets/elsewhere.html" %}
 {% endblock %}
@@ -44,34 +53,23 @@
             <p class="user-twitter" id="twitter_status"></p>
             {% endif %}
 
-            {% include "bits/profile.html" %}
-
+            <p><img src="{{ settings.media_url }}images/services/typepad.png" height="16" width="16" alt="TypePad" />&nbsp;<a href="{{ member.typepad_url }}" rel="me">
             {% if is_self %}
-            <p><a id="edit-profile-link" href="#">{% trans "Edit Profile" %}</a></p>
+                {% trans "Edit my TypePad profile" %}
+            {% else %}
+                {% blocktrans with member.display_name as name %}View {{ name }}&rsquo;s full TypePad profile{% endblocktrans %}
             {% endif %}
-
-            <p><img src="{{ settings.media_url }}images/services/typepad.png" height="16" width="16" alt="TypePad" /> <a href="{{ member.typepad_url }}" rel="me">{% blocktrans with member.display_name as name %}View {{ name }}&rsquo;s full TypePad profile{% endblocktrans %}</a></p>
-
-            {% if user.is_superuser %}
-            <div class="admin-options">
-                <p><strong>Admin options:</strong></p>
-                {% if member.email %}
-                    <p><a href="mailto:{{ member.email }}">{% blocktrans with member.display_name as name %}Email {{ name }}{% endblocktrans %}</a></p>
-                {% endif %}
-                <!--p><a href="">{% blocktrans with member.display_name as name %}Ban {{ name }}{% endblocktrans %}</a></p-->
-            </div>
-            {% endif %}
+            </a></p>
         </div>
     </div>
+    
+    {% include "bits/profile.html" %}
 
     <div class="actions">
-
-    <h2>Recent Activity</h2>
-
-    {% with page_obj.object_list as events %}
-    {% include "bits/event_list.html" %}
-    {% endwith %}
-
+        <h2>Recent Activity</h2>
+        {% with page_obj.object_list as events %}
+        {% include "bits/event_list.html" %}
+        {% endwith %}
     </div>
 
     {% if twitter_username %}

@@ -1035,7 +1035,12 @@ button.button-delete {
 #beta .widget-following.empty {
     display: none;
 }
-
+#beta .admin-options {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #DDDDDD;
+    background-color: #F6F6F2;
+}
 .widget-gallery .widget-content h3 {
     display: none;
 }
@@ -1425,11 +1430,6 @@ button.button-delete {
 }
 .profile-header-content #page-title {
     white-space: nowrap;
-}
-.profile-header-content .admin-options {
-    padding: 10px;
-    border: 1px solid #DDDDDD;
-    background-color: #F6F6F2;
 }
 .user-profile .recent-entry .asset {
     margin-bottom: 10px;
