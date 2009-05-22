@@ -1363,9 +1363,6 @@ button.button-delete {
     color: #bbb;
     font-size: 18px;
 }
-.members-list #alpha {
-    margin: 0 20px;
-}
 .members-list .member-list {
     margin-right: -20px;
 }
@@ -1789,13 +1786,15 @@ ul#profile-data li .edit {
 #beta {
     float: left;
 }
-/* main column */
-.layout-wtt #alpha {
-    width: 590px;
+#alpha {
     margin: 0 20px;
 }
+/* main column */
+.layout-wm #alpha {
+    width: 590px;
+}
 /* sidebar */
-.layout-wtt #beta {
+.layout-wm #beta {
     width: 300px;
 }
 #footer-inner {
