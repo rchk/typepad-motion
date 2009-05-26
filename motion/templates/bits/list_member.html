@@ -2,8 +2,8 @@
     <div class="userpic">
         {% spaceless %}
         <a class="userpic-link source-user-avatar" href="{{ member.get_absolute_url }}">
-            {% with member.links.rel__avatar.width__24 as userpic %}
-            <img src="{{ userpic.href }}" alt="{{ member.display_name }}" title="{{ member.display_name }}" width="24" height="24" class="photo" />
+            {% with member.links.rel__avatar.width__50 as userpic %}
+            <img src="{{ userpic.href }}" alt="{{ member.display_name }}" title="{{ member.display_name }}" width="{{ photo_size }}" height="{{ photo_size }}" class="photo" />
             {% endwith %}
         </a>
         {% endspaceless %}

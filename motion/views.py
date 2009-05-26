@@ -55,8 +55,8 @@ class GroupEventsView(AssetEventView):
         self.object_list = request.group.events.filter(start_index=self.offset, max_results=self.limit)
         memberships = request.group.memberships.filter(member=True)[:settings.MEMBERS_PER_WIDGET]
         if request.user.is_authenticated():
-            following = request.user.following(group=request.group, max_results=7)
-            followers = request.user.followers(group=request.group, max_results=7)
+            following = request.user.following(group=request.group, max_results=settings.FOLLOWERS_PER_WIDGET)
+            followers = request.user.followers(group=request.group, max_results=settings.FOLLOWERS_PER_WIDGET)
             actions = request.user.group_events(request.group, max_results=0)
             upload_xhr_endpoint = reverse('upload_url')
             upload_complete_endpoint = urljoin(settings.FRONTEND_URL, reverse('upload_complete'))

@@ -13,7 +13,9 @@
         <ul>
             {% for rel in following %}
             {% with rel.target as member %}
+            {% with 32 as photo_size %}
             {% include "bits/list_member.html" %}
+            {% endwith %}
             {% endwith %}
             {% endfor %}
         </ul>

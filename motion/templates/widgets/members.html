@@ -11,7 +11,9 @@
         <ul>
         {% for membership in memberships %}
             {% with membership.source as member %}
+            {% with 50 as photo_size %}
                 {% include "bits/list_member.html" %}
+            {% endwith %}
             {% endwith %}
         {% endfor %}
         </ul>
