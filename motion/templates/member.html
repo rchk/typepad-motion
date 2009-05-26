@@ -55,13 +55,9 @@
             <li class="user-twitter" id="twitter_status"></li>
             {% endif %}
 
-            <li><img src="{{ settings.media_url }}images/services/typepad.png" height="16" width="16" alt="TypePad" />&nbsp;<a href="{{ member.typepad_url }}" rel="me">
-            {% if is_self %}
-                {% trans "Edit my TypePad profile" %}
-            {% else %}
-                {% blocktrans with member.display_name as name %}View {{ name }}&rsquo;s full TypePad profile{% endblocktrans %}
-            {% endif %}
-            </a></li>
+            <li><img src="{{ settings.media_url }}images/services/typepad.png" height="16" width="16" alt="TypePad" />&nbsp;
+                <a href="{{ member.typepad_url }}" rel="me">{% if is_self %}{% trans "Edit my TypePad profile" %}{% else %}{% blocktrans with member.display_name as name %}View {{ name }}&rsquo;s full TypePad profile{% endblocktrans %}{% endif %}</a>
+            </li>
 
             </ul>
         </div>
