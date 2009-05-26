@@ -34,15 +34,15 @@
             <h1>{{ member.display_name }}</h1>
 
             {% if member.about_me %}
-            <p>
-                <strong>{% trans "About Me:" %}</strong>
-                {{ member.about_me }}</em>
-            </p>
+            <p><strong>{% trans "About Me:" %}</strong> {{ member.about_me }}</em></p>
+            {% endif %}
+            
+            {% if member.location %}
+            <p><strong>{% trans "Location:" %}</strong> {{ member.location }}</em></p>
             {% endif %}
 
             {% if member.interests %}
-            <p>
-                <strong>{% trans "Interests:" %}</strong>
+            <p><strong>{% trans "Interests:" %}</strong>
                 {% for interest in member.interests %}
                 {{ interest }}{% if not forloop.last %}, {% endif %}
                 {% endfor %}
