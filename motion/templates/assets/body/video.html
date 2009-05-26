@@ -1,1 +1,16 @@
 {% extends "assets/body/base.html" %}
+
+{% block content %}
+
+<div>
+    <a href="{{ entry.get_absolute_url }}">
+
+        {% for video in entry.links.rel__enclosure %}
+            {% autoescape off %}{{ video.html }}{% endautoescape %}
+        {% endfor %}
+
+    </a>
+</div>
+
+{% endblock %}
+
