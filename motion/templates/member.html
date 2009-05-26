@@ -33,33 +33,37 @@
         <div class="profile-header-content">
             <h1>{{ member.display_name }}</h1>
 
+            <ul class="profile-data">
+
             {% if member.about_me %}
-            <p><strong>{% trans "About Me:" %}</strong> {{ member.about_me }}</em></p>
+            <li><strong>{% trans "About Me:" %}</strong> {{ member.about_me }}</em></li>
             {% endif %}
             
             {% if member.location %}
-            <p><strong>{% trans "Location:" %}</strong> {{ member.location }}</em></p>
+            <li><strong>{% trans "Location:" %}</strong> {{ member.location }}</em></li>
             {% endif %}
 
             {% if member.interests %}
-            <p><strong>{% trans "Interests:" %}</strong>
+            <li><strong>{% trans "Interests:" %}</strong>
                 {% for interest in member.interests %}
                 {{ interest }}{% if not forloop.last %}, {% endif %}
                 {% endfor %}
-            </p>
+            </li>
             {% endif %}
 
             {% if twitter_username %}
-            <p class="user-twitter" id="twitter_status"></p>
+            <li class="user-twitter" id="twitter_status"></li>
             {% endif %}
 
-            <p><img src="{{ settings.media_url }}images/services/typepad.png" height="16" width="16" alt="TypePad" />&nbsp;<a href="{{ member.typepad_url }}" rel="me">
+            <li><img src="{{ settings.media_url }}images/services/typepad.png" height="16" width="16" alt="TypePad" />&nbsp;<a href="{{ member.typepad_url }}" rel="me">
             {% if is_self %}
                 {% trans "Edit my TypePad profile" %}
             {% else %}
                 {% blocktrans with member.display_name as name %}View {{ name }}&rsquo;s full TypePad profile{% endblocktrans %}
             {% endif %}
-            </a></p>
+            </a></li>
+
+            </ul>
         </div>
     </div>
     

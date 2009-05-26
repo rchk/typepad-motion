@@ -1574,13 +1574,13 @@ button.button-delete {
     display: none;
 }
 
-ul#profile-data li {
-    margin-left: 0;
+ul.profile-data li {
+    margin: 0 0 10px;
     padding-left: 0;
     list-style: none;
 }
 
-ul#profile-data li .edit {
+ul.profile-data li .edit {
     display: none;
 }
 

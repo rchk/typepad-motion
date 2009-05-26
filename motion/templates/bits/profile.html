@@ -14,7 +14,7 @@
     {% if profileform %}
     <form id="profile-data-form" method="post" action="{{ member.get_absolute_url }}">
         <img src="{{ settings.media_url }}images/spinner.gif" class="spinner" />
-        <ul id="profile-data">
+        <ul class="profile-data">
             {% for field in profileform %}
             <li>
                 <strong>{{ field.label_tag }}</strong>:
@@ -35,7 +35,7 @@
     </form>
     {% else %}
        {% if profiledata %}
-       <ul id="profile-data">
+       <ul class="profile-data">
           {% for field in profiledata %}
              {% withblock %}{% formfieldvalue field %}{% as fieldvalue %}
                 {% if fieldvalue %}
