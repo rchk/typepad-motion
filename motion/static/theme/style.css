@@ -368,6 +368,7 @@ p {
 #user-username {
     font-size: large;
     line-height: 1.5em;
+    overflow: hidden;
 }
 #user-compose-friends .widget-following h3,
 #user-compose-friends .widget-followers h3 {
