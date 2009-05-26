@@ -6,8 +6,14 @@
 {% block media %}{% endblock %}
 {% block activity %}
     <i>
-    {% blocktrans with event.actor.display_name as name and entry.get_absolute_url as url and event.object.in_reply_to.author.display_name as author and entry.published|date_microformat as published and entry.published|pithy_timesince:"on " as timestamp %}
-        {{ name }} commented on a <a href="{{ url }}">post by {{ author }}</a> <abbr class="published" title="{{ published }}">{{ timestamp }}</abbr>.
-    {% endblocktrans %}
+    {% ifequal event.object.in_reply_to.type_id "audio" %}
+        {% blocktrans with event.actor.display_name as name and entry.get_absolute_url as url and event.object.in_reply_to.type_id as type and event.object.in_reply_to.author.display_name as author and entry.published|date_microformat as published and entry.published|pithy_timesince:"on " as timestamp %}
+            {{ name }} commented on an <a href="{{ url }}">{{ type }} post by {{ author }}</a> <abbr class="published" title="{{ published }}">{{ timestamp }}</abbr>.
+        {% endblocktrans %}
+    {% else %}
+        {% blocktrans with event.actor.display_name as name and entry.get_absolute_url as url and event.object.in_reply_to.type_id as type and event.object.in_reply_to.author.display_name as author and entry.published|date_microformat as published and entry.published|pithy_timesince:"on " as timestamp %}
+            {{ name }} commented on a <a href="{{ url }}">{{ type }} by {{ author }}</a> <abbr class="published" title="{{ published }}">{{ timestamp }}</abbr>.
+        {% endblocktrans %}
+    {% endifequal %}
     </i>
 {% endblock %}
