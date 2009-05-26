@@ -220,7 +220,7 @@ class MemberView(AssetEventView):
             raise Exception('HOMG WHAT')
 
 
-class FeaturedMemberView(AssetEventView):
+class FeaturedMemberView(MemberView):
     """ Featured Member Profile Page """
     template_name = "featured_member.html"
 
