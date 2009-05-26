@@ -140,6 +140,7 @@ p {
 }
 .submit-wrapper button.posting {
     background-image: url(images/post-it-bg-disabled.png);
+    display: none;
 }
 #content-inner {
     margin: 0;
