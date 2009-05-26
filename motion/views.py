@@ -24,7 +24,7 @@ def home(request, page=1):
     """
     if settings.FEATURED_MEMBER:
         # Home page is a featured user.
-        return FeaturedMemberView(request, settings.FEATURED_MEMBER)
+        return FeaturedMemberView(request, settings.FEATURED_MEMBER, view='home')
     if settings.HOME_MEMBER_EVENTS:
         from django.contrib.auth import get_user
         typepad.client.batch_request()
