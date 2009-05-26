@@ -49,7 +49,7 @@ class AssetEventView(TypePadView):
 class GroupEventsView(AssetEventView):
     paginate_by = settings.EVENTS_PER_PAGE
     form = forms.PostForm
-    template_name = "index.html"
+    template_name = "events.html"
 
     def select_from_typepad(self, request, page=1, view='events', *args, **kwargs):
         self.object_list = request.group.events.filter(start_index=self.offset, max_results=self.limit)
