@@ -24,7 +24,7 @@ def home(request, page=1):
     """
     if settings.FEATURED_MEMBER:
         # Home page is a featured user.
-        return MemberView(request, settings.FEATURED_MEMBER)
+        return FeaturedMemberView(request, settings.FEATURED_MEMBER)
     if settings.HOME_MEMBER_EVENTS:
         from django.contrib.auth import get_user
         typepad.client.batch_request()
@@ -218,6 +218,11 @@ class MemberView(AssetEventView):
             return 'o hai'
         else:
             raise Exception('HOMG WHAT')
+
+
+class FeaturedMemberView(AssetEventView):
+    """ Featured Member Profile Page """
+    template_name = "featured_member.html"
 
 
 class RelationshipsView(TypePadView):
