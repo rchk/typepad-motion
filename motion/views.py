@@ -203,22 +203,6 @@ class MemberView(AssetEventView):
 
         return super(MemberView, self).get(request, userid, *args, **kwargs)
 
-    def post(self, request, userid):
-        self.typepad_request(request, userid)
-
-        member = self.context['member']
-        if request.user.id != member.id:
-            return HttpResponseForbidden("User can't edit another user's profile")
-
-        profile = member.get_profile()
-        profileform = typepadapp.forms.UserProfileForm(request.POST, instance=profile)
-
-        if profileform.is_valid():
-            profileform.save()
-            return 'o hai'
-        else:
-            raise Exception('HOMG WHAT')
-
 
 class FeaturedMemberView(MemberView):
     """ Featured Member Profile Page """

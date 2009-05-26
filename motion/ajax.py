@@ -4,9 +4,11 @@ from django import http
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.template import RequestContext
+from django.utils import simplejson
 
 import typepad
 from typepadapp import models
+import typepadapp.forms
 
 
 def more_comments(request):
@@ -66,6 +68,24 @@ def favorite(request):
         favorite.delete()
 
     return http.HttpResponse('OK')
+    
+
+def edit_profile(request):
+
+    typepad.client.batch_request()
+    from django.contrib.auth import get_user
+    user = get_user(request)
+    typepad.client.complete_batch()
+
+    profile = user.get_profile()
+    profileform = typepadapp.forms.UserProfileForm(request.POST, instance=profile)
+
+    if profileform.is_valid():
+        profileform.save()
+        return http.HttpResponse(simplejson.dumps({'status': 'success', 'data': 'OK'}))
+    else:
+        errorfields = [k for k, v in profileform.errors.items()]
+        return http.HttpResponse(simplejson.dumps({'status': 'error', 'data': ','.join(errorfields)}))
 
 
 def upload_url(request):

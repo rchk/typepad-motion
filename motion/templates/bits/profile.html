@@ -12,7 +12,7 @@
     </h2>
     
     {% if profileform %}
-    <form id="profile-data-form" method="post" action="{{ member.get_absolute_url }}">
+    <form id="profile-data-form" method="post" action="{{ member.edit_url }}">
         <img src="{{ settings.media_url }}images/spinner.gif" class="spinner" />
         <ul class="profile-data">
             {% for field in profileform %}
