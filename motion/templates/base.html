@@ -17,7 +17,6 @@
 
             {% include "banners/header.html" %}
 
-
             <div id="content" class="design-content-border design-content-font design-content-color">
                 <div id="content-inner">
 
@@ -25,9 +24,21 @@
                     {% if settings.allow_posting %}
                     <div id="user-compose-friends" class="design-compose-background">
                         {% if user.is_authenticated %}
-                        <form class="submit-wrapper" method="GET" action="{% url group_events %}">
+                            {% if settings.featured_member %}
+                                {% ifequal settings.featured_member user.url_id %}
+                                    <form class="submit-wrapper" method="GET" action="{% url home %}">
+                                {% else %}
+                                    <form class="submit-wrapper" method="GET" action="{% url group_events %}">
+                                {% endifequal %}
+                            {% else %}
+                                {% if settings.home_member_events %}
+                                    <form class="submit-wrapper" method="GET" action="{% url group_events %}">
+                                {% else %}
+                                    <form class="submit-wrapper" method="GET" action="{% url home %}">
+                                {% endif %}
+                            {% endif %}
                             <button>{% trans "POST STUFF" %}</button>
-                        </form>
+                            </form>
                         {% endif %}
                     </div><!-- end #user-compose-friends -->
                     {% endif %}
