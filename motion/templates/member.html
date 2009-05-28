@@ -42,6 +42,10 @@
             {% if member.location %}
             <li><strong>{% trans "Location:" %}</strong> {{ member.location }}</em></li>
             {% endif %}
+            
+            {% if member.homepage %}
+            <li><strong>{% trans "Homepage:" %}</strong> <a href="{{ member.homepage }}">{{ member.homepage }}</a></em></li>
+            {% endif %}
 
             {% if member.interests %}
             <li><strong>{% trans "Interests:" %}</strong>
