@@ -25,11 +25,11 @@
                     <div id="user-compose-friends" class="design-compose-background">
                         {% if user.is_authenticated %}
                             {% if settings.featured_member %}
-                                {% ifequal settings.featured_member user.url_id %}
+                                {% if user.is_featured_member %}
                                     <form class="submit-wrapper" method="GET" action="{% url home %}">
                                 {% else %}
                                     <form class="submit-wrapper" method="GET" action="{% url group_events %}">
-                                {% endifequal %}
+                                {% endif %}
                             {% else %}
                                 {% if settings.home_member_events %}
                                     <form class="submit-wrapper" method="GET" action="{% url group_events %}">
