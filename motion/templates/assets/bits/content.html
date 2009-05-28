@@ -1,0 +1,8 @@
+{% load typepad_filters %}
+
+{% ifequal view "home" %}
+    {{ entry.content|urlize|linebreaks|truncatewords:settings.paragraph_wordcount }}
+    {{ entry|morelink:settings.paragraph_wordcount }}
+{% else %}
+    {{ entry.content|urlize|linebreaks }}
+{% endifequal %}
