@@ -1,1 +1,25 @@
 {% extends "member.html" %}
+
+{% block beta_widgets %}
+	{% include "widgets/members.html" %}
+{% endblock %}
+
+{% block content_body %}
+    <div class="actions">
+        <h2>{{ member.display_name }}'s Recent Activity</h2>
+
+	    {% if is_self and user.is_featured_member %}
+	    <div id="featured-member-compose" class="pkg">
+	        {% include "bits/compose_form.html" %}
+	    </div>
+	    {% endif %}
+
+        {% with page_obj.object_list as events %}
+        {% include "bits/event_list.html" %}
+        {% endwith %}
+    </div>
+
+    {% if twitter_username %}
+    <script type="text/javascript" src="http://profile.typepad.com/services/embed/twitter_status.js?u={{ twitter_username|iriencode }}" defer="defer"></script>
+    {% endif %}
+{% endblock %}
