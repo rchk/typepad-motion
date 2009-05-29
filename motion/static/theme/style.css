@@ -246,10 +246,10 @@ p {
     font-weight: bold;
     height: 15px; /* with padding, 31px */
     color: #777;
-    -moz-border-radius-topleft: 8px;
-    -moz-border-radius-topright: 8px;
-    -webkit-border-top-left-radius: 8px;
-    -webkit-border-top-right-radius: 8px;
+    -moz-border-radius-topleft: 4px;
+    -moz-border-radius-topright: 4px;
+    -webkit-border-top-left-radius: 4px;
+    -webkit-border-top-right-radius: 4px;
 }
 #nav li.current a {
 }
@@ -348,18 +348,18 @@ p {
 #user-compose-friends {
     background: #dceddc url(images/compose-bg.png) repeat-x 0 top;
     position: relative;
-    -moz-border-radius-topleft: 8px;
-    -moz-border-radius-topright: 8px;
-    -webkit-border-top-right-radius: 8px;
-    -webkit-border-top-left-radius: 8px;
+    -moz-border-radius-topleft: 4px;
+    -moz-border-radius-topright: 4px;
+    -webkit-border-top-right-radius: 4px;
+    -webkit-border-top-left-radius: 4px;
 /*    padding: 10px 20px 10px 20px;*/
 }
 #user-compose-friends-inner {
     margin-top: 10px;
     border: 5px solid #fff;
     background-color: #fff;
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
     margin-bottom: 25px;
 }
 .group-events #user-compose-friends-inner {
@@ -432,8 +432,8 @@ p {
 }
 #compose-inner {
     background-color: #f6f6f2;
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
     padding: 5px;
     text-align: center;
 }
@@ -515,8 +515,8 @@ p {
     width: 100%;
 }
 #form-compose .ta {
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
     -webkit-box-shadow: 0 2px 3px rgba(128,128,128,0.75);
     -moz-box-shadow: 0 2px 3px #777;
 }
