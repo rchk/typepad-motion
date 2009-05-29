@@ -181,6 +181,9 @@ p {
 .widget-sign-in a {
     text-decoration: none;
 }
+.widget-sign-in a:hover {
+    text-decoration: underline;
+}
 #header #header-description {
     margin: 0;
     border: 0;
@@ -1387,7 +1390,7 @@ button.button-delete {
     min-height: 68px;
 }
 .member-listitem .userpic {
-    margin-left: 10px;
+    margin-left: 5px;
     margin-top: 10px;
 }
 #alpha .member-listitem .userpic-link {
@@ -1401,7 +1404,7 @@ button.button-delete {
 }
 .member-listitem .member-info h4 {
     margin-bottom: 3px;
-    font-size: 16px;
+    font-size: 1em;
     font-weight: normal;
     white-space: nowrap;
 }
