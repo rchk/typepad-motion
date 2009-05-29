@@ -46,18 +46,15 @@ class AssetEventView(TypePadView):
         self.object_list.entries = [event for event in self.object_list.entries if isinstance(event.object, models.Asset)]
 
 
-class GroupEventsView(AssetEventView):
-    paginate_by = settings.EVENTS_PER_PAGE
+class AssetPostView(TypePadView):
+    """
+    Views that subclass AssetPostView may post new content
+    to a group.
+    """
     form = forms.PostForm
-    template_name = "events.html"
-
-    def select_from_typepad(self, request, page=1, view='events', *args, **kwargs):
-        self.object_list = request.group.events.filter(start_index=self.offset, max_results=self.limit)
-        memberships = request.group.memberships.filter(member=True)[:settings.MEMBERS_PER_WIDGET]
+    
+    def select_from_typepad(self, request, *args, **kwargs):
         if request.user.is_authenticated():
-            following = request.user.following(group=request.group, max_results=settings.FOLLOWERS_PER_WIDGET)
-            followers = request.user.followers(group=request.group, max_results=settings.FOLLOWERS_PER_WIDGET)
-            actions = request.user.group_events(request.group, max_results=0)
             upload_xhr_endpoint = reverse('upload_url')
             upload_complete_endpoint = urljoin(settings.FRONTEND_URL, reverse('upload_complete'))
         self.context.update(locals())
@@ -68,8 +65,23 @@ class GroupEventsView(AssetEventView):
             new_post = post.save(group=request.group)
             if request.is_ajax():
                 return self.render_to_response('assets/asset.html', { 'entry': new_post })
-            else:
-                return HttpResponseRedirect(reverse('home'))
+            else: # Return to current page.
+                return HttpResponseRedirect(request.path)
+
+
+class GroupEventsView(AssetEventView, AssetPostView):
+    paginate_by = settings.EVENTS_PER_PAGE
+    template_name = "events.html"
+
+    def select_from_typepad(self, request, page=1, view='events', *args, **kwargs):
+        self.object_list = request.group.events.filter(start_index=self.offset, max_results=self.limit)
+        memberships = request.group.memberships.filter(member=True)[:settings.MEMBERS_PER_WIDGET]
+        if request.user.is_authenticated():
+            following = request.user.following(group=request.group, max_results=settings.FOLLOWERS_PER_WIDGET)
+            followers = request.user.followers(group=request.group, max_results=settings.FOLLOWERS_PER_WIDGET)
+            actions = request.user.group_events(request.group, max_results=0)
+        self.context.update(locals())
+        super(GroupEventsView, self).select_from_typepad(request, *args, **kwargs)
 
 
 class FollowingEventsView(AssetEventView):
@@ -204,7 +216,7 @@ class MemberView(AssetEventView):
         return super(MemberView, self).get(request, userid, *args, **kwargs)
 
 
-class FeaturedMemberView(MemberView):
+class FeaturedMemberView(MemberView, AssetPostView):
     """ Featured Member Profile Page """
     template_name = "featured_member.html"
 
