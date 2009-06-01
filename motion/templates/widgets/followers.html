@@ -7,16 +7,18 @@ Template used for displaying a list of the users followers.
     <h3 class="design-highlight-color">{% trans "Followers" %}</h3>
     <div class="widget-content">
         <div class="summary">
+            <a href="{% url followers userid=member.url_id %}">
             <span class="count">
                 {{ followers.total_results }}
             </span>
-            <label>
+            <span class="label">
                 {% blocktrans count followers.total_results as count %}
                     Follower
                 {% plural %}
                     Followers
                 {% endblocktrans %}
-            </label>
+            </span>
+            </a>
         </div>
         <ul>
             {% for rel in followers %}
@@ -28,7 +30,7 @@ Template used for displaying a list of the users followers.
             {% endfor %}
         </ul>
         {% if followers %}
-        <div class="more"><a href="{% url followers userid=member.url_id %}">
+        <div class="more"><a href="{% url followers userid=member.url_id %}" title="View all">
         {% ifequal view "home" %}
             &gt;&gt;
         {% else %}

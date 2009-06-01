@@ -15,6 +15,12 @@ a:hover,
 a:active {
     color: #069;
 }
+a {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
 sup {
     font-size: small;
 }
@@ -70,6 +76,9 @@ p {
 }
 .members ul li {
     position: relative;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
 }
 .members ul li,
 .widget-followers ul li,
@@ -121,6 +130,7 @@ p {
 .submit-wrapper {
     float: right;
     text-align: right;
+    margin-bottom: 0;
 }
 .group-events .submit-wrapper {
     float: none;
@@ -137,6 +147,7 @@ p {
     padding: 5px 10px;
     font-weight: bold;
     font-size: 12px;
+    cursor: pointer;
 }
 .submit-wrapper button.posting {
     background-image: url(images/post-it-bg-disabled.png);
@@ -171,18 +182,11 @@ p {
 #header #header-name a {
     height: 85px;
     width: 400px;
-    text-decoration: none;
     display: block;
 }
 .widget-sign-in .separator {
     padding-right: 5px;
     padding-left: 5px;
-}
-.widget-sign-in a {
-    text-decoration: none;
-}
-.widget-sign-in a:hover {
-    text-decoration: underline;
 }
 #header #header-description {
     margin: 0;
@@ -369,7 +373,7 @@ p {
     margin-bottom: 10px;
 }
 #featured-member-compose {
-    margin: 20px 0 20px 10px;
+    /* margin: 20px 0 20px 10px; */
 }
 #user-username {
     font-size: large;
@@ -385,7 +389,7 @@ p {
     display: none;
 }
 .widget-following, .widget-followers {
-    border-top: 1px dotted #777;
+    border-top: 1px dotted #ddd;
     margin-top: 10px;
     padding-top: 5px;
 }
@@ -399,12 +403,14 @@ p {
     font-size: 12px;
     float: right;
 }
-#friends .summary label {
-    font-size: 1.1em;
+#friends .summary a {
+    text-decoration: none;
+    line-height: 1.1;
+}
+#friends .summary .label {
     color: #777;
 }
 #friends .summary .count {
-    color: #069;
     font-size: 2em;
 }
 #friends .summary {
@@ -423,7 +429,7 @@ p {
     clear: both;
 }
 #compose-prompt {
-    margin: 5px 10px;
+    margin: 5px 2px;
     font-size: 1.5em;
     text-align: left;
     position: absolute;
@@ -437,7 +443,7 @@ p {
     background-color: #f6f6f2;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
-    padding: 5px;
+    padding: 10px;
     text-align: center;
 }
 #compose h3 {
@@ -459,7 +465,7 @@ p {
 }
 #compose-userpic {
     border: 1px solid #ccc;
-    padding: 3px;
+    padding: 2px;
     width: 50px;
     height: 50px;
     background: #fff;
@@ -511,17 +517,18 @@ p {
 #form-compose .ti,
 #form-compose .ta {
     font-size: 13px;
-    border: 1px solid #888;
-    width: 100%;
+    border: 1px solid #bbb;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    width: 550px;
+    padding: 2px 4px;
+    font-family: Arial, Verdana, "Sans-Serif";
 }
 #form-compose .fi {
     width: 100%;
 }
 #form-compose .ta {
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    -webkit-box-shadow: 0 2px 3px rgba(128,128,128,0.75);
-    -moz-box-shadow: 0 2px 3px #777;
+    height: 90px;
 }
 #form-compose label {
 }
@@ -547,7 +554,7 @@ p {
     background-image: url(images/post-types.png);
     background-repeat: no-repeat;
     background-position: 0 -65px;
-    margin: 6px 1px 0 0;
+    margin: 0px 1px 0 0;
 }
 #entry-types li a .hint {
     position: absolute;
@@ -717,6 +724,7 @@ button.button-delete {
 .action {
     /* padding-bottom: 25px; */
     border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
     background-color: #f6f6f2;
     position: relative;
     list-style-type: none;
@@ -742,13 +750,13 @@ button.button-delete {
 }
 .asset .asset-body, 
 .action .asset-body { 
-    margin-bottom: 25px;
+    margin-bottom: 10px;
 }
 
 .asset-meta {
     font-size: 11px;
     color: #aaa;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
     background-repeat: no-repeat;
     background-position: 10px 6px;
 }
@@ -784,6 +792,7 @@ button.button-delete {
 .asset .asset-meta .trackback-count,
 .asset .asset-meta .comment-count {
     margin: 8px 10px 7px 0;
+    line-height: 20px;
 }
 
 .asset .asset-meta .byline {
@@ -806,7 +815,7 @@ button.button-delete {
     background-position: 10px 50%;
     text-decoration: none;
     font-weight: bold;
-    line-height: 16px;
+    line-height: 20px;
 }
 .asset .asset-meta .comment-count {
     background: url(../../images/icons/comments.png) no-repeat 0 0;
@@ -833,6 +842,7 @@ button.button-delete {
     position: absolute;
     top: 0;
     right: 0;
+    line-height: 16px;
 }
 .asset .asset-meta .favorite-action:hover {
     background-position: right -32px; /*-16px;*/
@@ -847,6 +857,7 @@ button.button-delete {
 }
 .asset-meta a {
     color: #aaa;
+    text-decoration: underline;
 }
 .hover a,
 .noscript .asset-meta a,
@@ -910,20 +921,12 @@ button.button-delete {
     margin-bottom: .5em;
     padding: 0 10px;
 }
-#alpha .asset h1 a,
-#alpha .asset h2 a {
-    color: #222;
-}
-#alpha .asset h1 a:hover,
-#alpha .asset h2 a:hover {
-    color: #069;
-}
 
 /* textpost */
 
 #alpha .asset h1,
 #alpha .asset h2 {
-    font-size: 24px;
+    font-size: 20px;
     margin-bottom: 10px;
     font-weight: normal;
 }
