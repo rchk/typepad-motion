@@ -219,6 +219,11 @@ class MemberView(AssetEventView):
 class FeaturedMemberView(MemberView, AssetPostView):
     """ Featured Member Profile Page """
     template_name = "featured_member.html"
+    
+    def select_from_typepad(self, request, userid, *args, **kwargs):
+        super(FeaturedMemberView, self).select_from_typepad(request, userid, *args, **kwargs)
+        memberships = request.group.memberships.filter(member=True)[:settings.MEMBERS_PER_WIDGET]
+        self.context.update(locals())
 
 
 class RelationshipsView(TypePadView):
