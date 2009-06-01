@@ -54,7 +54,7 @@ class MemberFeed(TypePadAssetFeed):
             self.request.group.display_name)
 
     def items(self, obj):
-        return filter(None, [event.object or deleted_asset for event in obj.events])
+        return filter(None, [event.object for event in obj.events])
 
 
 class CommentsFeed(TypePadAssetFeed):
