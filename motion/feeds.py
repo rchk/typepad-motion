@@ -4,6 +4,7 @@ import typepad
 from typepadapp import models
 import settings
 
+
 class PublicEventsFeed(Feed):
     feed_type = Atom1Feed
 
@@ -30,6 +31,7 @@ class PublicEventsFeed(Feed):
     def item_pubdate(self, item):
         return item.published
 
+
 class MemberFeed(Feed):
     feed_type = Atom1Feed
     description_template = 'assets/feed.html'
@@ -40,7 +42,7 @@ class MemberFeed(Feed):
             raise ObjectDoesNotExist
         userid = bits[0]
         typepad.client.batch_request()
-        models.User.get_by_url_id(userid)
+        user = models.User.get_by_url_id(userid)
         typepad.client.complete_batch()
         return user
 
@@ -57,9 +59,10 @@ class MemberFeed(Feed):
 
     def items(self, obj):
         typepad.client.batch_request()
-        events = obj.group_events(max_results=settings.ITEMS_PER_FEED)
+        events = obj.group_events(models.GROUP, max_results=settings.ITEMS_PER_FEED)
         typepad.client.complete_batch()
-        return [event.object for event in events]
+        return [event.object for event in events if isinstance(event.object, models.Asset)]
+
 
 class CommentsFeed(Feed):
     feed_type = Atom1Feed
