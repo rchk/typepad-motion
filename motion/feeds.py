@@ -1,50 +1,45 @@
-from django.contrib.syndication.feeds import Feed
-from django.utils.feedgenerator import Atom1Feed
-import typepad
+from datetime import datetime
+
+from django.conf import settings
+from django.core.urlresolvers import reverse
+
 from typepadapp import models
-import settings
+from typepadapp.views.base import TypePadAssetFeed
 
 
-class PublicEventsFeed(Feed):
-    feed_type = Atom1Feed
-
-    title = "Recent Entries in %s" % models.GROUP.display_name
-    link = "/"
-    subtitle = models.GROUP.tagline
+class PublicEventsFeed(TypePadAssetFeed):
     description_template = 'assets/feed.html'
 
-    def items(self):
-        typepad.client.batch_request()
-        events = models.GROUP.events.filter(max_results=settings.ITEMS_PER_FEED)
-        typepad.client.complete_batch()
-        return [event.object for event in events]
+    def title(self):
+        return "Recent Entries in %s" % self.request.group.display_name
 
-    def item_link(self, item):
-        return item.get_absolute_url()
+    def link(self):
+        return reverse("group_events")
 
-    def item_author_name(self, item):
-        return item.author.display_name
+    def subtitle(self):
+        return self.request.group.tagline
 
-    def item_author_link(self, item):
-        return item.author.get_absolute_url()
-
-    def item_pubdate(self, item):
-        return item.published
-
-
-class MemberFeed(Feed):
-    feed_type = Atom1Feed
-    description_template = 'assets/feed.html'
+    def select_from_typepad(self, *args, **kwargs):
+        self.items = self.request.group.events.filter(max_results=settings.ITEMS_PER_FEED)
 
     def get_object(self, bits):
+        super(PublicEventsFeed, self).get_object(bits)
+        self.items = filter(None, [event.object for event in self.items])
+
+
+class MemberFeed(TypePadAssetFeed):
+    description_template = 'assets/feed.html'
+
+    def select_from_typepad(self, bits, *args, **kwargs):
         # check that bits has only one member (just the userid)
         if len(bits) != 1:
             raise ObjectDoesNotExist
         userid = bits[0]
-        typepad.client.batch_request()
         user = models.User.get_by_url_id(userid)
-        typepad.client.complete_batch()
-        return user
+        events = user.group_events(self.request.group,
+            max_results=settings.ITEMS_PER_FEED)
+        user.events = events
+        self.object = user
 
     def title(self, obj):
         return "Recent Entries from %s" % obj.display_name
@@ -55,28 +50,26 @@ class MemberFeed(Feed):
         return obj.get_absolute_url()
 
     def subtitle(self, obj):
-        return "Recent Entries from %s in %s." % (obj.display_name, models.GROUP.display_name)
+        return "Recent Entries from %s in %s." % (obj.display_name,
+            self.request.group.display_name)
 
     def items(self, obj):
-        typepad.client.batch_request()
-        events = obj.group_events(models.GROUP, max_results=settings.ITEMS_PER_FEED)
-        typepad.client.complete_batch()
-        return [event.object for event in events if isinstance(event.object, models.Asset)]
+        return filter(None, [event.object or deleted_asset for event in obj.events])
 
 
-class CommentsFeed(Feed):
-    feed_type = Atom1Feed
+class CommentsFeed(TypePadAssetFeed):
     description_template = 'assets/feed.html'
 
-    def get_object(self, bits):
+    def select_from_typepad(self, bits, *args, **kwargs):
         # check that bits has only one member (just the asset id)
         if len(bits) != 1:
             raise ObjectDoesNotExist
         assetid = bits[0]
-        typepad.client.batch_request()
         asset = models.Asset.get_by_url_id(assetid)
-        typepad.client.complete_batch()
-        return asset
+        comments = asset.comments.filter(start_index=1,
+            max_results=settings.ITEMS_PER_FEED)
+        self.items = comments
+        self.object = asset
 
     def title(self, obj):
         return "Recent Comments on %s" % obj
@@ -87,13 +80,4 @@ class CommentsFeed(Feed):
         return obj.get_absolute_url()
 
     def subtitle(self, obj):
-        return "Recent Comments on %s in %s." % (obj, models.GROUP.display_name)
-
-    def items(self, obj):
-        typepad.client.batch_request()
-        comments = obj.comments.filter(start_index=1, max_results=settings.COMMENTS_PER_PAGE)
-        typepad.client.complete_batch()
-        return comments
-
-    def item_link(self, item):
-        return item.get_absolute_url()
+        return "Recent Comments on %s in %s." % (obj, self.request.group.display_name)
