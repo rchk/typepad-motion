@@ -1034,6 +1034,10 @@ button.button-delete {
 .widget-ad .widget-content {
     margin: 0 !important;
 }
+.widget-ad h4 {
+    color: #777777;
+    margin-bottom: 6px;
+}
 #beta h2,
 #beta h3 {
     color: #f60;
