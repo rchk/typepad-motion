@@ -15,7 +15,10 @@
             {% if member.email %}
                 <p><a href="mailto:{{ member.email }}">{% blocktrans with member.display_name as name %}Email {{ name }}{% endblocktrans %}</a></p>
             {% endif %}
-            <!--p><a href="">{% blocktrans with member.display_name as name %}Ban {{ name }}{% endblocktrans %}</a></p-->
+            <p><a href="#" onclick="if (confirm(
+                {% blocktrans %}'Are you sure you want to ban this member? They will no longer be able to post or comment within the group.'{% endblocktrans %}))
+                { alert('Just kidding... you cannot ban anyone yet!')} return false;">
+            {% blocktrans with member.display_name as name %}Ban {{ name }}{% endblocktrans %}</a></p>
         </div>
     {% endif %}
     {% include "widgets/typepad_frame.html" %}
