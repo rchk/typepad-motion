@@ -74,6 +74,7 @@ class GroupEventsView(AssetEventView, AssetPostView):
     template_name = "events.html"
 
     def select_from_typepad(self, request, page=1, view='events', *args, **kwargs):
+        self.paginate_template = reverse('group_events') + '/page/%d'
         self.object_list = request.group.events.filter(start_index=self.offset, max_results=self.limit)
         memberships = request.group.memberships.filter(member=True)[:settings.MEMBERS_PER_WIDGET]
         if request.user.is_authenticated():
