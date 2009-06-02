@@ -15,9 +15,9 @@ class PostForm(forms.Form):
         user-selected post type.
     """
     # Default text field messages
-    body_default_text = u'Say something...'
+    body_default_text = u''
     title_default_text = u'Title'
-    url_default_text = u'URL of web page'
+    url_default_text = u'http://'
     embed_default_text = u'Paste embed code'
 
     post_type = forms.CharField(widget=forms.HiddenInput())
