@@ -6,7 +6,7 @@
             <span class="separator">|</span>
             {% url register as register_url %}
             {% blocktrans with request.group.display_name as group_name %}
-                Not a member? <a href="{{ register_url }}">Join {{ group_name }}</a>
+                <a href="{{ register_url }}">Join {{ group_name }}</a>
             {% endblocktrans %}
         {% else %}
             {% blocktrans with user.get_absolute_url as url and user.display_name as name %}Hi <a href="{{ url }}">{{ name }}</a>{% endblocktrans %}
