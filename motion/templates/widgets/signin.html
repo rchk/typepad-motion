@@ -5,7 +5,9 @@
             <a href="{% url login %}?next={{ request.path|urlencode }}">{% trans "Sign In" %}</a>
             <span class="separator">|</span>
             {% url register as register_url %}
-            {% blocktrans %}Not a member? <a href="{{ register_url }}">Register</a>{% endblocktrans %}
+            {% blocktrans with request.group.display_name as group_name %}
+                Not a member? <a href="{{ register_url }}">Join {{ group_name }}</a>
+            {% endblocktrans %}
         {% else %}
             {% blocktrans with user.get_absolute_url as url and user.display_name as name %}Hi <a href="{{ url }}">{{ name }}</a>{% endblocktrans %}
             <span class="separator">|</span>
