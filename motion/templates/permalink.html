@@ -40,6 +40,13 @@
                 {% plural %}
                     {{ count }} Comments
                 {% endblocktrans %}
+                {% if not user.is_authenticated %}
+                    {% url login as login_url %}
+                    {% url register as register_url %}
+                    {% blocktrans with request.group.display_name as group_name and request.path|urlencode as next %}
+                    | <a href="{{ login_url }}?next={{ next }}">Sign in</a> or <a href="{{ register_url }}">join {{ group_name }}</a> to add a comment.
+                    {% endblocktrans %}
+                {% endif %}
             </h2>
             <div id="comments-content" class="comments-content">
             {% for comment in comments %}
