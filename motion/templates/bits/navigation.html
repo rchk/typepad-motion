@@ -32,14 +32,14 @@
 
                 {# Following events is homepage #}
                 {% if user.is_authenticated %}
-                    <li class="home{% ifequal view 'home' %} current{% endifequal %}">
+                    <li class="home{% ifequal view 'home' %} current{% endifequal %} {% if request.path|regex_starts_with:url_following_events %} current{% endif %}">
                         <a href="{{ url_home }}">{% trans "Following" %}</a>
                     </li>
                     <li class="events{% if request.path|regex_starts_with:url_group_events %} current{% endif %}">
                         <a href="{{ url_group_events }}">{% trans "Public Timeline" %}</a>
                     </li>
                 {% else %}
-                    <li class="home{% ifequal view 'home' %} current{% endifequal %}">
+                    <li class="home{% ifequal view 'home' %} current{% endifequal %}{% if request.path|regex_starts_with:url_group_events %} current{% endif %}">
                         <a href="{{ url_home }}">{% trans "Public Timeline" %}</a>
                     </li>
                 {% endif %}
@@ -50,7 +50,7 @@
             {% else %}
 
                 {# Group events is homepage #}
-                <li class="home{% ifequal view 'home' %} current{% endifequal %}">
+                <li class="home{% ifequal view 'home' %} current{% endifequal %}{% if request.path|regex_starts_with:url_group_events %} current{% endif %}">
                     <a href="{{ url_home }}">{% trans "Public Timeline" %}</a>
                 </li>
                 <li class="following{% if request.path|regex_starts_with:url_following_events %} current{% endif %}">
