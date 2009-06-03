@@ -116,6 +116,7 @@ class AssetView(TypePadView):
     def select_from_typepad(self, request, postid, *args, **kwargs):
         entry = models.Asset.get_by_url_id(postid)
         comments = entry.comments.filter(start_index=1, max_results=settings.COMMENTS_PER_PAGE)
+        favorites = entry.favorites
         self.context.update(locals())
 
     def post(self, request, postid, *args, **kwargs):

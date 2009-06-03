@@ -23,6 +23,9 @@
 
 {% block beta_widgets %}
 {% include "widgets/ads.html" %}
+{% if favorites %}
+{% include "widgets/favorited.html" %}
+{% endif %}
 {% endblock %}
 
 {% block content_body %}
@@ -33,7 +36,7 @@
     </div>
 
     <div id="comments" class="actions comments">
-    
+
         {% if comments %}
             <div id="comments-list">
                 <h2 class="comments-header">
