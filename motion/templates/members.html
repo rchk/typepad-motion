@@ -19,20 +19,20 @@ Template used for displaying the member directory for the group.
     {% if rel %}
         {% ifequal rel "following" %}
             {% blocktrans count page_obj.paginator.count as count and member.display_name as name %}
-                {{ name }} follows {{ count }} person.
+                {{ name }} follows 1 person.
             {% plural %}
                 {{ name }} follows {{ count }} people.
             {% endblocktrans %}
         {% else %}
             {% blocktrans count page_obj.paginator.count as count and member.display_name as name %}
-                {{ name }}'s {{ count }} Follower
+                {{ name }}&rsquo;s 1 Follower
             {% plural %}
-                {{ name }}'s {{ count }} Followers
+                {{ name }}&rsquo;s {{ count }} Followers
             {% endblocktrans %}
         {% endifequal %}
     {% else %}
         {% blocktrans count page_obj.paginator.count as count %}
-            {{ count }} Member
+            1 Member
         {% plural %}
             {{ count }} Members
         {% endblocktrans %}

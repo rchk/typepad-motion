@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block head_title %}{% blocktrans with block.super as super and member.display_name as name %}{{ super }}: {{ name }}'s Profile{% endblocktrans %}{% endblock %}
+{% block head_title %}{% blocktrans with block.super as super and member.display_name as name %}{{ super }}: {{ name }}&rsquo;s Profile{% endblocktrans %}{% endblock %}
 {% block page_id %}user-profile{% endblock %}
 
 {% block feed %}
