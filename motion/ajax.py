@@ -1,5 +1,3 @@
-from urlparse import urljoin
-
 from django import http
 from django.conf import settings
 from django.template.loader import render_to_string
@@ -93,7 +91,7 @@ def upload_url(request):
     Return an upload URL that the client can use to POST a media asset.
     """
     ## TODO backend url from api
-    remote_url = urljoin(settings.BACKEND_URL, models.APPLICATION.browser_upload_endpoint)
+    remote_url = request.application.browser_upload_endpoint
     url = request.oauth_client.get_file_upload_url(remote_url)
     url = 'for(;;);%s' % url # no third party sites allowed.
     return http.HttpResponse(url)
