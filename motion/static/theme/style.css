@@ -400,6 +400,7 @@ p {
 #user-compose-friends .widget-following .more,
 #user-compose-friends .widget-followers .more {
     padding-top: 7px;
+    margin-right: 6px;
     font-size: 12px;
     float: right;
 }
