@@ -24,7 +24,7 @@ def home(request, page=1):
     """
     if settings.FEATURED_MEMBER:
         # Home page is a featured user.
-        return FeaturedMemberView(request, settings.FEATURED_MEMBER, view='home')
+        return FeaturedMemberView(request, settings.FEATURED_MEMBER, page=page, view='home')
     if settings.HOME_MEMBER_EVENTS:
         from django.contrib.auth import get_user
         typepad.client.batch_request()
@@ -225,6 +225,7 @@ class FeaturedMemberView(MemberView, AssetPostView):
     def select_from_typepad(self, request, userid, *args, **kwargs):
         super(FeaturedMemberView, self).select_from_typepad(request, userid, *args, **kwargs)
         memberships = request.group.memberships.filter(member=True)[:settings.MEMBERS_PER_WIDGET]
+        self.paginate_template = '/page/%d'
         self.context.update(locals())
 
 
