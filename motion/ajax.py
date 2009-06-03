@@ -7,8 +7,10 @@ from django.utils import simplejson
 import typepad
 from typepadapp import models
 import typepadapp.forms
+from typepadapp.decorators import ajax_required
 
 
+@ajax_required
 def more_comments(request):
     """
     Fetch more comments for the asset and return the HTML
@@ -39,6 +41,7 @@ def more_comments(request):
     return http.HttpResponse(comment_string)
 
 
+@ajax_required
 def favorite(request):
     """
     Add this item to the user's favorites. Return OK.
@@ -68,6 +71,7 @@ def favorite(request):
     return http.HttpResponse('OK')
     
 
+@ajax_required
 def edit_profile(request):
 
     typepad.client.batch_request()
@@ -86,6 +90,7 @@ def edit_profile(request):
         return http.HttpResponse(simplejson.dumps({'status': 'error', 'data': ','.join(errorfields)}))
 
 
+@ajax_required
 def upload_url(request):
     """
     Return an upload URL that the client can use to POST a media asset.
