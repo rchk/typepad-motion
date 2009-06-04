@@ -21,11 +21,11 @@ class PostForm(forms.Form):
     embed_default_text = u'Paste embed code'
 
     post_type = forms.CharField(widget=forms.HiddenInput())
-    body = forms.CharField(widget=forms.Textarea(attrs={'rows': 5, 'cols': 50, 'title':body_default_text, 'id':'compose-body'}))
-    title = forms.CharField(widget=forms.TextInput(attrs={'title':title_default_text, 'id':'compose-title'}))
-    url = forms.URLField(widget=forms.TextInput(attrs={'title':url_default_text, 'id':'compose-url'}))
-    file = forms.FileField(widget=forms.FileInput(attrs={'name':'file', 'id':'compose-file'}))
-    embed = forms.CharField(widget=forms.Textarea(attrs={'rows': 5, 'cols': 50, 'title':embed_default_text, 'id':'compose-embed'}))
+    body = forms.CharField(widget=forms.Textarea(attrs={'rows': 5, 'cols': 50, 'title':body_default_text, 'id':'compose-body', 'class':'ta'}))
+    title = forms.CharField(widget=forms.TextInput(attrs={'title':title_default_text, 'id':'compose-title', 'class':'ti'}))
+    url = forms.URLField(widget=forms.TextInput(attrs={'title':url_default_text, 'id':'compose-url', 'class':'ti'}))
+    file = forms.FileField(widget=forms.FileInput(attrs={'name':'file', 'id':'compose-file', 'class':'fi'}))
+    embed = forms.CharField(widget=forms.Textarea(attrs={'rows': 5, 'cols': 50, 'title':embed_default_text, 'id':'compose-embed', 'class':'ta'}))
 
     def is_valid(self, *args, **kwargs):
         # remove/require form fields based on the note type
@@ -51,6 +51,7 @@ class PostForm(forms.Form):
                 raise forms.ValidationError(_('This field is required.'))
         if self.cleaned_data['body'] == self.body_default_text:
             return ''
+        # TODO: support for certain HTML tags?
         return self.cleaned_data['body']
 
     def clean_url(self):
@@ -64,12 +65,15 @@ class PostForm(forms.Form):
         """ Create the new post and return it,
             but don't actually post it to the TypePad API.
         """
-        # TBD: this could be cleaner; models.class_by_type(post_type)?
+        # TODO: this could be cleaner; models.class_by_type(post_type)?
         if self.cleaned_data['post_type'] == 'link':
             post = typepadapp.models.LinkAsset()
             post.link = self.cleaned_data['url']
+        elif self.cleaned_data['post_type'] == 'embed':
+            post = typepadapp.models.Video()
         else:
             post = typepadapp.models.Post()
+
         if settings.USE_TITLES:
             post.title = self.cleaned_data['title']
         else:

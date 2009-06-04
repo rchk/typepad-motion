@@ -523,6 +523,7 @@ p {
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
     width: 550px;
+    max-width: 550px;
     padding: 2px 4px;
     font-family: Arial, Verdana, "Sans-Serif";
 }
@@ -1787,9 +1788,9 @@ ul.profile-data li .edit {
 }
 #form-compose .ti,
 #form-compose .ta {
-    width: 560px;
+    width: 550px;
     /* Prevents horizontal sizing of textarea with Safari */
-    max-width: 560px;
+    max-width: 550px;
 }
 .asset-body img {
     max-width: 460px;
