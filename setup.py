@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from distutils.core import setup
+from setuptools import setup
 setup(
     name='motion',
     version='1.0',
@@ -10,5 +10,7 @@ setup(
 
     packages=['motion'],
     provides=['motion'],
+    include_package_data=True,
+    zip_safe=False,
     requires=['Django(>=1.0.2)', 'typepadapp'],
 )
