@@ -1,4 +1,5 @@
 from urlparse import urljoin
+import re
 
 from django.conf import settings
 from django.shortcuts import render_to_response
@@ -225,7 +226,12 @@ class FeaturedMemberView(MemberView, AssetPostView):
     def select_from_typepad(self, request, userid, *args, **kwargs):
         super(FeaturedMemberView, self).select_from_typepad(request, userid, *args, **kwargs)
         memberships = request.group.memberships.filter(member=True)[:settings.MEMBERS_PER_WIDGET]
-        self.paginate_template = '/page/%d'
+        # this view can be accessed in different ways; lets preserve the
+        # request path used, and strip off any pagination portion to construct
+        # the pagination template
+        path = request.path
+        path = re.sub('(/page/\d+)?/?$', '', path)
+        self.paginate_template = path + '/page/%d'
         self.context.update(locals())
 
 
