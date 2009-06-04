@@ -132,7 +132,7 @@ p {
     text-align: right;
     margin-bottom: 0;
 }
-.group-events .submit-wrapper {
+#form-compose .submit-wrapper {
     float: none;
 }
 .submit-wrapper button {
@@ -262,11 +262,12 @@ p {
 }
 
 /* Main Index */
-.group-events .submit-wrapper {
-    text-align: center;
+#form-compose .submit-wrapper {
+    text-align: center !important;
 }
+.featured-member .asset-body img,
 .group-events .asset-body img {
-    max-height: 15em;
+    max-height: 20em;
     width: auto;
 }
 #user-compose-friends {
@@ -1372,6 +1373,7 @@ button.button-delete {
 
 /* Members ---------------------------------------------------------------------------------- */
 
+.featured-member .actions h2,
 .user-profile .actions h2,
 .members-list #page-title {
     border-bottom: 1px dotted #ddd;
