@@ -6,14 +6,6 @@
 	{% include "widgets/members.html" %}
 {% endblock %}
 
-{% block content_head %}
-{% if is_self and user.is_featured_member %}
-<div id="user-compose-friends" class="design-compose-background"></div>
-{% else %}
-{{ block.super }}
-{% endif %}
-{% endblock %}
-
 {% block content_body %}
     {% if is_self and user.is_featured_member %}
 	    <div id="featured-member-compose" class="pkg">

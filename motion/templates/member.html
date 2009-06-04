@@ -75,12 +75,6 @@
     </div>
     
     {% include "bits/profile.html" %}
-    
-    {% if is_self and user.is_featured_member %}
-    <div id="featured-member-compose" class="pkg">
-        {% include "bits/compose_form.html" %}
-    </div>
-    {% endif %}
 
     <div class="actions">
         <h2>Recent Activity</h2>
