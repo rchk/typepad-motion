@@ -1,8 +1,14 @@
 {% load i18n %}
 <div class="widget-about-site widget">
-    <h3 class="design-highlight-color">About</h3>
-    <div class="widget-content">
-        {% trans "You are using the Potion alpha, codename Orchid. Please report any bugs/unexpected behavior to chall@sixapart.com." %}<br />
-        <a href="{% url terms %}">{% trans "Terms of Service" %}</a> <span class="separator">&bull;</span> <a href="{% url privacy %}">{% trans "Privacy" %}</a>
-    </div><!-- end .widget-content -->
+    {% if user.is_authenticated %}
+    <div><a href="{{ user.typepad_membership_management_url }}">{% trans "Manage your TypePad Motion memberships" %}</a></div>
+    {% endif %}
+    <div>
+        <a href="{% url terms %}">{% trans "Terms of Service" %}</a>
+        <span class="separator">&bull;</span>
+        <a href="{% url privacy %}">{% trans "Privacy" %}</a>
+    </div>
+    <div>
+        {% trans "You are using the Potion alpha, codename Orchid. Please report any bugs/unexpected behavior to chall@sixapart.com." %}
+    </div>
 </div><!-- end .widget-about-site -->
