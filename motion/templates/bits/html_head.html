@@ -44,8 +44,7 @@ user = {
     name: '{{ user.display_name|escapejs }}',
     email: '{{ user.email|escapejs }}',
     url: '{{ user.aboutMe|escapejs }}',
-    userpic: '{{ user.userpic|escapejs }}',
-    oauth_token: '{{ request.oauth_client.token.key }}'
+    userpic: '{{ user.userpic|escapejs }}'
 };
 {% endif %}
 settings.upload_xhr_endpoint = '{{ upload_xhr_endpoint|escapejs }}';
