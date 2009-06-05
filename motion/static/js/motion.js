@@ -149,20 +149,20 @@ $(document).ready(function () {
 
     // Entry Field Manager
         // Field types
-        var fieldTypes = ['title','body','url',"file",'embed','tags'];
+        var fieldTypes = ['title','body','url',"file",'tags'];
         // Entry Editor
         var entryTypes = {
             "entry-post": ['title','body','tags'],
             "entry-photo": ['title','body','tags','file'],
             "entry-link": ['title','body','tags','url'],
-            "entry-embed": ['title','body','tags','embed'],
+            "entry-video": ['title','body','tags','url'],
             "entry-audio": ['title','body','tags','file']
         };
         var entryClasses = {
             "entry-link":  "link",
             "entry-photo": "photo",
             "entry-audio": "audio",
-            "entry-embed": "embed"
+            "entry-video": "video"
         };
         function updateEntryFields(entryType, speed) {
             if (!entryType.length) return;
