@@ -22,7 +22,11 @@
 
         {% if entry.source %}
         <span class="source">
-            to
+            {% if entry.source.by_user %}
+                to
+            {% else %}
+                from 
+            {% endif %}
             {% with entry.source.original_link.href as original_href %}
                 {% if entry.source.provider %}
                     <a href="{{ original_href }}"><img src="{{ entry.source.provider.icon }}" /></a>
