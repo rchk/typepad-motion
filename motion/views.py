@@ -184,7 +184,7 @@ class MemberView(AssetEventView):
         self.paginate_template = reverse('member', args=[userid]) + '/page/%d'
         # FIXME: this should be conditioned if possible, so we don't load
         # the same user twice if a user is viewing their own profile.
-        memberships = models.User.get_by_url_id(userid).memberships.filter(by_group=request.group)
+        user_memberships = models.User.get_by_url_id(userid).memberships.filter(by_group=request.group)
         elsewhere = models.User.get_by_url_id(userid).elsewhere_accounts
         # following/followers are shown on TypePad-supplied widget now; no need to select these
         # following = member.following(group=request.group)
@@ -196,7 +196,7 @@ class MemberView(AssetEventView):
         ## TODO figure out if we can get the group user more directly.
         try:
             # Verify this user is a member of the group.
-            self.context['member'] = self.context['memberships'][0].target
+            self.context['member'] = self.context['user_memberships'][0].target
         except IndexError:
             raise Http404
         self.context['is_self'] = request.user.id == self.context['member'].id
