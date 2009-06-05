@@ -947,6 +947,13 @@ button.button-delete {
     background: url(../../images/icons/external_link.gif) no-repeat right 40%;
 }
 
+/* videopost */
+
+.asset.video .asset-content object,
+.asset.video .asset-content embed {
+    clear: both;
+}
+
 
 .user-profile .asset .asset-content,
 .user-profile .asset .asset-meta {
