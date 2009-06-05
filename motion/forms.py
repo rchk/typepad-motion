@@ -18,14 +18,12 @@ class PostForm(forms.Form):
     body_default_text = u''
     title_default_text = u'Title'
     url_default_text = u'http://'
-    embed_default_text = u'Paste embed code'
 
     post_type = forms.CharField(widget=forms.HiddenInput())
     body = forms.CharField(widget=forms.Textarea(attrs={'rows': 5, 'cols': 50, 'title':body_default_text, 'id':'compose-body', 'class':'ta'}))
     title = forms.CharField(widget=forms.TextInput(attrs={'title':title_default_text, 'id':'compose-title', 'class':'ti'}))
     url = forms.URLField(widget=forms.TextInput(attrs={'title':url_default_text, 'id':'compose-url', 'class':'ti'}))
     file = forms.FileField(widget=forms.FileInput(attrs={'name':'file', 'id':'compose-file', 'class':'fi'}))
-    embed = forms.CharField(widget=forms.Textarea(attrs={'rows': 5, 'cols': 50, 'title':embed_default_text, 'id':'compose-embed', 'class':'ta'}))
 
     def is_valid(self, *args, **kwargs):
         # remove/require form fields based on the note type
@@ -33,7 +31,6 @@ class PostForm(forms.Form):
         self.fields['body'].required = post_type == 'post'
         self.fields['url'].required = post_type == 'link'
         self.fields['file'].required = post_type == 'photo' or post_type == 'audio'
-        self.fields['embed'].required = post_type == 'embed'
         self.fields['title'].required = False
         #log.debug('PostForm is_valid() fields: %s' % self.fields)
         return super(PostForm, self).is_valid(*args, **kwargs)
@@ -56,7 +53,7 @@ class PostForm(forms.Form):
 
     def clean_url(self):
         # Check that the URL field is valid.
-        if self.cleaned_data['post_type'] != 'link': return None
+        if self.cleaned_data['post_type'] not in ('link', 'video'): return None
         if self.cleaned_data['url'] == self.url_default_text:
             raise forms.ValidationError(_('This field is required.'))
         return self.cleaned_data['url']
@@ -69,9 +66,9 @@ class PostForm(forms.Form):
         if self.cleaned_data['post_type'] == 'link':
             post = typepadapp.models.LinkAsset()
             post.link = self.cleaned_data['url']
-        elif self.cleaned_data['post_type'] == 'embed':
+        elif self.cleaned_data['post_type'] == 'video':
             post = typepadapp.models.Video()
-            post.html = self.cleaned_data['embed']
+            post.link = self.cleaned_data['url']
         else:
             post = typepadapp.models.Post()
 

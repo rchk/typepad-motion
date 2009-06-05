@@ -24,11 +24,12 @@
                     <div id="field-url" class="field" style="display:none">
                         {% if form.errors.url %}<div class="form-error">{{ form.errors.url|join:" " }}</div>{% endif %}
                         {{ form.url }}
-                        <em id="hint-url">{% trans "URL of a web page." %}</em>
-                    </div>
+                        <em id="hint-link">{% trans "URL of a web page." %}</em>
+                        <em id="hint-video">{% trans "URL of a YouTube or Vimeo video." %}</em>
+                    </div><!-- end #field-url -->
                     <div id="field-file" class="field" style="display:none">
-                        <label id="label-audio" for="compose-file">{% trans "Select audio file" %}</label>
-                        <label id="label-photo" for="compose-file">{% trans "Select photo file" %}</label>
+                        <label id="label-audio" for="compose-file">{% trans "Select an audio file" %}</label>
+                        <label id="label-photo" for="compose-file">{% trans "Select a photo file" %}</label>
                         {% if form.errors.file %}<div class="form-error">{{ form.errors.file|join:" " }}</div>{% endif %}
                         {{ form.file }}<br />
                         <em id="hint-audio">{% trans "Only MP3, AAC and M4A audio files are supported." %}</em>
@@ -48,7 +49,7 @@
                         {% endif %}
                         {% if form.errors.body %}<div class="form-error">{{ form.errors.body|join:" " }}</div>{% endif %}
                         {{ form.body }}
-                    </div>
+                    </div><!-- end #field-body -->
                     {% if settings.use_dwim or settings.use_titles %}
                     <div id="entry-fields-optional">
                         <div id="field-title" class="field">

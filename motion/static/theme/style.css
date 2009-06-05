@@ -479,13 +479,19 @@ p {
     text-align: left;
 }
 #field-file label,
-#field-file em {
+#field-file em,
+#field-url label,
+#field-url em {
     display: none;
 }
 #form-compose .audio #field-file #label-audio,
 #form-compose .audio #field-file #hint-audio,
 #form-compose .photo #field-file #label-photo,
-#form-compose .photo #field-file #hint-photo {
+#form-compose .photo #field-file #hint-photo,
+#form-compose .video #field-url #label-video,
+#form-compose .video #field-url #hint-video,
+#form-compose .link #field-url #label-link,
+#form-compose .link #field-url #hint-link {
     display: block !important;
 }
 #friends {
@@ -603,10 +609,10 @@ p {
 #entry-types .active#entry-link a:hover { background-position: -66px 0 }
 #entry-types #entry-link a:hover { background-position: -66px -33px }
 
-#entry-types #entry-embed a { background-position: -132px -65px }
-#entry-types .active#entry-embed a,
-#entry-types .active#entry-embed a:hover { background-position: -132px 0 }
-#entry-types #entry-embed a:hover { background-position: -132px -33px }
+#entry-types #entry-video a { background-position: -132px -65px }
+#entry-types .active#entry-video a,
+#entry-types .active#entry-video a:hover { background-position: -132px 0 }
+#entry-types #entry-video a:hover { background-position: -132px -33px }
 
 #entry-types #entry-audio a { background-position: -99px -65px }
 #entry-types .active#entry-audio a:hover,
@@ -676,14 +682,13 @@ body.error {
 .asset .icon-link { background-position: 0 -64px }
 .asset .icon-audio { background-position: 0 -96px }
 .asset .icon-video { background-position: 0 -128px }
-.asset .icon-embed { background-position: 0 -128px }
 .asset .icon-comment { background-position: 0 -160px }
 .asset .icon-favorite { background-position: 0 -192px }
 
 .service-icon { background-repeat: no-repeat; }
 .icon-blog { background-image: url(../../images/icons/page_white_text.png); }
 .icon-status { background-image: url(../../images/icons/user.png); }
-.icon-embed { background-image: url(../../images/icons/film.png); }
+.icon-video { background-image: url(../../images/icons/film.png); }
 .icon-comment { background-image: url(../../images/icons/comment.png); }
 .icon-follow { background-image: url(../../images/icons/group.png); }
 .icon-favorite { background-image: url(../../images/icons/heart.png); }
@@ -776,7 +781,7 @@ button.button-delete {
 .icon-link .asset-meta {
     background-image: url(images/icons/link.png);
 }
-.icon-embed .asset-meta {
+.icon-video .asset-meta {
     background-image: url(images/icons/film.png);
 }
 .icon-video .asset-meta {
@@ -891,7 +896,6 @@ button.button-delete {
 }
 .asset .asset-content .photo,
 .asset .asset-content .video,
-.asset .asset-content .embed,
 .asset .asset-content object {
     margin-bottom: 10px;
 }
