@@ -951,7 +951,8 @@ button.button-delete {
 
 .asset.video .asset-content object,
 .asset.video .asset-content embed {
-    clear: both;
+    margin-top: 30px;
+    margin-left: -64px;
 }
 
 
