@@ -184,22 +184,24 @@ class MemberView(AssetEventView):
         self.paginate_template = reverse('member', args=[userid]) + '/page/%d'
         # FIXME: this should be conditioned if possible, so we don't load
         # the same user twice if a user is viewing their own profile.
-        user_memberships = models.User.get_by_url_id(userid).memberships.filter(by_group=request.group)
-        elsewhere = models.User.get_by_url_id(userid).elsewhere_accounts
+        member = models.User.get_by_url_id(userid)
+        user_memberships = member.memberships.filter(by_group=request.group)
+        elsewhere = member.elsewhere_accounts
         # following/followers are shown on TypePad-supplied widget now; no need to select these
         # following = member.following(group=request.group)
         # followers = member.followers(group=request.group)
-        self.object_list = models.User.get_by_url_id(userid).group_events(request.group, start_index=self.offset, max_results=self.limit)
+        self.object_list = member.group_events(request.group, start_index=self.offset, max_results=self.limit)
         self.context.update(locals())
 
     def get(self, request, userid, *args, **kwargs):
         ## TODO figure out if we can get the group user more directly.
         try:
             # Verify this user is a member of the group.
-            self.context['member'] = self.context['user_memberships'][0].target
+            member = self.context['user_memberships'][0].target
         except IndexError:
             raise Http404
-        self.context['is_self'] = request.user.id == self.context['member'].id
+
+        self.context['is_self'] = request.user.id == member.id
         elsewhere = self.context['elsewhere']
         if elsewhere:
             for acct in elsewhere:
@@ -210,7 +212,7 @@ class MemberView(AssetEventView):
                     break
 
         try:
-            profile = self.context['member'].get_profile()
+            profile = member.get_profile()
         except SiteProfileNotAvailable:
             pass
         else:
