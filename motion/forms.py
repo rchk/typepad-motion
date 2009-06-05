@@ -71,6 +71,7 @@ class PostForm(forms.Form):
             post.link = self.cleaned_data['url']
         elif self.cleaned_data['post_type'] == 'embed':
             post = typepadapp.models.Video()
+            post.html = self.cleaned_data['embed']
         else:
             post = typepadapp.models.Post()
 
