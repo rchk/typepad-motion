@@ -5,6 +5,7 @@ from django.conf.urls.defaults import *
 
 app_path = os.path.dirname(__file__)
 app_dir = os.path.basename(app_path)
+media_dir = os.path.join(app_path, 'static')
 theme_dir = os.path.join(app_path, 'static', 'theme')
 
 urlpatterns = patterns('motion.views',
@@ -67,9 +68,10 @@ urlpatterns += patterns('',
         }, name='feeds'),
 )
 
-# Appends a static url for your theme
 urlpatterns += patterns('',
+    url(r'^static/motion/(?P<path>.*)/?$', 'django.views.static.serve',
+        kwargs={ 'document_root': media_dir }),
+    # Appends a static url for your theme
     url(r'^static/themes/%s/(?P<path>.*)/?$' % app_dir, 'django.views.static.serve',
         kwargs={ 'document_root': theme_dir }),
 )
-
