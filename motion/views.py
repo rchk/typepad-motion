@@ -181,20 +181,24 @@ class MemberView(AssetEventView):
     methods = ('GET', 'POST')
 
     def select_from_typepad(self, request, userid, *args, **kwargs):
-        ## TODO should this be a group user? or is this handled somewhere else?
-        #user = models.User.get_group_user(request.group, userid)
         self.paginate_template = reverse('member', args=[userid]) + '/page/%d'
         # FIXME: this should be conditioned if possible, so we don't load
         # the same user twice if a user is viewing their own profile.
-        member = models.User.get_by_url_id(userid)
-        elsewhere = member.elsewhere_accounts
+        memberships = models.User.get_by_url_id(userid).memberships.filter(by_group=request.group)
+        elsewhere = models.User.get_by_url_id(userid).elsewhere_accounts
         # following/followers are shown on TypePad-supplied widget now; no need to select these
         # following = member.following(group=request.group)
         # followers = member.followers(group=request.group)
-        self.object_list = member.group_events(request.group, start_index=self.offset, max_results=self.limit)
+        self.object_list = models.User.get_by_url_id(userid).group_events(request.group, start_index=self.offset, max_results=self.limit)
         self.context.update(locals())
 
     def get(self, request, userid, *args, **kwargs):
+        ## TODO figure out if we can get the group user more directly.
+        try:
+            # Verify this user is a member of the group.
+            self.context['member'] = self.context['memberships'][0].target
+        except IndexError:
+            raise Http404
         self.context['is_self'] = request.user.id == self.context['member'].id
         elsewhere = self.context['elsewhere']
         if elsewhere:
