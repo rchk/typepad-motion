@@ -1,4 +1,4 @@
-@import url(/static/typepadapp/css/reset.css);
+@import url(../../typepadapp/css/reset.css);
 
 /* Default Styles ---------------------------------------------------------------------------------- */
 
@@ -94,7 +94,7 @@ p {
     padding: 15px 10px 10px;
     width: 160px;
     height: 136px;
-    background: url(../../images/userinfo-bg.png) no-repeat 0 0;
+    background: url(images/userinfo-bg.png) no-repeat 0 0;
     font-size: 11px;
     line-height: 1.4;
 }
@@ -635,7 +635,7 @@ p {
     left: 0;
     width: 100%;
     height: 100%;
-    background: transparent url(../../images/spinner.gif) no-repeat center center;
+    background: transparent url(images/spinner.gif) no-repeat center center;
 }
 #spinner {
     filter:alpha(opacity=5);
@@ -686,12 +686,12 @@ body.error {
 .asset .icon-favorite { background-position: 0 -192px }
 
 .service-icon { background-repeat: no-repeat; }
-.icon-blog { background-image: url(../../images/icons/page_white_text.png); }
-.icon-status { background-image: url(../../images/icons/user.png); }
-.icon-video { background-image: url(../../images/icons/film.png); }
-.icon-comment { background-image: url(../../images/icons/comment.png); }
-.icon-follow { background-image: url(../../images/icons/group.png); }
-.icon-favorite { background-image: url(../../images/icons/heart.png); }
+.icon-blog { background-image: url(images/icons/page_white_text.png); }
+.icon-status { background-image: url(images/icons/user.png); }
+.icon-video { background-image: url(images/icons/film.png); }
+.icon-comment { background-image: url(images/icons/comment.png); }
+.icon-follow { background-image: url(images/icons/group.png); }
+.icon-favorite { background-image: url(images/icons/heart.png); }
 
 .actions ul {
     margin-left: 13px;
@@ -715,7 +715,7 @@ body.error {
     cursor: pointer;
 }
 button.button-delete {
-    background-image: url(../../images/icons/cross.png);
+    background-image: url(images/icons/cross.png);
     background-repeat: no-repeat;
     width: 16px;
     height: 16px;
@@ -826,7 +826,7 @@ button.button-delete {
     line-height: 20px;
 }
 .asset .asset-meta .comment-count {
-    background: url(../../images/icons/comments.png) no-repeat 0 0;
+    background: url(images/icons/comments.png) no-repeat 0 0;
 }
 .asset-meta .comment-count span,
 .asset-meta .trackback-count span {
@@ -948,7 +948,7 @@ button.button-delete {
     color: #069;
     font-weight: bold;
     padding-right: 15px;
-    background: url(../../images/icons/external_link.gif) no-repeat right 40%;
+    background: url(images/icons/external_link.gif) no-repeat right 40%;
 }
 
 /* videopost */
@@ -979,11 +979,11 @@ button.button-delete {
 .asset-content .link a {
     text-decoration: none;
     padding: 2px 6px 2px 24px;
-    background: #F1F7FB url(../../images/icons/external_link.gif) no-repeat 6px 50%;
+    background: #F1F7FB url(images/icons/external_link.gif) no-repeat 6px 50%;
     border: 1px solid #D9E8F0;
 }
 .asset-content .link a:hover {
-    background: #ffd url(../../images/icons/external_link.gif) no-repeat 6px 50%;
+    background: #ffd url(images/icons/external_link.gif) no-repeat 6px 50%;
     border: 1px solid #fc3;
 }
 
@@ -1133,15 +1133,15 @@ button.button-delete {
     height: 16px;
     background: #069;
     text-indent: -9999px;
-    background: url(../../images/gallery-nav.gif) no-repeat 0 0;
+    background: url(images/gallery-nav.gif) no-repeat 0 0;
 }
 #gall-prev {
     left: 5px;
-    background: url(../../images/gallery-nav.gif) no-repeat 0 -36px;
+    background: url(images/gallery-nav.gif) no-repeat 0 -36px;
 }
 #gall-next {
     right: 5px;
-    background: url(../../images/gallery-nav.gif) no-repeat -36px -36px;
+    background: url(images/gallery-nav.gif) no-repeat -36px -36px;
 }
 #gall-prev:hover {
     background-position: 0 -72px;
@@ -1671,27 +1671,27 @@ ul.profile-data li .edit {
 }
 .msg-success {
     background-color: #CFC;
-    background-image: url(../../images/icon_success.png);
+    background-image: url(images/icon_success.png);
 }
 .msg-error {
     background-color: #FF9;
-    background-image: url(../../images/icon_error.png);
+    background-image: url(images/icon_error.png);
 }
 .msg-info {
     background-color: #fff;
-    background-image: url(../../images/icon_info.gif);
+    background-image: url(images/icon_info.gif);
 }
 .msg-alert {
     background-color: #FF9;
-    background-image: url(../../images/icon_alert.png);
+    background-image: url(images/icon_alert.png);
 }
 .msg-publishing {
     background-color: #fff;
-    background-image: url(../../images/ani-rebuild.gif);
+    background-image: url(images/ani-rebuild.gif);
 }
 
 .msg a.close-me {
-    background: transparent url(../../images/icon_close.png) no-repeat scroll 3px 4px;
+    background: transparent url(images/icon_close.png) no-repeat scroll 3px 4px;
     display: block;
     float: right;
     height: 18px;
