@@ -29,7 +29,9 @@
             {% endif %}
             {% with entry.source.original_link.href as original_href %}
                 {% if entry.source.provider %}
-                    <a href="{{ original_href }}"><img src="{{ entry.source.provider.icon }}" /></a>
+                    {% if entry.source.provider.icon %}
+                    <a href="{{ original_href }}"><img src="{{ entry.source.provider.icon }}" alt="" /></a>
+                    {% endif %}
                     <a href="{{ original_href }}">{{ entry.source.provider.name }}</a>
                 {% else %}
                     {{ original_href|urlizetrunc:35 }}
