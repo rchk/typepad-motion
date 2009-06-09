@@ -14,6 +14,7 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   featured
    themes
    Local profiles <http://svn.sixapart.com/repos/docs/trunk/potion/typepadapp/localprofile.html>
 
