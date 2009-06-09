@@ -10,19 +10,7 @@
 
 {% block beta_widgets %}
     {% if user.is_superuser %}
-        <div class="admin-options">
-            <p><strong>Admin options:</strong></p>
-            {% if member.email %}
-                <p><a href="mailto:{{ member.email }}">{% blocktrans with member.display_name as name %}Email {{ name }}{% endblocktrans %}</a></p>
-            {% endif %}
-            {% if not member.is_superuser %}
-                <p><a href="#" onclick="if (confirm(
-                    {% blocktrans %}'Are you sure you want to ban this member? They will no longer be able to post or comment within the group.'{% endblocktrans %}))
-                    { alert('Just kidding... you cannot ban anyone yet!')} return false;">
-                    {% blocktrans with member.display_name as name %}Ban {{ name }}{% endblocktrans %}
-                </a></p>
-            {% endif %}
-        </div>
+        {% include "widgets/admin.html" %}
     {% endif %}
     {% include "widgets/typepad_frame.html" %}
     {% include "widgets/elsewhere.html" %}
