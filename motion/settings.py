@@ -41,6 +41,7 @@ MIDDLEWARE_CLASSES = (
     'typepadapp.csrf_middleware.CsrfMiddleware', # django.contrib.csrf.middleware
     'django.contrib.sessions.middleware.SessionMiddleware',
     'typepadapp.debug_middleware.DebugToolbarMiddleware',
+    'typepadapp.middleware.ConfigurationMiddleware',
     'typepadapp.middleware.ApplicationMiddleware',
     'typepadapp.middleware.UserAgentMiddleware',
 )
@@ -59,7 +60,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'motion',
     'typepadapp',
-    'spacegiraffe',
 )
 
 ##############################
