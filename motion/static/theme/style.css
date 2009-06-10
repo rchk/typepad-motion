@@ -548,8 +548,8 @@ p {
 }
 #entry-types {
     position: absolute;
-    top: 3px;
-    right: 3px;
+    top: 0;
+    right: 0;
 }
 #entry-types li {
     float: left;
