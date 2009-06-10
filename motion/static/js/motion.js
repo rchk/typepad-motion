@@ -5,9 +5,6 @@ settings = {
     favorite_url: '',
     comments_url: '',
     render_url: '',
-    comments: {
-        accepted: 1,
-    },
     phrase: {
         textRequired: 'Please enter some text.',
         fileRequired: 'Please select a file to post.',
