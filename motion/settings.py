@@ -68,8 +68,8 @@ INSTALLED_APPS = (
 SITE_ID = 1
 SECRET_KEY = ''
 
-BACKEND_URL = 'http://127.0.0.1:8000'
-FRONTEND_URL = 'http://127.0.0.1:8080'
+BACKEND_URL = 'http://127.0.0.1:8800'
+FRONTEND_URL = 'http://127.0.0.1:8000'
 
 ## Potion site layout settings.
 # Override these in your settings.py for a
