@@ -673,11 +673,11 @@ body.error {
     background-image: url(images/post-type-tabs.gif);
     height: 32px;
     width: 38px;
+    top: 10px;
+    left: -13px;
     background-position: 0 -224px;
     background-repeat: none;
-    margin-left: -13px;
     position: absolute;
-    top: 10px;
 }
 .asset .icon-post { background-position: 0 0 }
 .asset .icon-photo { background-position: 0 -32px }
