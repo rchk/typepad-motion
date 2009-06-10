@@ -434,8 +434,7 @@ p {
 #compose-prompt {
     margin: 5px 2px;
     font-size: 1.5em;
-    text-align: left;
-    position: absolute;
+    float: left;
 }
 #compose label {
     color: #000;
