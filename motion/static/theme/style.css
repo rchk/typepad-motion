@@ -394,6 +394,7 @@ p {
     border-top: 1px dotted #ddd;
     margin-top: 10px;
     padding-top: 5px;
+    clear: both;
 }
 #user-compose-friends .widget-following ul,
 #user-compose-friends .widget-followers ul {
