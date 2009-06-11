@@ -5,10 +5,21 @@
         <p><a href="mailto:{{ member.email }}">{% blocktrans with member.display_name as name %}Email {{ name }}{% endblocktrans %}</a></p>
     {% endif %}
     {% if not member.is_superuser %}
-        <p><a href="#" onclick="if (confirm(
-            {% blocktrans %}'Are you sure you want to ban this member? They will no longer be able to post or comment within the group.'{% endblocktrans %}))
-            { alert('Just kidding... you cannot ban anyone yet!')} return false;">
-            {% blocktrans with member.display_name as name %}Ban {{ name }}{% endblocktrans %}
-        </a></p>
+        <form id="ban-user-form" action="{{ request.path }}" method="post"></form>
+        {% if is_blocked %}
+            <p><a href="#" onclick="if (confirm(
+                {% blocktrans %}'Are you sure you want to un-ban this user? They will be able to rejoin this group.'{% endblocktrans %}))
+                { $('#ban-user-form').submit(); } return false;">
+                {% blocktrans with member.display_name as name %}Un-ban {{ name }}{% endblocktrans %}
+            </a></p>
+        {% else %}
+            {% if is_member %}
+            <p><a href="#" onclick="if (confirm(
+                {% blocktrans %}'Are you sure you want to ban this user? They will no longer be a member of the group and will be unable to post, comment, or rejoin.'{% endblocktrans %}))
+                { $('#ban-user-form').submit(); } return false;">
+                {% blocktrans with member.display_name as name %}Ban {{ name }}{% endblocktrans %}
+            </a></p>
+            {% endif %}
+        {% endif %}
     {% endif %}
 </div>

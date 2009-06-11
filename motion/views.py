@@ -9,6 +9,7 @@ from django.http import Http404, HttpResponseRedirect, HttpResponseServerError, 
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import SiteProfileNotAvailable
+from django.contrib.auth import get_user
 
 from motion import forms
 import typepad
@@ -27,7 +28,6 @@ def home(request, page=1):
         # Home page is a featured user.
         return FeaturedMemberView(request, settings.FEATURED_MEMBER, page=page, view='home')
     if settings.HOME_MEMBER_EVENTS:
-        from django.contrib.auth import get_user
         typepad.client.batch_request()
         user = get_user(request)
         typepad.client.complete_batch()
@@ -195,19 +195,20 @@ class MemberView(AssetEventView):
 
         # Verify this user is a member of the group.
         user_memberships = self.context['user_memberships']
-        # if the user has no events and they aren't a member of the group,
-        # then this is a 404, effectively
-        is_member = user_memberships.has_membership()
-        if not len(self.object_list) and not is_member:
-            raise Http404
         member = self.context['member']
 
-        # Let the templates get the member directly, now that we've saved our
-        # subrequest.
-        self.context['member'] = member
+        is_member = user_memberships.has_membership()
+
+        if not request.user.is_superuser: # admins can see all members
+            if not len(self.object_list) and not is_member:
+                # if the user has no events and they aren't a member of the group,
+                # then this is a 404, effectively
+                raise Http404
 
         self.context['is_self'] = request.user.id == member.id
         self.context['is_member'] = is_member
+        self.context['is_blocked'] = user_memberships.has_blocked()
+
         elsewhere = self.context['elsewhere']
         if elsewhere:
             for acct in elsewhere:
@@ -229,6 +230,26 @@ class MemberView(AssetEventView):
                 self.context['profiledata'] = profileform
 
         return super(MemberView, self).get(request, userid, *args, **kwargs)
+        
+    def post(self, request, userid, *args, **kwargs):
+        typepad.client.batch_request()
+        request_user = get_user(request)
+        user_memberships = models.User.get_by_url_id(userid).memberships.filter(by_group=request.group)
+        typepad.client.complete_batch()
+
+        if not request_user.is_superuser or user_memberships.has_admin():
+            # must be an admin to ban and cannot ban/unban another admin
+            raise Http404
+
+        if user_memberships.has_membership():
+            # ban user
+            user_memberships[0].block()
+        elif user_memberships.has_blocked():
+            # unban user
+            user_memberships[0].unblock()
+
+        # Return to current page.
+        return HttpResponseRedirect(request.path)
 
 
 class FeaturedMemberView(MemberView, AssetPostView):
