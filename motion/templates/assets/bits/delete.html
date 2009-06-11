@@ -1,19 +1,19 @@
 {% load i18n %}
-{% if entry.can_delete %}
+{% if user.is_authenticated and entry.can_delete %}
 {% if user.is_superuser or settings.allow_users_to_delete_posts %}
 <div class="controls">
     <form id="delete-{{ entry.url_id }}" method="post" action="">
         <input type="hidden" name="asset-id" value="{{ entry.url_id }}" />
         <button class="button-delete" type="submit"
-            onclick="return confirm(
-            {% blocktrans with entry.type_id as type %}
+            onclick="return confirm({% spaceless %}
+            {% blocktrans with entry.type_label as type %}
                 'Are you sure you want to delete this {{ type }}? This action cannot be undone.'
             {% endblocktrans %}
-            );" name="delete" title=
+            {% endspaceless %});" name="delete" title={% spaceless %}
             {% blocktrans with entry.type_id as type %}
                 "Delete {{ type }}"
             {% endblocktrans %}
-            >{% trans "Delete" %}
+            {% endspaceless %}>{% trans "Delete" %}
         </button>
     </form>
 </div>
