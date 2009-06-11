@@ -213,10 +213,12 @@ p {
 #header .widget-sign-in h3 {
     display: none;
 }
-.widget-sign-in {
-    color: #fff;
-}
-.widget-sign-in a {
+.widget-sign-in,
+.widget-sign-in a,
+.widget-sign-in a:link,
+.widget-sign-in a:visited,
+.widget-sign-in a:hover,
+.widget-sign-in a:active {
     color: #fff;
 }
 
@@ -697,8 +699,6 @@ body.error {
 .icon-favorite { background-image: url(images/icons/heart.png); }
 
 .actions ul {
-    margin-left: 13px;
-    margin-bottom: 15px;
     position: relative;
 }
 
@@ -1658,6 +1658,12 @@ ul.profile-data li .edit {
     clear: both;
     margin: 20px;
 }
+.pagination.top {
+    margin-bottom: 15px;
+}
+.pagination.bottom {
+    margin-top: 15px;
+}
 
 /* Status Messages -------------------------------------------------------------------------------- */
 
@@ -1814,9 +1820,7 @@ ul.profile-data li .edit {
 #alpha,
 #beta {
     float: left;
-}
-#alpha {
-    margin: 0 20px;
+    margin-left: 20px;
 }
 /* main column */
 .layout-wm #alpha {
