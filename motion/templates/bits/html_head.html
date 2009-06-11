@@ -27,12 +27,11 @@
 <script type="text/javascript" src="{{ settings.media_url }}typepadapp/js/jquery.dump.js"></script>
 {% endif %}
 
-<script type="text/javascript">
-/* <![CDATA[ */
-var clear_pixel = '{{ settings.media_url }}typepadapp/images/clear.gif';
-/* ]]> */
-</script>
 <!--[if lt IE 7]>
+<link rel="stylesheet" href="{{ settings.media_url }}themes/motion/ie6.css" type="text/css" />
+<script type="text/javascript">
+var clear_pixel = '{{ settings.media_url }}typepadapp/images/clear.gif';
+</script>
 <script type="text/javascript" src="{{ settings.media_url }}typepadapp/js/ie6pngfix.js"></script>
 <![endif]--> 
 <script type="text/javascript" src="{{ settings.media_url }}motion/js/motion.js"></script>
