@@ -962,6 +962,11 @@ button.button-delete {
     margin-left: -64px;
 }
 
+.user-profile .asset.video .asset-content object,
+.user-profile .asset.video .asset-content embed {
+    margin-top: 30px;
+    margin-left: 0px;
+}
 
 .user-profile .asset .asset-content,
 .user-profile .asset .asset-meta {
