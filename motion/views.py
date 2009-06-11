@@ -188,10 +188,6 @@ class MemberView(AssetEventView):
         elsewhere = member.elsewhere_accounts
         self.object_list = member.group_events(request.group, start_index=self.offset, max_results=self.limit)
 
-        # Don't keep the member itself, so we can save the subrequest; we can
-        # pull it out of the user_memberships later.
-        del member
-
         self.context.update(locals())
 
     def get(self, request, userid, *args, **kwargs):
@@ -199,15 +195,19 @@ class MemberView(AssetEventView):
 
         # Verify this user is a member of the group.
         user_memberships = self.context['user_memberships']
-        if not user_memberships.has_membership():
+        # if the user has no events and they aren't a member of the group,
+        # then this is a 404, effectively
+        is_member = user_memberships.has_membership()
+        if not len(self.object_list) and not is_member:
             raise Http404
-        member = user_memberships[0].target
+        member = self.context['member']
 
         # Let the templates get the member directly, now that we've saved our
         # subrequest.
         self.context['member'] = member
 
         self.context['is_self'] = request.user.id == member.id
+        self.context['is_member'] = is_member
         elsewhere = self.context['elsewhere']
         if elsewhere:
             for acct in elsewhere:

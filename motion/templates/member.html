@@ -19,6 +19,14 @@
 {% block content_body %}
     <div class="profile-header">
 
+        {% if not is_member %}
+        <div class="msg msg-info">
+            {% blocktrans with member.display_name as name %}
+            {{ name }} is no longer a member of this site, but their activity is archived.
+            {% endblocktrans %}
+        </div>
+        {% endif %}
+
         <div class="userpic">
             {% with member.links.rel__avatar.width__100 as userpic %}
             <img src="{{ userpic.href }}" width="100" height="100" alt="{{ member.display_name }}" />
