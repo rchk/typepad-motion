@@ -1,12 +1,15 @@
 {% extends "assets/body/base.html" %}
-
-{% block title %}{% endblock %}
+{% load typepad_filters %}
 
 {% block media %}
 <div>
     <a href="{{ entry.get_absolute_url }}">
     {% with entry.links.rel__enclosure.width__460 as thumbnail %}
-        <img width="{{ thumbnail.width }}" height="{{ thumbnail.height }}" src="{{ thumbnail.href }}" alt="{{ entry.content }}" />
+        {% if thumbnail.width|greaterthan:460 %}
+        <img class="constrained" width="460" src="{{ thumbnail.href }}" alt="{{ entry.title }}" />
+        {% else %}
+        <img width="{{ thumbnail.width }}" height="{{ thumbnail.height }}" src="{{ thumbnail.href }}" alt="{{ entry.title }}" />
+        {% endif %}
         {% ifnotequal entry.link thumbnail.href %}
         <br /><small><a href="{{ entry.link }}">original</a></small>
         {% endifnotequal %}
@@ -14,3 +17,4 @@
     </a>
 </div>
 {% endblock %}
+
