@@ -4,21 +4,17 @@
 
 {% block title %}{% if entry.title %}<h2><a href="{{ entry.get_absolute_url }}">{% spaceless %}
     {% if entry.source %}
-        {% autoescape off %}{{ entry.title }}{% endautoescape %}
+        {{ entry.title|striptags }}
     {% else %}
         {{ entry.title }}
     {% endif %}
 {% endspaceless %}</a></h2>{% endif %}{% endblock %}
+
 {% block media %}{% endblock %}
 {% block activity %}{% endblock %}
+
 {% block content %}
 {% if entry.content %}
-    {% if entry.source %}
-        {% autoescape off %}{% filter sanitizetags %}
-            {% include "assets/bits/content.html" %}
-        {% endfilter %}{% endautoescape %}
-    {% else %}
-        {% include "assets/bits/content.html" %}
-    {% endif %}
+    {% include "assets/bits/content.html" %}
 {% endif %}
 {% endblock %}

@@ -67,7 +67,7 @@
     {% include "bits/profile.html" %}
 
     <div class="actions">
-        <h2>Recent Activity</h2>
+        <h2>{% trans "Recent Activity" %}</h2>
         {% with page_obj.object_list as events %}
         {% include "bits/event_list.html" %}
         {% endwith %}

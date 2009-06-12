@@ -1,8 +1,21 @@
 {% load typepad_filters %}
+{% load generic_filters %}
+{% load withblock %}
 
-{% ifequal view "home" %}
-    {{ entry.content|urlize|linebreaks|truncatewords:settings.paragraph_wordcount }}
-    {{ entry|morelink:settings.paragraph_wordcount }}
+{% ifequal view "permalink" %}
+    {% if entry.source %}
+        {{ entry.content|sanitizetags }}
+    {% else %}
+        {{ entry.content|urlize|linebreaks }}
+    {% endif %}
 {% else %}
-    {{ entry.content|urlize|linebreaks }}
+    {% if entry.source %}
+        {% withblock %}{{ entry.content|striptags }}{% as content %}
+        {{ content|truncatewords:settings.paragraph_wordcount }}
+        {{ entry|morelink:settings.paragraph_wordcount }}
+        {% endwithblock %}
+    {% else %}
+        {{ entry.content|urlize|linebreaks|truncatewords_html:settings.paragraph_wordcount }}
+        {{ entry|morelink:settings.paragraph_wordcount }}
+    {% endif %}
 {% endifequal %}
