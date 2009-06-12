@@ -10,7 +10,7 @@
     {% endif %}
 {% else %}
     {% if entry.source %}
-        {% withblock %}{{ entry.content|striptags }}{% as content %}
+        {% withblock %}{% autoescape off %}{{ entry.content|striptags }}{% endautoescape %}{% as content %}
         {{ content|truncatewords:settings.paragraph_wordcount }}
         {{ entry|morelink:settings.paragraph_wordcount }}
         {% endwithblock %}
