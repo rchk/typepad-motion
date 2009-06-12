@@ -1,4 +1,5 @@
 {# base template for entry content #}
+{% load generic_filters %}
 {% load typepad_filters %}
 
 {% block title %}{% if entry.title %}<h2><a href="{{ entry.get_absolute_url }}">{% spaceless %}
@@ -13,9 +14,9 @@
 {% block content %}
 {% if entry.content %}
     {% if entry.source %}
-        {% autoescape off %}
+        {% autoescape off %}{% filter sanitizetags %}
             {% include "assets/bits/content.html" %}
-        {% endautoescape %}
+        {% endfilter %}{% endautoescape %}
     {% else %}
         {% include "assets/bits/content.html" %}
     {% endif %}
