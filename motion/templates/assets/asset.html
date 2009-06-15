@@ -2,7 +2,7 @@
 {% load withblock %}
 
 <!-- Entry -->
-<li id="{{ entry.url_id }}" class="asset {% if event %}action-asset{% endif %} hentry {{ entry.type_id }} {% if entry.author.is_superuser %}admin{% endif %} {% if not entry.is_local %}external{% endif %}">
+<li id="{{ entry.url_id }}" class="asset {% if event %}action-asset{% endif %} hentry {{ entry.type_id }} {% if entry.author.is_superuser %}admin{% endif %} {% if entry.source %}elsewhere elsewhere-{{ entry.source.source|lower }}{% endif %} {% if not entry.is_local %}external{% endif %}">
     {% ifequal view "permalink" %}
         {% include "assets/bits/delete.html" %}
     {% endifequal %}
