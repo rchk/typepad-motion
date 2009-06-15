@@ -1445,6 +1445,8 @@ button.button-delete {
     font-size: 1em;
     font-weight: normal;
     white-space: nowrap;
+    width: 220px;
+    overflow: hidden;
 }
 .member-listitem .member-info p a {
     white-space: nowrap;
