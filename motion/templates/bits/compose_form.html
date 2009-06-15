@@ -2,12 +2,6 @@
 <div id="compose">
     <div id="compose-inner">
         <div id="compose-content">
-            {% if not settings.use_dwim %}
-            <p id="compose-prompt">
-                {% trans "Add something!" %}
-            </p><!-- end #compose-prompt -->
-            {% endif %}
-
             <form id="form-compose" method="post" action="" enctype="multipart/form-data">
                 <input type="hidden" id="compose-class" name="post_type" value="{{ form.post_type.data|default:"post" }}" />
                 <input type="hidden" name="redirect_to" value="{{ upload_complete_endpoint }}" />
@@ -21,6 +15,11 @@
                 {% endif %}
                 <div id="entry-fields">
                     {% if not settings.use_dwim %}
+                    <p id="compose-prompt-post">{% trans "Add a post!" %}</p>
+                    <p id="compose-prompt-link">{% trans "Add a link!" %}</p>
+                    <p id="compose-prompt-photo">{% trans "Add a photo!" %}</p>
+                    <p id="compose-prompt-video">{% trans "Add a video!" %}</p>
+                    <p id="compose-prompt-audio">{% trans "Add an audio post!" %}</p>
                     <div id="field-url" class="field" style="display:none">
                         {% if form.errors.url %}<div class="form-error">{{ form.errors.url|join:" " }}</div>{% endif %}
                         {{ form.url }}

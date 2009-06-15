@@ -452,10 +452,16 @@ p {
     color: #b00;
     clear: both;
 }
-#compose-prompt {
-    margin: 5px 2px;
+#compose-prompt-post,
+#compose-prompt-link,
+#compose-prompt-photo,
+#compose-prompt-video,
+#compose-prompt-audio {
+    position: absolute;
+    left: 0;
+    top: 0;
     font-size: 1.5em;
-    float: left;
+    display: none;
 }
 #compose label {
     color: #000;
@@ -506,14 +512,19 @@ p {
 #field-url em {
     display: none;
 }
+#form-compose .post #compose-prompt-post,
 #form-compose .audio #field-file #label-audio,
 #form-compose .audio #field-file #hint-audio,
+#form-compose .audio #compose-prompt-audio,
 #form-compose .photo #field-file #label-photo,
 #form-compose .photo #field-file #hint-photo,
+#form-compose .photo #compose-prompt-photo,
 #form-compose .video #field-url #label-video,
 #form-compose .video #field-url #hint-video,
+#form-compose .video #compose-prompt-video,
 #form-compose .link #field-url #label-link,
-#form-compose .link #field-url #hint-link {
+#form-compose .link #field-url #hint-link,
+#form-compose .link #compose-prompt-link {
     display: block !important;
 }
 #friends {
