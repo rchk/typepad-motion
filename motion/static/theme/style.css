@@ -1,3 +1,16 @@
+/* FIXME:
+- position of favorite control overlaps images/videos that take full width
+  of asset container.
+- IE6: favorite control doesn't use 'hand' cursor, doesn't change when
+  hovering over it.
+- stylesheet retains a lot of additional rules for things not used in
+  TypePad/Motion, like for sign-in UI, which is wholly on TypePad
+  (#auth-options, .signin rules in the "Sign in" section)
+- Do we still use the .embed-* classes?
+- IE 8 doesn't render any background on the navigation tabs (IE6 does due to the conditioned IE6 stylesheet that uses DXImageTransform to do it; should this be loaded for all IE versions?)
+*/
+
+
 @import url(../../typepadapp/css/reset.css);
 
 /* Default Styles ---------------------------------------------------------------------------------- */
@@ -705,6 +718,9 @@ body.error {
 
 .actions ul {
     position: relative;
+}
+
+.actions .asset.external {
 }
 
 .comment .controls,
@@ -1840,9 +1856,13 @@ ul.profile-data li .edit {
     float: left;
     margin-left: 20px;
 }
+#alpha {
+    margin-right: 20px;
+}
 /* main column */
 .layout-wm #alpha {
     width: 590px;
+    margin-right: 0;
 }
 /* sidebar */
 .layout-wm #beta {
