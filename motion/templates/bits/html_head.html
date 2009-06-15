@@ -1,3 +1,4 @@
+<script type="text/javascript" language="javascript" src="{{ request.get_session_synchronization_url }}"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="spacegiraffe 1.0" />
 <link rel="stylesheet" href="{{ settings.media_url }}themes/{{ settings.theme }}/style.css" type="text/css" />
@@ -5,23 +6,12 @@
 <link rel="shortcut icon" type="image/x-icon" href="{{ settings.media_url }}themes/{{ settings.theme }}/favicon.ico" />
 <script type="text/javascript" src="{{ settings.media_url }}typepadapp/js/jquery.js"></script>
 
-<!-- jQuery Plugins & Functions - FIXME: Concatenate before releasing Motion -->
-
-{% ifequal view "home" %}
-{% if user.is_authenticated and user.can_post and settings.use_dwim %}
-<!-- Ajax Form Handler -->
-<script type="text/javascript" src="{{ settings.media_url }}typepadapp/js/jquery.form.js"></script>
-{% endif %}
-{% endifequal %}
-
 <!-- JSON Functions -->
 <script type="text/javascript" src="{{ settings.media_url }}typepadapp/js/jquery.json-1.3.min.js"></script>
 
 <!-- Form Submission -->
 <script type="text/javascript" src="{{ settings.media_url }}typepadapp/js/jquery.form.js"></script>
 
-<!-- Userpic flyouts for TypePad following -->
-<script type="text/javascript" src="{{ request.application.user_flyouts_script }}"></script>
 
 {% if debug %}
 <script type="text/javascript" src="{{ settings.media_url }}typepadapp/js/jquery.dump.js"></script>
@@ -38,6 +28,7 @@ var clear_pixel = '{{ settings.media_url }}typepadapp/images/clear.gif';
 <script type="text/javascript">
 /* <![CDATA[ */
 // user data
+var profileUrlTemplate = '{{ settings.frontend_url }}{% url member userid="__profilealias__" %}'.replace('__profilealias__', '<profile-alias>');
 {% if user.is_authenticated %}
 user = {
     is_authenticated: true,{% if user.is_admin %}
@@ -59,7 +50,9 @@ settings.use_dwim = true;
 {% endif %}
 /* ]]> */
 </script>
-<script type="text/javascript" language="javascript" src="{{ request.get_session_synchronization_url }}"></script>
+
+<!-- Userpic flyouts for TypePad following -->
+<script type="text/javascript" src="{{ request.application.user_flyouts_script }}"></script>
 
 <!-- Audio Player for audio files -->
 <link rel="stylesheet" type="text/css" href="{{ settings.media_url }}typepadapp/soundmanager/inlineplayer.css" />
