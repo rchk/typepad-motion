@@ -8,9 +8,9 @@
     {% endifequal %}
 
     {% if event and event.is_added_favorite %}
-        <div class="icon icon-favorite"></div>
+        <a href="{{ entry.get_absolute_url }}"><div class="icon icon-favorite"></div></a>
     {% else %}
-        <div class="icon icon-{{ entry.type_id }}"></div>
+        <a href="{{ entry.get_absolute_url }}"><div class="icon icon-{{ entry.type_id }}"></div></a>
     {% endif %}
     {% with entry.author as user %}
         {% include "assets/bits/userpic.html" %}

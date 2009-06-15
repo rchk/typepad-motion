@@ -16,8 +16,23 @@
     <span class="separator">|</span>
     <span class="byline">
     {% block byline %}
+        posted
+        <span class="date">
+            <abbr class="published" title="{{ entry.published|date_microformat }}">
+                {% spaceless %}
+                {% if entry.published|is_relative %}
+                    <a href="{{ entry.get_absolute_url }}">{{ entry.published|pithy_timesince }}</a>
+                {% else %}
+                    {% blocktrans with entry.get_absolute_url as url and entry.published|pithy_timesince as timestamp %}
+                    on <a href="{{ url }}">{{ timestamp }}</a>
+                    {% endblocktrans %}
+                {% endif %}
+                {% endspaceless %}
+            </abbr>
+        </span>
+
         {% blocktrans with entry.author.get_absolute_url as url and entry.author.display_name as name %}
-            posted by <span class="vcard author"><a href="{{ url }}">{{ name }}</a></span>
+            by <span class="vcard author"><a href="{{ url }}">{{ name }}</a></span>
         {% endblocktrans %}
 
         {% if entry.source %}
@@ -40,21 +55,6 @@
         </span>
         {% endif %}
 
-        <span class="date">
-            <abbr class="published" title="{{ entry.published|date_microformat }}">
-                {% spaceless %}
-                <a href="{{ entry.get_absolute_url }}">
-                {% if entry.published|is_relative %}
-                    {{ entry.published|pithy_timesince }}
-                {% else %}
-                {% blocktrans with entry.published|pithy_timesince as timestamp %}
-                    on {{ timestamp }}
-                {% endblocktrans %}
-                {% endif %}
-                </a>
-                {% endspaceless %}
-            </abbr>
-        </span>
     {% endblock %}
     </span>
 </div>
