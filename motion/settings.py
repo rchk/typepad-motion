@@ -40,8 +40,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
     'typepadapp.csrf_middleware.CsrfMiddleware', # django.contrib.csrf.middleware
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'typepadapp.debug_middleware.DebugToolbarMiddleware',
     'typepadapp.middleware.ConfigurationMiddleware',
+    'typepadapp.debug_middleware.DebugToolbarMiddleware',
     'typepadapp.middleware.ApplicationMiddleware',
     'typepadapp.middleware.UserAgentMiddleware',
 )
