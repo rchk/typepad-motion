@@ -273,6 +273,11 @@ p {
     max-height: 20em;
     width: auto;
 }
+.featured-member .asset-body img.constrained,
+.group-events .asset-body img.constrained {
+    max-height: none;
+    width: inherit;
+}
 #user-compose-friends {
     padding: 10px 20px 40px 20px;
 }
@@ -956,16 +961,18 @@ button.button-delete {
 
 /* videopost */
 
-.asset.video .asset-content object,
-.asset.video .asset-content embed {
-    margin-top: 30px;
+.asset.video .asset-content .embed {
     margin-left: -64px;
 }
+.asset.video .asset-content h2 {
+    height: 55px;
+}
 
-.user-profile .asset.video .asset-content object,
-.user-profile .asset.video .asset-content embed {
-    margin-top: 30px;
+.user-profile .asset.video .asset-content .embed {
     margin-left: 0px;
+}
+.user-profile .asset.video .asset-content h2 {
+    height: inherit;
 }
 
 .user-profile .asset .asset-content,
