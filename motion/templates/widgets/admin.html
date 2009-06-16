@@ -1,8 +1,10 @@
 {% load i18n %}
-<div class="admin-options">
-    <h3>Admin options:</h3>
+
+<div class="widget widget-admin-options{% if member.email %} display{% endif %}{% if not member.is_superuser %} display{% endif %}">
+    <h3 class="design-highlight-color">{% trans "Administrative Options" %}</h3>
+    <div class="widget-content">
     {% if member.email %}
-        <p><a href="mailto:{{ member.email }}">{% blocktrans with member.display_name as name %}Email {{ name }}{% endblocktrans %}</a></p>
+        <p><a href="mailto:{{ member.email }}">{% blocktrans with member.display_name as name %}E-mail {{ name }}{% endblocktrans %}</a></p>
     {% endif %}
     {% if not member.is_superuser %}
         <form id="ban-user-form" action="{{ request.path }}" method="post"></form>
@@ -22,4 +24,5 @@
             {% endif %}
         {% endif %}
     {% endif %}
-</div>
+    </div><!-- end .widget-content -->
+</div><!-- end .widget-admin-options -->
