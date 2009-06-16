@@ -1,7 +1,9 @@
 {% load i18n %}
 {% if page_obj.has_previous or page_obj.has_next %}
-    <div class="pagination">
-        {% blocktrans with page_obj.number as number and page_obj.paginator.num_pages as total %}Page {{ number }} of {{ total }}{% endblocktrans %}
+    <div class="pagination{% if top %} top{% else %} bottom{% endif %}">
+        {% blocktrans with page_obj.number as number and page_obj.paginator.num_pages as total %}
+            Page {{ number }} of {{ total }}
+        {% endblocktrans %}
         &bull;
         {% if page_obj.has_previous %}
             <a href="{{ page_obj.previous_link }}">{% trans "&#171; Previous" %}</a>
