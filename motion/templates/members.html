@@ -45,7 +45,9 @@ Template used for displaying the member directory for the group.
     </h1>
 
     {% if page_obj.has_previous %}
+    {% with "top" as position %}
     {% include "bits/pagination.html" %}
+    {% endwith %}
     {% endif %}
 
     <ul class="member-list">

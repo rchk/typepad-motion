@@ -1,6 +1,6 @@
 {% load i18n %}
 {% if page_obj.has_previous or page_obj.has_next %}
-    <div class="pagination{% if top %} top{% else %} bottom{% endif %}">
+    <div class="pagination{% if position %}{% ifequal position "top" %} top{% else %} bottom{% endifequal %}{% endif %}">
         {% blocktrans with page_obj.number as number and page_obj.paginator.num_pages as total %}
             Page {{ number }} of {{ total }}
         {% endblocktrans %}

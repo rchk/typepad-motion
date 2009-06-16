@@ -1,5 +1,7 @@
 {% if page_obj.previous_link %}
+{% with "top" as position %}
 {% include "bits/pagination.html" %}
+{% endwith %}
 {% endif %}
 
 <ul>
