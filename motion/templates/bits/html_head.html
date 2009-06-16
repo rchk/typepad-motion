@@ -17,9 +17,12 @@
 <script type="text/javascript" src="{{ settings.media_url }}typepadapp/js/jquery.dump.js"></script>
 {% endif %}
 
+<!--[if IE]>
+<link rel="stylesheet" href="{{ settings.media_url }}themes/motion/ie.css" type="text/css" />
+<![endif]--> 
 <!--[if lt IE 7]>
-<link rel="stylesheet" href="{{ settings.media_url }}themes/motion/ie6.css" type="text/css" />
 <script type="text/javascript">
+// the following is for transparent images in IE < 7
 var clear_pixel = '{{ settings.media_url }}typepadapp/images/clear.gif';
 </script>
 <script type="text/javascript" src="{{ settings.media_url }}typepadapp/js/ie6pngfix.js"></script>
