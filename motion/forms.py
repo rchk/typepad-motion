@@ -62,7 +62,6 @@ class PostForm(forms.Form):
         """ Create the new post and return it,
             but don't actually post it to the TypePad API.
         """
-        # TODO: this could be cleaner; models.class_by_type(post_type)?
         if self.cleaned_data['post_type'] == 'link':
             post = typepadapp.models.LinkAsset()
             post.link = self.cleaned_data['url']
@@ -76,6 +75,7 @@ class PostForm(forms.Form):
             post.title = self.cleaned_data['title']
         else:
             post.title = ''
+
         post.content = self.cleaned_data['body']
         return post
 
