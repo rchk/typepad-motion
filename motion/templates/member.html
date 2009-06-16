@@ -35,11 +35,11 @@
             {% if member.about_me %}
             <li><strong>{% trans "About Me:" %}</strong> {{ member.about_me }}</em></li>
             {% endif %}
-            
+
             {% if member.location %}
             <li><strong>{% trans "Location:" %}</strong> {{ member.location }}</em></li>
             {% endif %}
-            
+
             {% if member.homepage %}
             <li><strong>{% trans "Homepage:" %}</strong> <a href="{{ member.homepage }}">{{ member.homepage }}</a></em></li>
             {% endif %}
@@ -56,7 +56,7 @@
             <li class="user-twitter" id="twitter_status"></li>
             {% endif %}
 
-            <li><img src="{{ settings.media_url }}motion/images/services/typepad.png" height="16" width="16" alt="TypePad" />&nbsp;
+            <li><img src="{{ settings.media_url }}motion/images/services/typepad.png" height="16" width="16" alt="{% trans "TypePad" %}" />&nbsp;
                 {% if is_self %}
                 <a href="{{ member.typepad_edit_url }}" rel="me" target="_blank">{% trans "Edit my TypePad profile" %}</a>
                 {% else %}
@@ -67,7 +67,7 @@
             </ul>
         </div>
     </div>
-    
+
     {% include "bits/profile.html" %}
 
     <div class="actions">
@@ -78,6 +78,6 @@
     </div>
 
     {% if twitter_username %}
-    <script type="text/javascript" src="http://profile.typepad.com/services/embed/twitter_status.js?u={{ twitter_username|iriencode }}" defer="defer"></script>
+    <script type="text/javascript" src="http://profile.typepad.com/services/embed/twitter_status.js?u={{ twitter_username|urlencode }}" defer="defer"></script>
     {% endif %}
 {% endblock %}
