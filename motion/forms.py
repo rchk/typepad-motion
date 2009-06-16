@@ -48,7 +48,6 @@ class PostForm(forms.Form):
                 raise forms.ValidationError(_('This field is required.'))
         if self.cleaned_data['body'] == self.body_default_text:
             return ''
-        # TODO: support for certain HTML tags?
         return self.cleaned_data['body']
 
     def clean_url(self):
