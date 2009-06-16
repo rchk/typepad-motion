@@ -44,6 +44,7 @@ MIDDLEWARE_CLASSES = (
     'typepadapp.debug_middleware.DebugToolbarMiddleware',
     'typepadapp.middleware.ApplicationMiddleware',
     'typepadapp.middleware.UserAgentMiddleware',
+    'typepadapp.middleware.AuthorizationExceptionMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
