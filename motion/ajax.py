@@ -1,5 +1,6 @@
 from django import http
 from django.conf import settings
+from django.contrib.auth import get_user
 from django.template.loader import render_to_string
 from django.template import RequestContext
 from django.utils import simplejson
@@ -24,7 +25,6 @@ def more_comments(request):
 
     # Fetch more comments!
     typepad.client.batch_request()
-    from django.contrib.auth import get_user
     request.user = get_user(request)
     asset = models.Asset.get_by_url_id(asset_id)
     comments = asset.comments.filter(start_index=offset, max_results=settings.COMMENTS_PER_PAGE)
@@ -53,9 +53,7 @@ def favorite(request):
     if not asset_id:
         raise http.Http404
 
-    # TODO: do we need to do these requests? we should only need the IDs, really
     typepad.client.batch_request()
-    from django.contrib.auth import get_user
     request.user = get_user(request)
     asset = models.Asset.get_by_url_id(asset_id)
     typepad.client.complete_batch()
@@ -75,7 +73,6 @@ def favorite(request):
 def edit_profile(request):
 
     typepad.client.batch_request()
-    from django.contrib.auth import get_user
     user = get_user(request)
     typepad.client.complete_batch()
 
