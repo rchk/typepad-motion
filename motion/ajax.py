@@ -95,7 +95,6 @@ def upload_url(request):
     """
     Return an upload URL that the client can use to POST a media asset.
     """
-    ## TODO backend url from api
     remote_url = request.application.browser_upload_endpoint
     url = request.oauth_client.get_file_upload_url(remote_url)
     url = 'for(;;);%s' % url # no third party sites allowed.
