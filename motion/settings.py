@@ -111,6 +111,9 @@ POST_TYPES =  [
     { "id": "audio", "label": "Audio" },
 ]
 
+# Display a post's title (if it has one).
+USE_TITLE = False
+
 DEFAULT_USERPIC_PATH = 'images/default-avatars/spaceface-50x50.jpg'
 
 USE_GRAVATAR = False
