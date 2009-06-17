@@ -2,7 +2,7 @@
 {% load generic_filters %}
 {% load typepad_filters %}
 
-{% if settings.use_title %}
+{% if settings.use_titles %}
     {% block title %}{% if entry.title %}<h2><a href="{{ entry.get_absolute_url }}">{% spaceless %}
         {% if entry.source %}
             {% autoescape off %}{{ entry.title|striptags }}{% endautoescape %}
