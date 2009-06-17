@@ -2,15 +2,17 @@
 {% load generic_filters %}
 {% load typepad_filters %}
 
-{% if settings.use_titles %}
-    {% block title %}{% if entry.title %}<h2><a href="{{ entry.get_absolute_url }}">{% spaceless %}
+{% block title %}
+    {% if entry.title %}{% spaceless %}
         {% if entry.source %}
-            {% autoescape off %}{{ entry.title|striptags }}{% endautoescape %}
+            <h2><a href="{{ entry.get_absolute_url }}">{% autoescape off %}{{ entry.title|striptags }}{% endautoescape %}</a></h2>
         {% else %}
-            {{ entry.title }}
+            {% if settings.use_titles %}
+            <h2><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h2>
+            {% endif %}
         {% endif %}
-    {% endspaceless %}</a></h2>{% endif %}{% endblock %}
-{% endif %}
+    {% endspaceless %}{% endif %}
+{% endblock %}
 
 {% block media %}{% endblock %}
 {% block activity %}{% endblock %}
