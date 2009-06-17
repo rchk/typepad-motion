@@ -70,7 +70,7 @@
             {% url register as register_url %}
             {% blocktrans with request.group.display_name as group_name and request.path|urlencode as next %}
             <h2 class="comments-open-header">
-                <a href="{{ login_url }}?next={{ next }}">Sign in</a> or <a href="{{ register_url }}">join {{ group_name }}</a> to add a comment.
+                <a href="{{ login_url }}?next={{ next }}">Sign in or join {{ group_name }}</a> to add a comment.
             {% endblocktrans %}
         {% endif %}
         </div>

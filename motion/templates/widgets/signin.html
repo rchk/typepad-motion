@@ -2,11 +2,9 @@
 <div class="widget-sign-in widget">
     <div id="signin-widget-content" class="widget-content">
         {% if not user.is_authenticated %}
-            <a href="{% url login %}?next={{ request.path|urlencode }}">{% trans "Sign In" %}</a>
-            <span class="separator">|</span>
-            {% url register as register_url %}
-            {% blocktrans with request.group.display_name as group_name %}
-                <a href="{{ register_url }}">Join {{ group_name }}</a>
+            {% url login as login_url %}
+            {% blocktrans with request.path|urlencode as request_path and request.group.display_name as group_name %}
+                <a href="{{ login_url }}?next={{ request_path }}">Sign in or join {{ group_name }}</a>
             {% endblocktrans %}
         {% else %}
             {% blocktrans with user.get_absolute_url as url and user.display_name as name %}Hi <a href="{{ url }}">{{ name }}</a>{% endblocktrans %}
