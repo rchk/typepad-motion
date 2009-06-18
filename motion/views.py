@@ -191,8 +191,6 @@ class MemberView(AssetEventView):
         self.context.update(locals())
 
     def get(self, request, userid, *args, **kwargs):
-        ## TODO figure out if we can get the group user more directly.
-
         # Verify this user is a member of the group.
         user_memberships = self.context['user_memberships']
         member = self.context['member']
