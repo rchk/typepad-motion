@@ -27,7 +27,7 @@ urlpatterns = patterns('motion.views',
     url(r'^following/?$', 'FollowingEventsView', name='following_events'),
     url(r'^following/page/(?P<page>\d+)/?$', 'FollowingEventsView'),
 
-    # member pages
+    # member pages (userids are [a-zA-Z0-9_]+)
     url(r'^members/?$', 'MembersView', name='members'),
     url(r'^members/page/(?P<page>\d+)/?$', 'MembersView'),
     url(r'^members/(?P<userid>\w+)/?$', 'MemberView', name='member'),
