@@ -331,22 +331,10 @@ p {
     margin: 0 auto;
     padding: 20px 0;
 }
-#footer a {
-/*    color: #fff;*/
-}
-#footer .widget {
-    float: left;
-    width: 300px;
-    margin-right: 20px;
+#footer-content {
     font-size: 12px;
     color: #999;
     line-height: 1.4;
-}
-#footer .widget h3 {
-    display: none;
-}
-#footer .widget-powered {
-    margin-right: 0;
 }
 
 /* Main Index ------------------------------------------------------------- */
