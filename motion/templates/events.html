@@ -19,7 +19,7 @@
         {% if settings.allow_posting and user.is_authenticated %}
         <div id="user-compose-friends-inner" class="pkg">
             {% include "bits/compose_form.html" %}
-            {% include "bits/friends.html" %}
+            {% include "widgets/compose_user.html" %}
         </div><!-- end #user-compose-friends-inner -->
         {% endif %}
     </div><!-- end #user-compose-friends -->
