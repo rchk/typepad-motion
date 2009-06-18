@@ -498,7 +498,9 @@ $(document).ready(function () {
 
             // clear any default labels
             $("#form-compose .default-value").each(function() {
-                $(this).val('');
+                $(this).removeClass('default-value');
+                if ($.trim($(this).val()) == $(this).attr('title'))
+                    $(this).val('');
             });
 
             // form validation; check for required fields and valid file
