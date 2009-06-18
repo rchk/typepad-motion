@@ -195,7 +195,14 @@ class MemberView(AssetEventView):
         user_memberships = self.context['user_memberships']
         member = self.context['member']
 
-        is_member = user_memberships.has_membership()
+        try:
+            user_membership = user_memberships[0]
+        except IndexError:
+            is_member = False
+            is_blocked = False
+        else:
+            is_member = user_membership.is_member()
+            is_blocked = user_membership.is_blocked()
 
         if not request.user.is_superuser: # admins can see all members
             if not len(self.object_list) and not is_member:
@@ -205,7 +212,7 @@ class MemberView(AssetEventView):
 
         self.context['is_self'] = request.user.id == member.id
         self.context['is_member'] = is_member
-        self.context['is_blocked'] = user_memberships.has_blocked()
+        self.context['is_blocked'] = is_blocked
 
         elsewhere = self.context['elsewhere']
         if elsewhere:
@@ -235,16 +242,27 @@ class MemberView(AssetEventView):
         user_memberships = models.User.get_by_url_id(userid).memberships.filter(by_group=request.group)
         typepad.client.complete_batch()
 
-        if not request_user.is_superuser or user_memberships.has_admin():
+        try:
+            user_membership = user_memberships[0]
+        except IndexError:
+            is_admin = False
+            is_member = False
+            is_blocked = False
+        else:
+            is_admin = user_membership.is_admin()
+            is_member = user_membership.is_member()
+            is_blocked = user_membership.is_blocked()
+
+        if not request_user.is_superuser or is_admin:
             # must be an admin to ban and cannot ban/unban another admin
             raise Http404
 
-        if user_memberships.has_membership():
+        if is_member:
             # ban user
-            user_memberships[0].block()
-        elif user_memberships.has_blocked():
+            user_membership.block()
+        elif is_blocked:
             # unban user
-            user_memberships[0].unblock()
+            user_membership.unblock()
 
         # Return to current page.
         return HttpResponseRedirect(request.path)
