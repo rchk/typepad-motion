@@ -1507,6 +1507,10 @@ button.button-delete {
 .profile-header-content #page-title {
     white-space: nowrap;
 }
+#edit-profile-link {
+    padding-left: 22px;
+    background: url(images/icons/edit-field.png) no-repeat 0 0;
+}
 .user-profile .recent-entry .asset {
     margin-bottom: 10px;
 }

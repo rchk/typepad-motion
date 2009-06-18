@@ -13,7 +13,7 @@
     
     {% if profileform %}
     <form id="profile-data-form" method="post" action="{{ member.edit_url }}">
-        <img src="{{ settings.media_url }}images/spinner.gif" class="spinner" />
+        <img src="{{ settings.media_url }}themes/{{ settings.theme }}/images/spinner.gif" class="spinner" />
         <ul class="profile-data">
             {% for field in profileform %}
             <li>
@@ -26,7 +26,7 @@
             {% endfor %}
         </ul>
         <div id="profile-edit">
-            <img src="{{ settings.media_url }}images/icons/edit-field.png" />&nbsp;<a id="edit-profile-link" href="#">{% trans "Edit my profile" %}</a>
+            <a id="edit-profile-link" href="#">{% trans "Edit my profile" %}</a>
         </div>
         <div id="profile-buttons" style="display:none;">
             <input id="profile-save" type="submit" value="Save" />
