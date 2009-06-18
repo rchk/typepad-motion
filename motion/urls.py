@@ -57,7 +57,6 @@ urlpatterns += patterns('typepadapp.views.generic.simple',
 # Feeds
 from motion.feeds import PublicEventsFeed, MemberFeed, CommentsFeed
 urlpatterns += patterns('',
-    ## TODO this is how Django does feed URLS - do we want a different style?
     url(r'^feeds/(?P<url>.*)/?$', 'django.contrib.syndication.views.feed',
         {'feed_dict':
             {
