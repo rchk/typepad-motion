@@ -1,0 +1,12 @@
+<li class="member-listitem {% cycle '' 'even' %}">
+    <div class="userpic">
+        {% with member as user %}
+            {% include "assets/bits/userpic.html" %}
+        {% endwith %}
+    </div>
+    <div class="member-info">
+        <h4><a href="{{ member.get_absolute_url }}" class="name">{{ member.display_name }}</a></h4>
+        {% if member.location %}<p>{{ member.location }}</p>{% endif %}
+        {% if member.about_me %}<p>{{ member.about_me }}</p>{% endif %}
+    </div>
+</li>

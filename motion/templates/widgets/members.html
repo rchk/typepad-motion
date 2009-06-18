@@ -13,7 +13,7 @@
         {% for membership in memberships %}
             {% with membership.source as member %}
             {% with 50 as photo_size %}
-                {% include "bits/list_member.html" %}
+                {% include "bits/member_widget_item.html" %}
             {% endwith %}
             {% endwith %}
         {% endfor %}

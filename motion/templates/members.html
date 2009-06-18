@@ -54,13 +54,13 @@ Template used for displaying the member directory for the group.
         {% if rel %}
             {% for relationship in page_obj.object_list %}
                 {% with relationship.target as member %}
-                    {% include "bits/member_listitem.html" %}
+                    {% include "bits/member_page_item.html" %}
                 {% endwith %}
             {% endfor %}
         {% else %}
             {% for membership in page_obj.object_list %}
                 {% with membership.source as member %}
-                    {% include "bits/member_listitem.html" %}
+                    {% include "bits/member_page_item.html" %}
                 {% endwith %}
             {% endfor %}
         {% endif %}
