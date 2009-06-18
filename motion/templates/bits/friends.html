@@ -10,12 +10,9 @@
         </div><!-- end #compose-userpic -->
         <div id="user-meta" class="pkg">
             <div id="user-username">{{ user.display_name }}</div>
-            <div id="user-counts">
-                {% blocktrans count actions.total_results|default:"0" as count %}
-                    {{ count }} action
-                {% plural %}
-                    {{ count }} actions
-                {% endblocktrans %}
+            <div id="user-data">
+                {% if user.location %}<p>{{ user.location }}</p>{% endif %}
+                {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
             </div>
         </div>
         {% with user as member %}
