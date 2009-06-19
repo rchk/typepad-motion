@@ -81,7 +81,6 @@ class GroupEventsView(AssetEventView, AssetPostView):
         if request.user.is_authenticated():
             following = request.user.following(group=request.group, max_results=settings.FOLLOWERS_PER_WIDGET)
             followers = request.user.followers(group=request.group, max_results=settings.FOLLOWERS_PER_WIDGET)
-            actions = request.user.group_events(request.group, max_results=0)
         self.context.update(locals())
         super(GroupEventsView, self).select_from_typepad(request, *args, **kwargs)
 
