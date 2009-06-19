@@ -91,5 +91,4 @@ class CommentForm(forms.Form):
         comment = typepadapp.models.Comment()
         comment.title = ''
         comment.content = self.cleaned_data['body']
-        # FIXME: in_reply_to needs to be set!
         return comment
