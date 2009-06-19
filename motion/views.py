@@ -120,6 +120,16 @@ class AssetView(TypePadView):
         favorites = entry.favorites
         self.context.update(locals())
 
+    def get(self, *args, **kwargs):
+        # Verify this user is a member of the group.
+        entry = self.context['entry']
+
+        if not entry.is_local:
+            # if this entry isn't local, 404
+            raise Http404
+
+        return super(AssetView, self).get(*args, **kwargs)
+
     def post(self, request, postid, *args, **kwargs):
         # Delete entry
         if 'delete' in request.POST:
