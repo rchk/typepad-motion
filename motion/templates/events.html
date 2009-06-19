@@ -26,15 +26,6 @@
 {% endblock %}
 
 {% block content_body %}
-    {% if settings.use_dwim %}
-    <div class="actions" id="compose-preview" style="display:none">
-        <h3>{% trans "Post Preview" %}</h3>
-        <ul>
-            <li id="compose-preview-inner" class="asset action-asset hentry"></li>
-        </ul>
-    </div><!-- end .actions#compose-preview -->
-    {% endif %}
-
     <div class="actions">
         {% with page_obj.object_list as events %}
         {% include "bits/event_list.html" %}

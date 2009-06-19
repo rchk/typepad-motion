@@ -1809,40 +1809,6 @@ ul.profile-data li .edit {
     max-width: 100%;
 }
 
-/* styling for dwim compose intro hint */
-#field-body {
-/*    position: relative; */
-}
-#dwim-tip {
-    z-index: 10;
-    margin-left: 60px;
-    color: #555;
-    font-size: 12px;
-    background-color: #FCFBBC;
-    position: absolute;
-    font-style: italic;
-    width: 440px;
-    top: -26px;
-    height: 14px;
-    padding-top: 5px;
-    padding-bottom: 3px;
-    margin-bottom: 3px;
-    border: 1px solid #ffcc02;
-}
-#dwim-tip-bottom {
-    position: absolute;
-    display: block;
-    top: 22px;
-    left: 230px;
-    height: 8px;
-    width: 25px;
-    margin-left: auto;
-    margin-right: auto;
-    background-image: url(images/dwim_tip_triangle.png);
-    background-position: bottom;
-    background-repeat: none;
-}
-
 /* dimensions and layout */
 #container {
     width: 954px;

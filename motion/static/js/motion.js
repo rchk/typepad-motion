@@ -1,10 +1,8 @@
 var settings;
 settings = {
-    use_dwim: false,
     upload_url: '',
     favorite_url: '',
     comments_url: '',
-    render_url: '',
     phrase: {
         textRequired: 'Please enter some text.',
         fileRequired: 'Please select a file to post.',
@@ -185,10 +183,8 @@ $(document).ready(function () {
             }
         }
         // Enable default entry fields
-        if (! settings.use_dwim ) {
-            post_type = $('#compose-class').val() || 'post';
-            updateEntryFields($('#entry-' + post_type));
-        }
+        post_type = $('#compose-class').val() || 'post';
+        updateEntryFields($('#entry-' + post_type));
 
         // Change entry fields
         $('#entry-types li a').click(function() {
@@ -209,273 +205,6 @@ $(document).ready(function () {
             }
             return false;
         });
-        var previewVisible = false;
-        $('#live-preview').click(function() {
-            previewVisible = !previewVisible;
-            if (previewVisible) {
-                updateComposePreview();
-                $('#compose-preview').fadeIn(450, function() {
-                    $('#live-preview').html('- hide preview');
-                });
-            } else {
-                $('#compose-preview').fadeOut(450, function() {
-                    $('#live-preview').html('+ live preview');
-                });
-            }
-            return false;
-        });
-
-        var postPreviewTimer = null;
-        $('#compose-title,#compose-body').keyup(function() {
-            if (!previewVisible) return;
-            if (postPreviewTimer) {
-                clearTimeout(postPreviewTimer);
-                postPreviewTimer = null;
-            }
-            postPreviewTimer = setTimeout(updateComposePreview, 500);
-        });
-
-        var urlCache = {};
-        function updateComposePreview() {
-            // TBD: throttle me
-            var val = $('#compose-body').val();
-            var title = $('#compose-title').val();
-            var data = parsePost( val );
-            var preview = '';
-            urls_to_render = [];
-            for (var i = 0; i < data.urls.length; i++) {
-                var link = data.urls[i];
-                if (urlCache[link]) continue;
-                urls_to_render.push(link);
-            }
-
-            if ( urls_to_render.length ) {
-                $.post(settings.render_url, {
-                    url: urls_to_render
-                }, function(str) {
-                    if (str && str['response']['blocks']) {
-                        for (url in str['response']['blocks'])
-                            urlCache[url] = str['response']['blocks'][url];
-                    }
-                    renderPreview(val, title);
-                }, "json");
-            }
-            else {
-                renderPreview(val, title);
-            }
-        }
-
-        var lastPreview;
-        var showDown;
-        function renderPreview(html, title) {
-            // clear placeholders
-            if (html == 'Say something...') html = '';
-            if (title == 'Title')  title = '';
-
-            // no change since last render? return
-            if ( lastPreview == html + title )
-                return;
-
-            lastPreview = html + title;
-
-            // create a showdown parser
-            // if (!showDown)
-            //     showDown = new Showdown.converter();
-
-            // parse out lines from input (strips leading/trailing whitespace)
-            var lines = html.split(/ *\r?\n */);
-
-            var post_type = "post";
-            // other post types: status, photo, video, audio, link
-
-            html = '';
-            var para = ''; // accumulation variable for current 'paragraph'
-            var used_media = 0; // counts number of embedded objects
-            var para_count = 0; // counts number of 'paragraphs'
-            var media_type; // holds media type for an embedded object
-            for (var i = 0; i < lines.length; i++) {
-                var line = lines[i];
-                if ( (line == '') && (para != '') ) {
-                    para = para.replace(/\s*$/, '');
-                    para = para.replace(/^\s*/, '');
-                    if ( para != '' ) {
-                        para_count++;
-                        html += (showDown ? showDown.makeHtml( para ) : '<p>' + convertLineBreaks( para ) + '</p>') + "\n\n";
-                        para = '';
-                    }
-                }
-
-                var m;
-                // URL recognition; playing with this algorithm. One
-                // variation handles parenthesis inside the URL (like in
-                // Wikipedia articles). Algorithm found here:
-                // http://www.regexguru.com/2008/11/detecting-urls-in-a-block-of-text/
-                // /\b(?:(?:https?|ftp|file)://|www\.|ftp\.)
-                //   (?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#/%=~_|$?!:,.])*
-                //   (?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[A-Z0-9+&@#/%=~_|$])
-                if (m = line.match(/^(https?:\/\/(?:[-a-zA-Z0-9+&@#\/%=~_|$?!:;,.])*(?:[a-zA-Z0-9+&@#\/%=~_|$]))/)) {
-                    if ( para != '' ) {
-                        para = para.replace(/\s*$/, '');
-                        para = para.replace(/^\s*/, '');
-                        if ( para != '' ) {
-                            para_count++;
-                            html += (showDown ? showDown.makeHtml( para ) : '<p>' + convertLineBreaks( para ) + '</p>') + "\n\n";
-                            para = '';
-                        }
-                    }
-                    if (urlCache[m[1]]) {
-                        // count this as an embedded media reference
-                        used_media++;
-                        var block = urlCache[m[1]]['html'];
-                        // assign returned media type if available
-                        media_type = urlCache[m[1]]['type'];
-                        // check for a caption following a link; put it in the 'caption'
-                        // span if one is present, then skip over the caption line.
-                        if ( (i+1 <= lines.length - 1) && (lines[i+1] != '')
-                            && (( i + 1 == lines.length-1 ) || ( lines[i+2] == '' ))) {
-                            if (block.match(/<span class=\"caption\">/)) {
-                                block = block.replace(/<span class=\"caption\">(.*?)<\/span>/, "<span class=\"caption\">"
-                                    + (showDown ? showDown.makeHtml(lines[i+1]) : escapeHTML(lines[i+1])) + "</span>");
-                                i++;
-                            }
-                            else if (media_type == "link") {
-                                // handle captions for links differently. put the
-                                // caption as the linked text itself.
-                                block = block.replace(/(<a[^>]+>)(.+?)<\/a>/, '$1' + lines[i+1] + '</a>')
-                                i++;
-                            }
-                        }
-                        // strip an empty caption
-                        block = block.replace(/<span class=\"caption\"><\/span>/, "");
-                        html += block + "\n\n";
-                    } else {
-                        // accumulate this line as-is
-                        para += line + "\n";
-                    }
-                }
-                else {
-                    // check for an embed block
-                    if ( line.match(/<object/) ) {
-                        // FIXME: far too trusting right now
-                        // add sanitization; whitelist checks
-
-                        used_media++;
-
-                        // specific media typing for youtube; this should be
-                        // handled in a pluggable way
-                        if (line.match(/\.?youtube\.com\//))
-                            media_type = "video";
-                        else
-                            media_type = 'other';
-
-                        // the 'line' here should be sanitized and safe.
-                        // don't escape it
-                        var block = "<div class=\"embed embed-" + media_type + "\"><span class=\"embed-inner\">"
-                            + line
-                            + "<span class=\"caption\"></span>"
-                            + "</span></div>";
-                        if ( (i+1 <= lines.length - 1) && (lines[i+1] != '')
-                            && (( i + 1 == lines.length-1 ) || ( lines[i+2] == '' ))) {
-                            if (block.match(/<span class=\"caption\">/)) {
-                                block = block.replace(/<span class=\"caption\">(.*?)<\/span>/, "<span class=\"caption\">"
-                                    + (showDown ? showDown.makeHtml(lines[i+1]) : escapeHTML(lines[i+1])) + "</span>");
-                                i++;
-                            }
-                        }
-                        block = block.replace(/<span class=\"caption\"><\/span>/, "");
-                        html += block + "\n\n";
-                    }
-                    else {
-                        // add this line to the 'para' accumulator
-                        para += line + "\n";
-                    }
-                }
-            }
-            // handle any remaining content in 'para' variable
-            if ( para != '' ) {
-                para = para.replace(/\s*$/, '');
-                para = para.replace(/^\s*/, '');
-                if ( para != '' ) {
-                    para_count++;
-                    html += (showDown ? showDown.makeHtml( para ) : '<p>' + convertLineBreaks( para ) + '</p>') + "\n\n";
-                }
-            }
-
-            // only 1 media item used? this is a media post
-            if (used_media == 1) {
-                // force media type to 'photo' if it is 'image'
-                if (media_type == "image")
-                    post_type = "photo"
-                else
-                    post_type = media_type;
-            }
-
-            // a blog post with 1 paragraph? nope, that's a status post.
-            if ((post_type == "post") && (para_count == 1))
-                post_type = "status";
-
-            // more than 1 paragraph? looks like a blog post to me...
-            if (para_count > 1)
-                post_type = "post";
-
-            // someone assigned a title to a status? nope, that's a blog post.
-            if (title && (title != '') && (post_type == 'status'))
-                post_type = "post";
-
-            // meta block
-            var meta = "<div class=\"asset-meta\">\n"
-                + "<span class=\"byline\">\n"
-                + "posted by <span class=\"vcard author\"><a href=\"#\">"
-                + escapeHTML( user.name ) + "</a></span>\n"
-                + "just now!</span>\n"
-                + "</div>\n";
-
-            // post icon
-            var icon = "<div class=\"icon icon-" + post_type + "\"></div>";
-
-            // userpic block
-            var userpic = "<div class=\"userpic\"><a href=\"\" class=\"userpic-link\">\n"
-                + "<img src=\"" + escapeHTML(user.userpic) + "\" height=\"40\" width=\"40\" alt=\"" + escapeHTML(user.name) + "\" class=\"photo\" /></a>\n</div>\n\n";
-
-            // content block
-            var content = "<div class=\"asset-content\">\n"
-                + "<div class=\"asset-body\">\n"
-                + (title && (title != 'Title') ? ( "<h2><a href=\"#\">" + escapeHTML(title) + "</a></h2>\n\n" ) : "")
-                + html + "\n</div>\n</div>\n";
-
-            // entire list item
-            html = "<li class=\"asset action-asset hentry asset-" + post_type + "\">\n"
-                + icon
-                + userpic
-                + content
-                + meta
-                + "\n</li>\n";
-
-            // *cough*HACK*cough*. if "debug" is somewhere in block, show preformatted
-            // markup so we can see what's going on
-            if ( html.match(/debug/) )
-                html = '<p>type: ' + post_type + '</p><pre>' + escapeHTML(html) + '</pre>';
-
-            // assign preview to compose-preview-inner div
-            $('#compose-preview-inner').html(html);
-        }
-
-        function parsePost(str) {
-            var lines = str.split(/ *\r?\n */);
-            var urls = [];
-            for (var i = 0; i < lines.length; i++) {
-                var line = lines[i];
-                var m;
-                // /\b(?:(?:https?|ftp|file)://|www\.|ftp\.)
-                //   (?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#/%=~_|$?!:,.])*
-                //   (?:\([-A-Z0-9+&@#/%=~_|$?!:,.]*\)|[A-Z0-9+&@#/%=~_|$])
-                // if (m = line.match(/^(https?:\/\/(?:[-a-zA-Z0-9]+\.?)+?\/(?:[-a-zA-Z0-9+&@#\/%=~_|$?!:;,.])*(?:[a-zA-Z0-9+&@#\/%=~_|$]))/)) {
-                if (m = line.match(/^(https?:\/\/(?:[-a-zA-Z0-9+&@#\/%=~_|$?!:;,.])*(?:[a-zA-Z0-9+&@#\/%=~_|$]))/)) {
-                    urls.push(m[1]);
-                }
-            }
-            return { 'urls': urls };
-        }
 
     // Compose Submission Handler
         // Create container for new entry
@@ -505,86 +234,60 @@ $(document).ready(function () {
 
             // form validation; check for required fields and valid file
             // extensions...
-            if (settings.use_dwim) {
-                // only one file field is present; "file"
-                // determine if the file matches required extensions
-                var file_name = f.file.value;
-                if (file_name) {
-                    if (!fileExtensionCheck(file_name, ['mp3', 'aac', 'm4a', 'gif', 'jpg', 'jpeg', 'png'])) {
-                        return compose_error(settings.phrase.invalidFileType);
-                    }
-                    return true;
+            var file_name;
+            if (post_type == 'audio') {
+                file_name = f.file.value;
+                if (!file_name) {
+                    return compose_error(settings.phrase.fileRequired);
+                } else if (!fileExtensionCheck(file_name, ['mp3', 'aac', 'm4a'])) {
+                    return compose_error(settings.phrase.invalidFileType);
                 }
-            } else {
-                var file_name;
-                if (post_type == 'audio') {
-                    file_name = f.file.value;
-                    if (!file_name) {
-                        return compose_error(settings.phrase.fileRequired);
-                    } else if (!fileExtensionCheck(file_name, ['mp3', 'aac', 'm4a'])) {
-                        return compose_error(settings.phrase.invalidFileType);
-                    }
-                } else if (post_type == 'photo') {
-                    file_name = f.file.value;
-                    if (!file_name) {
-                        return compose_error(settings.phrase.fileRequired);
-                    } else if (!fileExtensionCheck(file_name, ['gif', 'png', 'jpg', 'jpeg'])) {
-                        return compose_error(settings.phrase.invalidFileType);
-                    }
-                } else if (post_type == 'post') {
-                    // message body is required
-                    if ($("#compose-body").val() == "") {
-                        return compose_error(settings.phrase.textRequired);
-                    }
+            } else if (post_type == 'photo') {
+                file_name = f.file.value;
+                if (!file_name) {
+                    return compose_error(settings.phrase.fileRequired);
+                } else if (!fileExtensionCheck(file_name, ['gif', 'png', 'jpg', 'jpeg'])) {
+                    return compose_error(settings.phrase.invalidFileType);
                 }
-                // file-based posts do not use ajax no matter what
-                if (file_name) {
-                    // Fetch the upload URL via XHR. Submit form to returned URL in callback.
-                    $.ajax({
-                        'type': 'GET',
-                        'url': settings.upload_xhr_endpoint,
-                        'success': function(data, textStatus) {
-                            f.action = data.substring(8, data.length);
-                            if (!f.action) {
-                                return compose_error(settings.phrase.errorFetchingUploadURL);
-                            }
-                            // JSON object to upload
-                            f.asset.value = $.toJSON({
-                                //'title': file_name,
-                                'content': f.body.value,
-                                'objectTypes':  ['tag:api.typepad.com,2009:' + 
-                                    post_type.substring(0,1).toUpperCase() + post_type.substring(1)]
-                            });
-                            // All set, submit!
-                            f.submit();
-                        },
-                        'error': function(xhr, status_, error) {
-                            alert(settings.phrase.errorFetchingUploadURL);
-                        }
-                    });
-                    // Don't submit the form just yet.
-                    return false;
-                }
-                else {
-                    f.action = "";
+            } else if (post_type == 'post') {
+                // message body is required
+                if ($("#compose-body").val() == "") {
+                    return compose_error(settings.phrase.textRequired);
                 }
             }
-
-            if (settings.use_dwim) { // dwim and ajax go together
-                // flag this as an ajax request
-                $(this).ajaxSubmit({
-                    target: '#response-handler',
-                    beforeSubmit: beforeSubmit,
-                    // ajax request is always encoded in utf-8 no matter 
-                    // what charset the actual page is encoded, isn't it?
-                    // file-based posts do not use ajax so the type should be ok.
-                    contentType: 'application/x-www-form-urlencoded; charset=utf-8',
-                    success: displayEntry
+            // file-based posts do not use ajax no matter what
+            if (file_name) {
+                // Fetch the upload URL via XHR. Submit form to returned URL in callback.
+                $.ajax({
+                    'type': 'GET',
+                    'url': settings.upload_xhr_endpoint,
+                    'success': function(data, textStatus) {
+                        f.action = data.substring(8, data.length);
+                        if (!f.action) {
+                            return compose_error(settings.phrase.errorFetchingUploadURL);
+                        }
+                        // JSON object to upload
+                        f.asset.value = $.toJSON({
+                            //'title': file_name,
+                            'content': f.body.value,
+                            'objectTypes':  ['tag:api.typepad.com,2009:' + 
+                                post_type.substring(0,1).toUpperCase() + post_type.substring(1)]
+                        });
+                        // All set, submit!
+                        f.submit();
+                    },
+                    'error': function(xhr, status_, error) {
+                        alert(settings.phrase.errorFetchingUploadURL);
+                    }
                 });
+                // Don't submit the form just yet.
                 return false;
             }
-            else
-                return true;
+            else {
+                f.action = "";
+            }
+
+            return true;
         });
 
         function beforeSubmit(){
@@ -906,15 +609,11 @@ function formFieldFocus(){
     $("input[type=text], textarea").bind('focus', function() {
         if ($.trim($(this).val()) == $(this).attr('title')) {
             $(this).removeClass('default-value').val('');
-            if (settings.use_dwim && ($(this).attr('id') == "compose-body"))
-                $('#dwim-tip').show();
         }
     // onBlur, if value empty or equal to title, add default-value class and copy value from title.
     }).bind('blur', function() {
         if ($.trim($(this).val()) == '')
             $(this).addClass('default-value').val($(this).attr('title'));
-        if (settings.dwim && ($(this).attr('id') == "compose-body"))
-            $('#dwim-tip').hide();
     });
 }
 

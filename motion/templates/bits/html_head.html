@@ -47,10 +47,6 @@ user = {
 settings.upload_xhr_endpoint = '{{ upload_xhr_endpoint|escapejs }}';
 settings.comments_url = '{% url comments_url %}';
 settings.favorite_url = '{% url favorite_url %}';
-{% if settings.use_dwim %}
-settings.render_url = '{% url render_url %}';
-settings.use_dwim = true;
-{% endif %}
 /* ]]> */
 </script>
 

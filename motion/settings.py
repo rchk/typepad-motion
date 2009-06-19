@@ -114,7 +114,6 @@ POST_TYPES =  [
 DEFAULT_USERPIC_PATH = 'images/default-avatars/spaceface-50x50.jpg'
 
 USE_GRAVATAR = False
-USE_DWIM = False
 USE_TITLES = False
 
 # Switches to enable/disable posting/commenting/rating/following

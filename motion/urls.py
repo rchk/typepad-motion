@@ -37,10 +37,6 @@ urlpatterns = patterns('motion.views',
     url(r'^members/(?P<userid>\w+)/(?P<rel>following|followers)/page/(?P<page>\d+)/?$', 'RelationshipsView'),
 )
 
-urlpatterns += patterns('motion.dwim',
-    url(r'^ajax/url_render/?$', 'url_render', name='render_url'),
-)
-
 urlpatterns += patterns('motion.ajax',
     url(r'^ajax/more_comments/?$', 'more_comments', name='comments_url'),
     url(r'^ajax/favorite/?$', 'favorite', name='favorite_url'),
