@@ -356,7 +356,6 @@ $(document).ready(function () {
                     $('#profile-data-form .form-field').children('.value').each(function (i) {
                         $(this).text($(this).siblings('.edit').children('input').val());
                         $(this).text($(this).siblings('.edit').children('select').val());
-                        // TODO figure out what to do with checkboxes
                     }).show();
                     $('#profile-data-form .spinner').hide();
                     $('#profile-data-form .profile-data').show();
