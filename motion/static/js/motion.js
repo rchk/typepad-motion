@@ -294,20 +294,6 @@ $(document).ready(function () {
             $('#quickpost-error').fadeOut().remove();
             $('#spinner, #spinner-status').fadeIn('fast').css('height',$('#compose').height());
         }
-
-        // response function
-        function displayEntry(){
-            if ($('#response-handler #quickpost-error').size() == 0)
-                $('#form-compose').clearForm();
-            // hide new entry, move to main listing.
-            $('#response-handler > li').hide().insertBefore('.actions ul:first li');
-            // slide to show.
-            $('.actions li:first').slideDown();
-            $('#spinner, #spinner-status').fadeOut();
-            formFieldFocus(); // FIXME: is this necessary?
-            // Initiate Entry Hover behavior
-            initEntryHover();
-        }
     };
 
     // local profile editing
