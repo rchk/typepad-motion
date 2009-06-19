@@ -78,8 +78,6 @@ def oembed(url):
     (response, content) = http.request(req_url)
     # content = re.sub("\\'", "'", content)
     try:
-        # FIXME: simplejson seems to not handle embedded "'" characters
-        # very well.
         embed = json.loads( content )
     except:
         return None
