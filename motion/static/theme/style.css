@@ -1859,7 +1859,7 @@ ul.profile-data li .edit {
 #header #header-name a {
     text-indent: -9999px;
     /* logo image is 400px by 85px; PNG with alpha layer */
-    background-image: url(images/motion2-logo.png);
+    background-image: url(images/motion-logo.png);
     background-repeat: no-repeat;
 }
 
