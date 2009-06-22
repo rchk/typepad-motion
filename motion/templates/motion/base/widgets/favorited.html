@@ -1,0 +1,25 @@
+{% load i18n %}
+
+<div class="widget widget-members">
+    <h3 class="design-highlight-color">
+        {% blocktrans count favorites.total_results as count %}
+            1 person made this a favorite
+        {% plural %}
+            {{ count }} people made this a favorite
+        {% endblocktrans %}
+    </h3>
+    <div class="widget-content members">
+        <ul>
+        {% for favorite in favorites %}
+            {% with favorite.author as member %}
+            {% with 50 as photo_size %}
+                {% include "motion/bits/member_widget_item.html" %}
+            {% endwith %}
+            {% endwith %}
+        {% endfor %}
+        </ul>
+        {% ifequal favorites.total_results 50 %}
+        <div class="more">{% trans "(only first 50 shown)" %}</div>
+        {% endifequal %}
+    </div><!-- end .widget-content -->
+</div><!-- end .widget-members -->

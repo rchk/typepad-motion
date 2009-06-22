@@ -1,0 +1,23 @@
+{% extends "motion/member.html" %}
+
+{% block page_id %}featured-member{% endblock %}
+
+{% block beta_widgets %}
+	{% include "motion/widgets/members.html" %}
+{% endblock %}
+
+{% block content_body %}
+    {% if is_self and user.is_featured_member %}
+	    <div id="featured-member-compose" class="pkg">
+        {% include "motion/bits/compose_form.html" %}
+        </div>
+    {% endif %}
+
+    <div class="actions">
+        <h2>{{ member.display_name }}'s Recent Activity</h2>
+
+        {% with page_obj.object_list as events %}
+        {% include "motion/bits/event_list.html" %}
+        {% endwith %}
+    </div>
+{% endblock %}

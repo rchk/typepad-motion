@@ -65,14 +65,14 @@ class AssetPostView(TypePadView):
             post = self.form_instance.save()
             new_post = post.save(group=request.group)
             if request.is_ajax():
-                return self.render_to_response('assets/asset.html', { 'entry': new_post })
+                return self.render_to_response('motion/assets/asset.html', { 'entry': new_post })
             else: # Return to current page.
                 return HttpResponseRedirect(request.path)
 
 
 class GroupEventsView(AssetEventView, AssetPostView):
     paginate_by = settings.EVENTS_PER_PAGE
-    template_name = "events.html"
+    template_name = "motion/events.html"
 
     def select_from_typepad(self, request, page=1, view='events', *args, **kwargs):
         self.paginate_template = reverse('group_events') + '/page/%d'
@@ -92,7 +92,7 @@ class FollowingEventsView(AssetEventView):
     View entries posted to this group from members that the logged-in user is
     following. This is a custom list for the logged-in user.
     """
-    template_name = "following.html"
+    template_name = "motion/following.html"
     paginate_by = settings.EVENTS_PER_PAGE
     login_required = True
 
@@ -111,7 +111,7 @@ class AssetView(TypePadView):
     the entry as a favorite.
     """
     form = forms.CommentForm
-    template_name = "permalink.html"
+    template_name = "motion/permalink.html"
 
     def select_from_typepad(self, request, postid, *args, **kwargs):
         entry = models.Asset.get_by_url_id(postid)
@@ -172,7 +172,7 @@ class MembersView(TypePadView):
     user to follow/unfollow.
     """
     paginate_by = settings.MEMBERS_PER_PAGE
-    template_name = "members.html"
+    template_name = "motion/members.html"
 
     def select_from_typepad(self, request, *args, **kwargs):
         self.paginate_template = reverse('members') + '/page/%d'
@@ -186,7 +186,7 @@ class MemberView(AssetEventView):
         as well as their recent activity in the group.
     """
     paginate_by = settings.MEMBERS_PER_PAGE
-    template_name = "member.html"
+    template_name = "motion/member.html"
     methods = ('GET', 'POST')
 
     def select_from_typepad(self, request, userid, *args, **kwargs):
@@ -279,7 +279,7 @@ class MemberView(AssetEventView):
 
 class FeaturedMemberView(MemberView, AssetPostView):
     """ Featured Member Profile Page """
-    template_name = "featured_member.html"
+    template_name = "motion/featured_member.html"
     
     def select_from_typepad(self, request, userid, *args, **kwargs):
         super(FeaturedMemberView, self).select_from_typepad(request, userid, *args, **kwargs)
@@ -301,7 +301,7 @@ class RelationshipsView(TypePadView):
     logged-in user.
     """
     paginate_by = settings.MEMBERS_PER_PAGE
-    template_name = "members.html"
+    template_name = "motion/members.html"
 
     def select_from_typepad(self, request, userid, rel, *args, **kwargs):
         if rel not in ('following', 'followers'):
@@ -328,7 +328,7 @@ def upload_complete(request):
         signals.post_save.send(sender=upload_complete, instance=instance)
         # Redirect to clear the GET data
         return HttpResponseRedirect(reverse('home'))
-    return render_to_response('error.html', {
+    return render_to_response('motion/error.html', {
         'message': request.GET['error'],
     }, context_instance=RequestContext(request))
 
@@ -354,7 +354,7 @@ def handle_exception(request, *args, **kwargs):
 
     # Output user visible HTTP response
     from django.template.loader import render_to_string
-    return HttpResponseServerError(render_to_string("500.html", {
+    return HttpResponseServerError(render_to_string("motion/500.html", {
             'title': "Sorry, we're experiencing technical difficulties.",
         },
         context_instance=RequestContext(request)))

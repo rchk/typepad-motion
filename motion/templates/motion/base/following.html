@@ -1,0 +1,13 @@
+{% extends "motion/base.html" %}
+
+{% block page_id %}user-following{% endblock %}
+
+{% block content_body %}
+
+<div class="actions">
+    {% with page_obj.object_list as events %}
+    {% include "motion/bits/event_list.html" %}
+    {% endwith %}
+</div><!-- end .actions -->
+
+{% endblock %}

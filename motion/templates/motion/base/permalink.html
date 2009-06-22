@@ -1,0 +1,80 @@
+{% extends "motion/base.html" %}
+{% load i18n %}
+{% load generic_filters %}
+
+{% block head_title %}{{ block.super }}{% if entry.title %}: {{ entry.title }}{% endif %}{% endblock %}
+
+{% block html_head %}
+{{ block.super }}
+<script type="text/javascript">
+/* <![CDATA[ */
+    var asset_id = '{{ entry.id }}';
+    var total_comments = {{ comments.total_results }};
+    var comments_per_page = {{ settings.comments_per_page }};
+    var comment_offset = {{ comments|length }} + 1;
+    var more_comments = total_comments > {{ comments|length }};
+/* ]]> */
+</script>
+{% endblock %}
+
+{% block feed %}
+    <link rel="alternate" type="application/atom+xml" title="{% trans "Recent Comments" %}" href="{{ entry.feed_url }}" />
+{% endblock %}
+
+{% block beta_widgets %}
+{% include "motion/widgets/ads.html" %}
+{% if favorites %}
+{% include "motion/widgets/favorited.html" %}
+{% endif %}
+{% endblock %}
+
+{% block content_body %}
+    <div class="actions">
+        <ul>
+        {% include "motion/assets/asset.html" %}
+        </ul>
+    </div>
+
+    <div id="comments" class="actions comments">
+
+    {% if comments %}
+        <div id="comments-list">
+            <h2 class="comments-header">
+                {% blocktrans count comments.total_results as count %}
+                    1 Comment
+                {% plural %}
+                    {{ count }} Comments
+                {% endblocktrans %}
+            </h2>
+            <div id="comments-content" class="comments-content">
+            {% for comment in comments %}
+                {% include "motion/assets/comment.html" %}
+            {% endfor %}
+            </div>
+        </div>
+        <a href="#comments-list" id="more-comments" style="display:none;">{% trans "Load more comments" %}</a>
+    {% endif %}
+
+    {% if settings.allow_commenting %}
+        <div class="comments-open" id="comments-open">
+        {% if user.is_authenticated %}
+            <h2 class="comments-open-header">{% trans "Leave a comment" %}</h2>
+            <form method="post" action="" name="comments_form" id="comments-form">
+                <div>{{ form.body }}</div>
+                <div>
+                    <button type="submit" id="comment-submit" name="comment" value="Submit">{% trans "Post" %}</button>
+                </div>
+            </form>
+        {% else %}
+            {% url login as login_url %}
+            {% url register as register_url %}
+            {% blocktrans with request.group.display_name as group_name and request.path|urlencode as next %}
+            <h2 class="comments-open-header">
+                <a href="{{ login_url }}?next={{ next }}">Sign in or join {{ group_name }}</a> to add a comment.
+            {% endblocktrans %}
+        {% endif %}
+        </div>
+    {% endif %}
+
+    </div>
+{% endblock %}
