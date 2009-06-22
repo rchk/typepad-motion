@@ -7,7 +7,8 @@ settings = {
         textRequired: 'Please enter some text.',
         fileRequired: 'Please select a file to post.',
         invalidFileType: 'You selected an unsupported file type.',
-        errorFetchingUploadURL: 'An error occurred during submission. Please try again.'
+        errorFetchingUploadURL: 'An error occurred during submission. Please try again.',
+        invalidTextFormat: 'Sorry, we can\'t accept posts with <HTML> or <EMBED>. Please post in text only.'
     }
 };
 
@@ -235,6 +236,10 @@ $(document).ready(function () {
             // form validation; check for required fields and valid file
             // extensions...
             var file_name;
+            var post_body = $("#compose-body").val();
+            if (post_body.match(/<(html|embed)/i)) {
+                return compose_error(settings.phrase.invalidTextFormat);
+            }
             if (post_type == 'audio') {
                 file_name = f.file.value;
                 if (!file_name) {
@@ -251,7 +256,7 @@ $(document).ready(function () {
                 }
             } else if (post_type == 'post') {
                 // message body is required
-                if ($("#compose-body").val() == "") {
+                if (post_body == "") {
                     return compose_error(settings.phrase.textRequired);
                 }
             }
