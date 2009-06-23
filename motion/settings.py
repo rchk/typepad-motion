@@ -91,9 +91,6 @@ OAUTH_CONSUMER_KEY = 'key'
 OAUTH_CONSUMER_SECRET = 'secret'
 OAUTH_GENERAL_PURPOSE_KEY = 'gp_key'
 OAUTH_GENERAL_PURPOSE_SECRET = 'gp_secret'
-TYPEPAD_API_KEY = OAUTH_CONSUMER_KEY
-
-OAUTH_CALLBACK_URL = '%s/authorize/' % FRONTEND_URL
 
 BATCH_REQUESTS = not os.getenv('TYPEPAD_BATCHLESS')
 
@@ -104,11 +101,11 @@ AUTH_PROFILE_MODULE = ''
 CACHE_BACKEND = 'locmem:///'
 
 POST_TYPES =  [
-    { "id": "post", "label": "Text" },
-    { "id": "link", "label": "Link" },
-    { "id": "photo", "label": "Photo" },
-    { "id": "video", "label": "Video" },
-    { "id": "audio", "label": "Audio" },
+    { "id": "post", "label": _("Text") },
+    { "id": "link", "label": _("Link") },
+    { "id": "photo", "label": _("Photo") },
+    { "id": "video", "label": _("Video") },
+    { "id": "audio", "label": _("Audio") },
 ]
 
 DEFAULT_USERPIC_PATH = 'images/default-avatars/spaceface-50x50.jpg'
