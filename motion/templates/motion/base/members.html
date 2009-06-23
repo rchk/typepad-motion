@@ -50,6 +50,10 @@ Template used for displaying the member directory for the group.
     {% endwith %}
     {% endif %}
 
+    {% if request.user.is_authenticated %}
+    <p class="hint hint-following">{% trans "To follow a member, hover over their picture and click &lsquo;Follow&rsquo;." %}</p>
+    {% endif %}
+
     <ul class="member-list">
         {% if rel %}
             {% for relationship in page_obj.object_list %}
