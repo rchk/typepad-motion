@@ -2,6 +2,6 @@
 
 {% block media %}
 <div class="embed">
-    {% autoescape off %}{{ entry.html }}{% endautoescape %}
+    {% autoescape off %}{{ entry.links.rel__enclosure.maxwidth__440.html }}{% endautoescape %}
 </div>
 {% endblock %}
