@@ -57,12 +57,14 @@ Template used for displaying the member directory for the group.
     <ul class="member-list">
         {% if rel %}
             {% for relationship in page_obj.object_list %}
+                <!-- {% cycle "1" "2" "3" as column %} -->
                 {% with relationship.target as member %}
                     {% include "motion/bits/member_page_item.html" %}
                 {% endwith %}
             {% endfor %}
         {% else %}
             {% for membership in page_obj.object_list %}
+                <!-- {% cycle "1" "2" "3" as column %} -->
                 {% with membership.source as member %}
                     {% include "motion/bits/member_page_item.html" %}
                 {% endwith %}

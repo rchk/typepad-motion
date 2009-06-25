@@ -1455,6 +1455,9 @@ button.button-delete {
     margin-bottom: 20px;
     min-height: 68px;
 }
+.member-listitem.first {
+    clear: left;
+}
 .member-listitem .userpic {
     margin-left: 5px;
     margin-top: 10px;

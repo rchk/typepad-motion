@@ -1,4 +1,4 @@
-<li class="member-listitem {% cycle '' 'even' %}">
+<li class="member-listitem {% cycle '' 'even' %}{% ifequal column '1' %} first{% endifequal %}">
     <div class="userpic">
         {% with member as user %}
             {% include "motion/assets/bits/userpic.html" %}
