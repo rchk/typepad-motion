@@ -235,6 +235,39 @@ p {
     color: #fff;
 }
 
+/* Flash ------------------------------------------------------------------ */
+
+.flash {
+    width: 930px;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 4px;
+    padding: 8px 10px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 15px;
+    border: 2px solid #00334c;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+}
+.flash.notice {
+    background: #bbddbb; 
+}
+.flash.error {
+    background: #fde2e2;
+}
+.flash-close {
+    background:transparent url(images/icons/cross.png) no-repeat scroll 50% 50%;
+    float:left;
+    height:16px;
+    margin-right:10px;
+    opacity:0.5;
+    overflow:hidden;
+    text-indent:-9999px;
+    width:16px;
+}
+
 /* Navigation ------------------------------------------------------------- */
 
 #nav {
@@ -439,6 +472,7 @@ p {
 #compose .form-error {
     color: #b00;
     clear: both;
+    margin-bottom: 4px;
 }
 #compose-prompt-post,
 #compose-prompt-link,

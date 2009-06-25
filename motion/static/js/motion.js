@@ -37,6 +37,12 @@ function convertLineBreaks(str) {
 
 $(document).ready(function () {
 
+    // Flash close button
+    $('.flash-close').click(function() {
+        $($(this).parent().get(0)).fadeOut();
+        return false;
+    });
+
     // Load more comments -- permalink page
     // bradc - feel free to move this code!
     // I just stuck it at the top so I could find it

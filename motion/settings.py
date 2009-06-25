@@ -40,6 +40,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
     'typepadapp.csrf_middleware.CsrfMiddleware', # django.contrib.csrf.middleware
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'djangoflash.middleware.FlashMiddleware',
     'typepadapp.middleware.ConfigurationMiddleware',
     'typepadapp.debug_middleware.DebugToolbarMiddleware',
     'typepadapp.middleware.ApplicationMiddleware',
@@ -53,6 +54,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.debug',
     'django.core.context_processors.i18n',
     'django.core.context_processors.request',
+    'djangoflash.context_processors.flash',
     'typepadapp.context_processors.settings',
 )
 
