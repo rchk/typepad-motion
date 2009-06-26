@@ -15,7 +15,7 @@ from django.utils.translation import ugettext as _
 from motion import forms
 import typepad
 import typepadapp.forms
-from typepadapp import models, signals, TypePadAppException
+from typepadapp import models, signals
 from typepadapp.views.base import TypePadView
 
 
@@ -66,7 +66,7 @@ class AssetPostView(TypePadView):
             post = self.form_instance.save()
             try:
                 new_post = post.save(group=request.group)
-            except TypePadAppException, ex:
+            except models.assets.Video.ConduitError, ex:
                 request.flash.add('errors', ex.message)
             else:   
                 request.flash.add('notices', _('Post created successfully!'))
