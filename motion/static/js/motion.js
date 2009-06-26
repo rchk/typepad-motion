@@ -5,7 +5,9 @@ settings = {
     comments_url: '',
     phrase: {
         textRequired: 'Please enter some text.',
+        URLRequired: 'Please enter a URL.',
         fileRequired: 'Please select a file to post.',
+        invalidURL: 'Whoops! The URL entered is not valid. Please check the URL and try again.',
         invalidFileType: 'You selected an unsupported file type.',
         errorFetchingUploadURL: 'An error occurred during submission. Please try again.',
         invalidTextFormat: 'Sorry, we can\'t accept posts with <HTML> or <EMBED>. Please post in text only.'
@@ -239,19 +241,26 @@ $(document).ready(function () {
                     $(this).val('');
             });
 
-            // form validation; check for required fields and valid file
-            // extensions...
+            // Form validation; check for required fields and valid
+            // values for each post type.
             var file_name;
             var post_body = $("#compose-body").val();
             if (post_body.match(/<(html|embed)/i)) {
+                // HTML and embed code not allowed in the body
                 return compose_error(settings.phrase.invalidTextFormat);
             }
-            if (post_type == 'audio') {
-                file_name = f.file.value;
-                if (!file_name) {
-                    return compose_error(settings.phrase.fileRequired);
-                } else if (!fileExtensionCheck(file_name, ['mp3', 'aac', 'm4a'])) {
-                    return compose_error(settings.phrase.invalidFileType);
+            if (post_type == 'post') {
+                // message body is required
+                if (post_body == "") {
+                    return compose_error(settings.phrase.textRequired);
+                }
+            } else if (post_type == 'link' || post_type == 'video') {
+                var url = $("#compose-url").val();
+                if (url == "") {
+                    return compose_error(settings.phrase.URLRequired);
+                } else if (!url.match(/^https?:\/\//i)){
+                    // Just check for http://
+                    return compose_error(settings.phrase.invalidURL);
                 }
             } else if (post_type == 'photo') {
                 file_name = f.file.value;
@@ -260,10 +269,12 @@ $(document).ready(function () {
                 } else if (!fileExtensionCheck(file_name, ['gif', 'png', 'jpg', 'jpeg'])) {
                     return compose_error(settings.phrase.invalidFileType);
                 }
-            } else if (post_type == 'post') {
-                // message body is required
-                if (post_body == "") {
-                    return compose_error(settings.phrase.textRequired);
+            } else if (post_type == 'audio') {
+                file_name = f.file.value;
+                if (!file_name) {
+                    return compose_error(settings.phrase.fileRequired);
+                } else if (!fileExtensionCheck(file_name, ['mp3', 'aac', 'm4a'])) {
+                    return compose_error(settings.phrase.invalidFileType);
                 }
             }
             // file-based posts do not use ajax no matter what
