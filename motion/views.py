@@ -15,7 +15,7 @@ from django.utils.translation import ugettext as _
 from motion import forms
 import typepad
 import typepadapp.forms
-from typepadapp import models, signals
+from typepadapp import models, signals, TypePadAppException
 from typepadapp.views.base import TypePadView
 
 
@@ -64,13 +64,18 @@ class AssetPostView(TypePadView):
     def post(self, request, *args, **kwargs):
         if self.form_instance.is_valid():
             post = self.form_instance.save()
-            new_post = post.save(group=request.group)
-            request.flash.add('notices', _('Post created successfully!'))
-            if request.is_ajax():
-                return self.render_to_response('motion/assets/asset.html', { 'entry': new_post })
-            else: # Return to current page.
-                return HttpResponseRedirect(request.path)
-        request.flash.add('errors', _('Please correct the errors below.'))
+            try:
+                new_post = post.save(group=request.group)
+            except TypePadAppException, ex:
+                request.flash.add('errors', ex.message)
+            else:   
+                request.flash.add('notices', _('Post created successfully!'))
+                if request.is_ajax():
+                    return self.render_to_response('motion/assets/asset.html', { 'entry': new_post })
+                else: # Return to current page.
+                    return HttpResponseRedirect(request.path)
+        else:
+            request.flash.add('errors', _('Please correct the errors below.'))
 
 
 class GroupEventsView(AssetEventView, AssetPostView):
