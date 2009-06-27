@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load generic_filters %}
 
-{% block head_title %}{{ block.super }}{% if entry.title %}: {{ entry.title }}{% endif %}{% endblock %}
+{% block head_title %}{{ block.super }}{% if entry.title %}: {{ entry.title }}{% else %}{% if entry.content %}: {{ entry.content|striptags|truncatechars:40 }}{% endif %}{% endif %}{% endblock %}
 
 {% block html_head %}
 {{ block.super }}
