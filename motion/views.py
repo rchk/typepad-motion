@@ -19,7 +19,7 @@ from typepadapp import models, signals
 from typepadapp.views.base import TypePadView
 
 
-def home(request, page=1):
+def home(request, page=1, **kwargs):
     """
     Determine the homepage view based on settings. Options are the list
     of recent member activity, a featured user's profile page, or the list
@@ -27,16 +27,16 @@ def home(request, page=1):
     """
     if settings.FEATURED_MEMBER:
         # Home page is a featured user.
-        return FeaturedMemberView(request, settings.FEATURED_MEMBER, page=page, view='home')
+        return FeaturedMemberView(request, settings.FEATURED_MEMBER, page=page, view='home', **kwargs)
     if settings.HOME_MEMBER_EVENTS:
         typepad.client.batch_request()
         user = get_user(request)
         typepad.client.complete_batch()
         if user.is_authenticated():
             # Home page is the user's inbox.
-            return FollowingEventsView(request, page=page, view='home')
+            return FollowingEventsView(request, page=page, view='home', **kwargs)
     # Home page is group events.
-    return GroupEventsView(request, page=page, view='home')
+    return GroupEventsView(request, page=page, view='home', **kwargs)
 
 
 class AssetEventView(TypePadView):
