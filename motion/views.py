@@ -54,7 +54,7 @@ class AssetPostView(TypePadView):
     to a group.
     """
     form = forms.PostForm
-    
+
     def select_from_typepad(self, request, *args, **kwargs):
         if request.user.is_authenticated():
             upload_xhr_endpoint = reverse('upload_url')
@@ -335,6 +335,9 @@ def upload_complete(request):
         instance = models.Asset.get(request.GET['asset_url'], batch=False)
         signals.post_save.send(sender=upload_complete, instance=instance)
         # Redirect to clear the GET data
+        if settings.FEATURED_MEMBER:
+            if not request.user.is_authenticated or not request.user.is_featured_member:
+                return HttpResponseRedirect(reverse('group_events'))
         return HttpResponseRedirect(reverse('home'))
     return render_to_response('motion/error.html', {
         'message': request.GET['error'],
