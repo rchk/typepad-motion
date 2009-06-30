@@ -33,7 +33,7 @@ def more_comments(request):
     # Render HTML for comments
     comment_string = ''
     for comment in comments.entries:
-        comment_string += render_to_string('assets/comment.html', {
+        comment_string += render_to_string('motion/assets/comment.html', {
             'comment': comment,
         }, context_instance=RequestContext(request))
 
