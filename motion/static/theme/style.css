@@ -1010,13 +1010,6 @@ button.button-delete {
 
 /* videopost */
 
-.asset.video .asset-content .embed {
-    margin-left: -64px;
-}
-.asset.video .asset-content h2 {
-    height: 55px;
-}
-
 .user-profile .asset.video .asset-content .embed {
     margin-left: 0px;
 }
