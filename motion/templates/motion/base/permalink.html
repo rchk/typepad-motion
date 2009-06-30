@@ -3,12 +3,13 @@
 {% load generic_filters %}
 
 {% block head_title %}{{ block.super }}{% if entry.title %}: {{ entry.title }}{% else %}{% if entry.content %}: {{ entry.content|striptags|truncatechars:40 }}{% endif %}{% endif %}{% endblock %}
+{% block page_layout %}layout-wm{% endblock %}
 
 {% block html_head %}
 {{ block.super }}
 <script type="text/javascript">
 /* <![CDATA[ */
-    var asset_id = '{{ entry.id }}';
+    var asset_id = '{{ entry.url_id }}';
     var total_comments = {{ comments.total_results }};
     var comments_per_page = {{ settings.comments_per_page }};
     var comment_offset = {{ comments|length }} + 1;
