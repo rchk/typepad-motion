@@ -4,12 +4,12 @@
 
 {% block title %}
     {% if entry.title %}{% spaceless %}
-        {% if entry.source %}
-            <h2 class="entry-title"><a href="{{ entry.get_absolute_url }}">{% autoescape off %}{{ entry.title|striptags }}{% endautoescape %}</a></h2>
-        {% else %}
+        {% if entry.is_local %}
             {% if settings.use_titles %}
             <h2 class="entry-title"><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h2>
             {% endif %}
+        {% else %}
+            <h2 class="entry-title"><a href="{{ entry.get_absolute_url }}">{% autoescape off %}{{ entry.title|striptags }}{% endautoescape %}</a></h2>
         {% endif %}
     {% endspaceless %}{% endif %}
 {% endblock %}
