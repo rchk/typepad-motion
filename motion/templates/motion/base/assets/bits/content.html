@@ -3,13 +3,13 @@
 {% load withblock %}
 
 {% ifequal view "permalink" %}
-    {% if entry.source %}
+    {% ifequal entry.text_format "html" %}
         {{ entry.content|sanitizetags }}
     {% else %}
         {{ entry.content|urlize|linebreaks }}
-    {% endif %}
+    {% endifequal %}
 {% else %}
-    {% if entry.source %}
+    {% ifequal entry.text_format "html" %}
         {% withblock %}{% autoescape off %}{{ entry.content|striptags }}{% endautoescape %}{% as content %}
         {{ content|truncatewords:settings.paragraph_wordcount }}
         {{ entry|morelink:settings.paragraph_wordcount }}
@@ -17,5 +17,5 @@
     {% else %}
         {{ entry.content|urlize|linebreaks|truncatewords_html:settings.paragraph_wordcount }}
         {{ entry|morelink:settings.paragraph_wordcount }}
-    {% endif %}
+    {% endifequal %}
 {% endifequal %}
