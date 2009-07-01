@@ -1,0 +1,54 @@
+{% load i18n %}
+
+{% ifequal view "permalink" %}
+    {% include "motion/assets/bits/delete.html" %}
+{% endifequal %}
+
+{% if event and event.is_added_favorite %}
+    <a href="{{ entry.get_absolute_url }}"><div class="icon icon-favorite"></div></a>
+{% else %}
+    {% spaceless %}
+    <a href="{{ entry.get_absolute_url }}">
+        <div class="icon icon-{{ entry.type_id }}"></div>
+    </a>
+    {% endspaceless %}
+{% endif %}
+
+{% if event %}
+{% with event.actor as user %}
+    {% include "motion/assets/bits/userpic.html" %}
+{% endwith %}
+{% else %}
+{% with entry.author as user %}
+    {% include "motion/assets/bits/userpic.html" %}
+{% endwith %}
+{% endif %}
+
+<div class="asset-header">
+    <span class="byline">
+    {% block byline %}
+        {% blocktrans with entry.author.get_absolute_url as url and entry.author.display_name as name %}
+        <span class="vcard author"><a href="{{ url }}">{{ name }}</a></span>
+        {% endblocktrans %}
+
+        {% if entry.source %}
+        <span class="source">
+            {% trans "posted to" %}
+            {% with entry.source.original_link.href as original_href %}
+                {% if entry.source.provider %}
+                    {% if entry.source.provider.icon %}
+                    <a href="{{ original_href }}"><img src="{{ entry.source.provider.icon }}" height="16" width="16" alt="" /></a>
+                    {% endif %}
+                    <a href="{{ original_href }}">{{ entry.source.provider.name }}</a>
+                {% else %}
+                    {{ original_href|urlizetrunc:35 }}
+                {% endif %}
+            {% endwith %}
+        </span>
+        {% else %}
+            {% trans "posted" %}
+        {% endif %}
+
+    {% endblock %}
+    </span>
+</div>

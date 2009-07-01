@@ -1,7 +1,7 @@
 {% load date_filters %}
 {% load i18n %}
 
-<div class="asset-meta icon-{{ entry.type_id }}">
+<div class="asset-meta">
     {% spaceless %}
     <a href="{{ entry.get_absolute_url }}#comments" class="comment-count">
         {% blocktrans count entry.comment_count as count %}
@@ -16,45 +16,19 @@
     <span class="separator">|</span>
     <span class="byline">
     {% block byline %}
-        posted
         <span class="date">
-            <abbr class="published" title="{{ entry.published|date_microformat }}">
+            <abbr class="published" title="{{ event.published|date_microformat }}">
                 {% spaceless %}
-                {% if entry.published|is_relative %}
-                    <a href="{{ entry.get_absolute_url }}">{{ entry.published|pithy_timesince }}</a>
+                {% if event.published|is_relative %}
+                    <a rel="bookmark" href="{{ entry.get_absolute_url }}">{{ event.published|pithy_timesince }}</a>
                 {% else %}
-                    {% blocktrans with entry.get_absolute_url as url and entry.published|pithy_timesince as timestamp %}
-                    on <a href="{{ url }}">{{ timestamp }}</a>
+                    {% blocktrans with entry.get_absolute_url as url and event.published|pithy_timesince as timestamp %}
+                    <a rel="bookmark" href="{{ url }}">{{ timestamp }}</a>
                     {% endblocktrans %}
                 {% endif %}
                 {% endspaceless %}
             </abbr>
         </span>
-
-        {% blocktrans with entry.author.get_absolute_url as url and entry.author.display_name as name %}
-            by <span class="vcard author"><a href="{{ url }}">{{ name }}</a></span>
-        {% endblocktrans %}
-
-        {% if entry.source %}
-        <span class="source">
-            {% if entry.source.by_user %}
-                to
-            {% else %}
-                from 
-            {% endif %}
-            {% with entry.source.original_link.href as original_href %}
-                {% if entry.source.provider %}
-                    {% if entry.source.provider.icon %}
-                    <a href="{{ original_href }}"><img src="{{ entry.source.provider.icon }}" alt="" /></a>
-                    {% endif %}
-                    <a href="{{ original_href }}">{{ entry.source.provider.name }}</a>
-                {% else %}
-                    {{ original_href|urlizetrunc:35 }}
-                {% endif %}
-            {% endwith %}
-        </span>
-        {% endif %}
-
     {% endblock %}
     </span>
 </div>

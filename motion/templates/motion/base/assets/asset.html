@@ -2,19 +2,10 @@
 {% load withblock %}
 
 <!-- Entry -->
-<li id="{{ entry.url_id }}" class="asset {% if event %}action-asset{% endif %} hentry {{ entry.type_id }} {% if entry.author.is_superuser %}admin{% endif %} {% if entry.source %}elsewhere elsewhere-{{ entry.source.provider.name|lower }}{% endif %} {% if not entry.is_local %}external{% endif %}">
-    {% ifequal view "permalink" %}
-        {% include "motion/assets/bits/delete.html" %}
-    {% endifequal %}
+<li id="{{ entry.url_id }}" class="asset {% if event %}action-asset{% endif %} hentry {{ entry.type_id }} {% if event.actor.is_superuser %}admin{% endif %} {% if entry.source %}elsewhere elsewhere-{{ entry.source.provider.name|lower }}{% endif %} {% if not entry.is_local %}external{% endif %}">
 
-    {% if event and event.is_added_favorite %}
-        <a href="{{ entry.get_absolute_url }}"><div class="icon icon-favorite"></div></a>
-    {% else %}
-        <a href="{{ entry.get_absolute_url }}"><div class="icon icon-{{ entry.type_id }}"></div></a>
-    {% endif %}
-    {% with entry.author as user %}
-        {% include "motion/assets/bits/userpic.html" %}
-    {% endwith %}
+    {% include "motion/assets/bits/header.html" %}
+
     <div class="asset-content entry-content">
         <div class="asset-body">
         {% if event and event.is_added_favorite %}
@@ -27,13 +18,11 @@
         {% endif %}
         </div>
     </div>
-    {% if event %}
-        {% if event.is_new_asset and not entry.is_comment %}
-            {% include "motion/assets/bits/footer.html" %}
-        {% endif %}
-    {% else %}
-        {% if not entry.is_comment %}
-            {% include "motion/assets/bits/footer.html" %}
-        {% endif %}
+
+    {% if not entry.is_comment %}
+    {% if not event.is_added_favorite %}
+        {% include "motion/assets/bits/footer.html" %}
     {% endif %}
+    {% endif %}
+
 </li>
