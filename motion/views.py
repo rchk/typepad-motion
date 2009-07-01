@@ -68,7 +68,7 @@ class AssetPostView(TypePadView):
                 new_post = post.save(group=request.group)
             except models.assets.Video.ConduitError, ex:
                 request.flash.add('errors', ex.message)
-            else:   
+            else:
                 request.flash.add('notices', _('Post created successfully!'))
                 if request.is_ajax():
                     return self.render_to_response('motion/assets/asset.html', { 'entry': new_post })
@@ -106,8 +106,7 @@ class FollowingEventsView(AssetEventView):
 
     def select_from_typepad(self, request, view='following', *args, **kwargs):
         self.paginate_template = reverse('following_events') + '/page/%d'
-        if request.user.is_authenticated():
-            self.object_list = request.user.notifications.filter(start_index=self.offset, max_results=self.limit)
+        self.object_list = request.user.notifications.filter(start_index=self.offset, max_results=self.limit)
 
 
 class AssetView(TypePadView):
@@ -134,6 +133,14 @@ class AssetView(TypePadView):
         if not entry.is_local:
             # if this entry isn't local, 404
             raise Http404
+
+        # Make a faux event object since our templates expect an event
+        # object and attributes to be present
+        event = typepad.Event()
+        event.object = entry
+        event.actor = entry.author
+        event.published = entry.published
+        self.context['event'] = event
 
         return super(AssetView, self).get(*args, **kwargs)
 
@@ -193,7 +200,7 @@ class MemberView(AssetEventView):
         Displays basic info about the user
         as well as their recent activity in the group.
     """
-    paginate_by = settings.MEMBERS_PER_PAGE
+    paginate_by = settings.EVENTS_PER_PAGE
     template_name = "motion/member.html"
     methods = ('GET', 'POST')
 
