@@ -6,15 +6,32 @@
     {# select the 500-wide photo since that is a standard size made available #}
     {% with entry.links.rel__enclosure.width__500 as thumbnail %}
     {% spaceless %}
-    <a href="{{ entry.get_absolute_url }}">
-        {# This bit is necessary for IE6, who doesn't respect max-width CSS rules. #}
-        {% if thumbnail.width|greaterthan:460 %}
-        <img class="constrained" width="460" src="{{ thumbnail.href }}" alt="{{ entry.title }}" />
-        {% else %}
-        <img width="{{ thumbnail.width }}" height="{{ thumbnail.height }}" src="{{ thumbnail.href }}" alt="{{ entry.title }}" />
+
+    {% ifequal view "permalink" %}
+        {% if entry.source %}
+            <a href="{{ entry.source.original_link.href }}">
         {% endif %}
-    </a>
+    {% else %}
+        <a href="{{ entry.get_absolute_url }}">
+    {% endifequal %}
+
+    {# This bit is necessary for IE6, who doesn't respect max-width CSS rules. #}
+    {% if thumbnail.width|greaterthan:460 %}
+        <img class="constrained" width="460" src="{{ thumbnail.href }}" alt="{{ entry.title }}" />
+    {% else %}
+        <img width="{{ thumbnail.width }}" height="{{ thumbnail.height }}" src="{{ thumbnail.href }}" alt="{{ entry.title }}" />
+    {% endif %}
+
+    {% ifequal view "permalink" %}
+        {% if entry.source %}
+            </a>
+        {% endif %}
+    {% else %}
+        </a>
+    {% endifequal %}
+
     {% endspaceless %}
+
     {% ifnotequal entry.link thumbnail.href %}
     {# provide a link to the original resolution #}
     <br /><small><a href="{{ entry.link }}">original</a></small>
