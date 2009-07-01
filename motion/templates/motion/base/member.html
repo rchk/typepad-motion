@@ -59,7 +59,7 @@
 
             <li><img src="{{ settings.media_url }}motion/images/services/typepad.png" height="16" width="16" alt="{% trans "TypePad" %}" />&nbsp;
                 {% if is_self %}
-                <a href="{{ member.typepad_edit_url }}" rel="me" target="_blank">{% trans "Edit my TypePad profile" %}</a>
+                <a href="{{ member.typepad_edit_url }}" rel="me" target="_blank">{% trans "Edit my TypePad profile" %}</a> or <a href="{{ user.typepad_membership_management_url }}">{% trans "manage my TypePad memberships" %}</a>
                 {% else %}
                 <a href="{{ member.typepad_url }}" rel="me" target="_blank">{% trans "View full TypePad profile" %}</a>
                 {% endif %}

@@ -2,9 +2,6 @@
 <div id="footer">
     <div id="footer-inner">
         <div id="footer-content">
-            {% if user.is_authenticated %}
-            <div><a href="{{ user.typepad_membership_management_url }}">{% trans "Manage your TypePad Motion memberships" %}</a></div>
-            {% endif %}
             <div>
                 <a href="{% url terms %}">{% trans "Terms of Service" %}</a>
                 <span class="separator">&bull;</span>
