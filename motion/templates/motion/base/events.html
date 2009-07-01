@@ -3,6 +3,7 @@
 
 {% block page_id %}group-events{% endblock %}
 {% block head_title %}{% blocktrans with block.super as super %}{{ super }}: Recent Activity{% endblocktrans %}{% endblock %}
+{% block page_layout %}layout-wm{% endblock %}
 
 {% block feed %}
     <link rel="alternate" type="application/atom+xml" title="Recent Entries" href="{% url feeds url="events" %}" />

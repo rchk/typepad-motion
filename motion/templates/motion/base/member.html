@@ -3,6 +3,7 @@
 
 {% block head_title %}{% blocktrans with block.super as super and member.display_name as name %}{{ super }}: {{ name }}&rsquo;s Profile{% endblocktrans %}{% endblock %}
 {% block page_id %}user-profile{% endblock %}
+{% block page_layout %}layout-wm{% endblock %}
 
 {% block feed %}
     <link rel="alternate" type="application/atom+xml" title="{% blocktrans with member.display_name as name %}Recent Entries from {{ name }}{% endblocktrans %}" href="{{ member.feed_url }}" />
