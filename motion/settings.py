@@ -112,7 +112,6 @@ POST_TYPES =  [
 
 DEFAULT_USERPIC_PATH = 'images/default-avatars/spaceface-50x50.jpg'
 
-USE_GRAVATAR = False
 USE_TITLES = False
 
 # Switches to enable/disable posting/commenting/rating/following
@@ -137,6 +136,9 @@ FOLLOWERS_PER_WIDGET = 5
 # Max number or words for a short paragraph,
 # used for truncating on the front page.
 PARAGRAPH_WORDCOUNT = 100
+# Maximum number of characters for a link when
+# used as a title.
+LINK_TITLE_LENGTH = 60
 
 # Default CSS theme to use for site
 THEME = 'motion'
