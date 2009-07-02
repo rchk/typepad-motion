@@ -53,7 +53,10 @@
             {% endfor %}
             </div>
         </div>
-        <a href="#comments-list" id="more-comments" style="display:none;">{% trans "Load more comments" %}</a>
+
+        <div class="controls">
+            <button id="more-comments" class="button-more" style="display:none;">{% trans "More" %}</button>
+        </div>
     {% endif %}
 
     {% if settings.allow_commenting %}

@@ -449,9 +449,11 @@ p {
 }
 #friends .summary .label {
     color: #777;
+    display: block;
 }
 #friends .summary .count {
     font-size: 2em;
+    display: block;
 }
 #friends .summary {
     width: 65px;
@@ -743,18 +745,25 @@ body.error {
 }
 
 .actions .asset.external {
+    border: 3px solid red;
 }
 
+.controls {
+    text-align: center;
+}
 .comment .controls,
-.actions .controls {
+.asset .controls {
     position: absolute;
     right: 0;
     bottom: 0;
     z-index: 10;
     padding: 5px;
 }
-
-.controls button {
+button.button-more {
+    font-size: 18px;
+}
+.comment .controls button,
+.asset .controls button {
     border: none;
     padding: 3px 10px;
     cursor: hand; /* HACK - ie */
@@ -1560,6 +1569,10 @@ button.button-delete {
 }
 
 /* Utility ---------------------------------------------------------------- */
+
+.more-button {
+    text-align: center;
+}
 
 .default-value { color: #aaa; }
 

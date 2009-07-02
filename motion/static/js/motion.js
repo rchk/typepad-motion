@@ -3,6 +3,7 @@ settings = {
     upload_url: '',
     favorite_url: '',
     comments_url: '',
+    events_url: '',
     phrase: {
         textRequired: 'Please enter some text.',
         URLRequired: 'Please enter a URL.',
@@ -10,7 +11,9 @@ settings = {
         invalidURL: 'Whoops! The URL entered is not valid. Please check the URL and try again.',
         invalidFileType: 'You selected an unsupported file type.',
         errorFetchingUploadURL: 'An error occurred during submission. Please try again.',
-        invalidTextFormat: 'Sorry, we can\'t accept posts with <HTML> or <EMBED>. Please post in text only.'
+        invalidTextFormat: 'Sorry, we can\'t accept posts with <HTML> or <EMBED>. Please post in text only.',
+        loading: 'Loading...',
+        more: 'More'
     }
 };
 
@@ -46,33 +49,70 @@ $(document).ready(function () {
     });
 
     // Load more comments -- permalink page
-    // bradc - feel free to move this code!
-    // I just stuck it at the top so I could find it
     if ($('#more-comments').size()) {
+        var el = $('#more-comments');
         if (more_comments) {
-            $('#more-comments').show();
-            $('#more-comments').click(function() {
-                $('#more-comments').hide();
+            el.show();
+            el.click(function() {
+                el.html(settings.phrase.loading);
+                el.attr("disabled", "disabled");
                 $.ajax({
                     type: "GET",
                     url: settings.comments_url,
                     data: {"asset_id": asset_id, "offset": comment_offset},
                     success: function(data){
+                        el.removeAttr("disabled");
                         $("#comments-content").append(data);
                         comment_offset += comments_per_page;
-                        // No more comments?
-                        if (comment_offset <= total_comments){
-                            $("#more-comments").show();
-                        }
+                        // More comments?
+                        if (comment_offset <= total_comments)
+                            el.html(settings.phrase.more);
+                        else
+                            el.hide();
                     },
                     error: function(xhr, txtStatus, errorThrown) {
+                        el.removeAttr("disabled");
                         alert('Server error: ' + xhr.status + ' -- ' + xhr.statusText);
                     }
                 });
             });
         }
     }
-    
+
+    // Load more following events
+    if ($('#more-events').size()) {
+        if (event_offset) {
+            var el = $('#more-events');
+            el.show();
+            el.click(function() {
+                el.html(settings.phrase.loading);
+                el.attr("disabled", "disabled");
+                $.ajax({
+                    type: "GET",
+                    url: settings.events_url,
+                    data: {"offset": event_offset},
+                    dataType: "json",
+                    success: function(data) {
+                        el.removeAttr("disabled");
+                        $("#events-content").append(data['events']);
+                        if (data['next_offset']) {
+                            event_offset = parseInt(data['next_offset']);
+                            el.html(settings.phrase.more);
+                        } else {
+                            el.hide();
+                            event_offset = false;
+                        }
+                    },
+                    error: function(xhr, txtStatus, errorThrown) {
+                        el.removeAttr("disabled");
+                        el.html(settings.phrase.more);
+                        alert('Server error: ' + xhr.status + ' -- ' + xhr.statusText);
+                    }
+                });
+            });
+        }
+    }
+
     // Favorite an item
     $('.favorite-action').click(function() {
         if (user && user.is_authenticated) {
@@ -376,184 +416,6 @@ $(document).ready(function () {
         });
     }
 
-// Userpic Flyouts
-// Removed in favor of titles and typepad following flyouts.
-/*
-    var flyOut;
-    // Flyout Hover/Unhover
-    $(".userpic").hover(function () {
-        // Hide all with class user-info
-        $('.user-info').hide();
-        // Show flyout after timeout
-        var userInfo = $(this).children('.user-info');
-        flyOut = $.timeout(function() { $(userInfo).fadeIn(200); }, 500);
-    },function () {
-        // Clear flyout timeout
-        $.clear(flyOut);
-        // Hide flyout
-        $(this).children('.user-info').fadeOut(200);
-    });
-    // Hide flyouts if click event in flyout
-    $(".userpic *").click(function () {
-        $.clear(flyOut);
-        $('.user-info').fadeOut(250);
-    })
-*/
-
-// Commenting
-// Removed in favor of non-ajax comments.
-// Currently no way to reply to a comment either.
-/*
-    var commentDefaultVal = $('#comment-preview-comment .comment-content div').text();
-    var authorDefaultVal = $("#comment-author").attr('title');
-    var authorVal = $("#comment-author").val();
-    var emailVal = $("#comment-email").val();
-    var urlVal = $("#comment-url").val();
-    if (user) {
-        authorVal = user.name;
-        emailVal = user.email;
-        urlVal = user.url;
-    }
-
-    // set default value for Author
-    $('#comment-preview-comment .author a').text(authorDefaultVal);
-
-    // hide: comment preview, comment preview button, comment tip
-    $('#comment-preview, #comment-preview-comment, #comments-open-text .tip').hide();
-    // hide: all comment form labels except the last
-    $('#comments-open-data label:not(:last)').hide();
-    // hide: reply text
-    $('.reply-comment-link').hide();
-    // disable all links in comment preview
-    $('#comment-preview-comment a').click(function(){ return false }); // disable links
-    // show preview upon focusing on textarea of input
-    $('#comments-form textarea, #comments-form input').focus(function(){
-        showPreview();
-    });
-    // update preview comment text
-    $('#comment-text').keyup(function() {
-        updatePreview($(this), $('#comment-preview-comment .comment-content-inner'), commentDefaultVal);
-    });
-    // update preview comment author
-    $('#comment-author').keyup(function() {
-        updatePreview($(this), $('#comment-preview-comment .author a'), authorDefaultVal);
-    });
-
-    // If comments accepted, add reply links
-    if (settings.comments.accepted)
-        $('#comments-list .comment').each(function(){
-            parentID = $(this).attr('id').replace("comment-", "");
-            $('.byline', this).append(' | <a href="#comment-' + parentID + '" title="Reply">Reply</a>');
-        });
-
-    // Reply link click function
-    $('[@title="Reply"]').click(function(){
-        // add comment parent author to comment preview
-        replyAuthor = $(this).parent().find('.author').html();
-        $('#comment-preview-comment .reply-comment-link a span').html(replyAuthor);
-
-        // update preview comment author
-        $('#comment-author').keyup(function() {
-            updatePreview($(this), $('#comment-preview-comment .author a'), authorDefaultVal);
-        });
-
-        // show comment preview reply text
-        $('#comment-preview-comment .reply-comment-link').show();
-
-        // get id from reply link
-        parent_id = this.hash.replace("#comment-", "");
-
-        // show reply form field, set focus to comment form
-        mtReplyCommentOnClick(parent_id, replyAuthor);
-
-        return false;
-    });
-
-    // toggle reply text when reply checkbox is checked
-    $('#comment-reply').click(function(){ $('.reply-comment-link').toggle() });
-
-    // Comment Submit
-    $("#comment-submit").click(function(){
-        // hide comment preview
-        $('#comment-preview-comment').fadeOut(1000);
-        // disable comment and submit button
-        $("#comment-submit, #comment-text").attr("disabled","disabled");
-
-        $("#comments-form .default-value").each(function() {
-            $(this).val('');
-        });
-
-        // Get form data and post
-        var staticVal = $('[name="static"]').val();
-        var entryIdVal = $('[name="entry_id"]').val();
-        var langVal = $('[name="lang"]').val();
-        var parentIdVal = $('[name="comment_reply"]').val();
-        var previewVal = $('[name="prev"]').val();
-        var sidVal = $('[name="sid"]').val();
-        var capthchaVal;
-        var tokenVal;
-        if($("#captcha_code")) {
-            capthchaVal = $('#captcha_code').val();
-            tokenVal = $('input[name="token"]').val();
-        }
-        var replyVal = $("#comment-reply").val();
-
-        var textVal = $("#comment-text").val();
-        var authorVal = $("#comment-author").val();
-        var emailVal = $("#comment-email").val();
-        var urlVal = $("#comment-url").val();
-        if (user) {
-            authorVal = user.name;
-            emailVal = user.email;
-            if (emailVal == undefined) emailVal = '';
-            urlVal = user.url;
-            if (urlVal == undefined) urlVal = '';
-        }
-
-        var postData = { static: staticVal, entry_id: entryIdVal, parent_id: parentIdVal, comment_reply: replyVal, author: authorVal, email: emailVal, url: urlVal, text: textVal, captcha_code: capthchaVal, token: tokenVal};
-        $.ajax({
-            type: "POST",
-            url: document.location.href,
-            data: postData,
-            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
-            success: function(data){
-                $("#comments-list").html(data);
-                $("#comment-submit, #comment-text").removeAttr("disabled");
-                if ($('#comments-list #comment-error').size() > 0) {
-                    $("#comment-preview-comment").fadeIn(1000);
-                } else if ($('#comments-list #comment-exclamation').size() > 0) {
-                    $("#comment-text").val('');
-                    $("#comment-preview-comment").fadeIn(1000);
-                    mtFireEvent('commentposted', postData);
-                } else {
-                    $('#comment-preview-comment .comment-content-inner').html(commentDefaultVal);
-                    $("#comment-text").val('');
-                    mtFireEvent('commentposted', postData);
-                };
-            }
-        });
-        return false;
-    });
-*/
-
-// Gallery Widget
-    $("#gall-prev").click(function(){
-        var gall_position = $("#photo-gallery").position();
-        if (gall_position.left < 0) {
-            $("#photo-gallery").animate({"left": "+=120px"}, "slow", "swing", function() {
-                var gall_position_new = $("#photo-gallery").position();
-                if (gall_position_new.left == 0) {
-                    $("#gall-prev").addClass("disabled");
-                }
-            });
-        }
-    });
-    $("#gall-next").click(function(){
-        $("#photo-gallery").animate({"left": "-=120px"}, "slow");
-        $("#gall-prev").removeClass("disabled");
-    });
-
-
     // Initiate Entry Hover behavior
     initEntryHover();
 }); // End Ready Function
@@ -575,32 +437,6 @@ function compose_error(message){
     $("#post-submit-posting").hide();
     $("#post-submit").show();
     return false;
-}
-
-// Commenting Functions
-
-var commentDefaultVal, authorDefaultVal, authorVal, emailVal, urlVal;
-function updatePreviewTime(){
-    $('#comment-preview-comment .byline a .published').html( $.PHPDate("M d, Y g:i A", new Date())); // set date
-    // $('#comment-preview-comment .byline abbr').attr('title',$.PHPDate("c", new Date())); // set iso 8601 date (optional)
-}
-function showPreview(){
-    var loggedin = user && user.is_authenticated;
-    if (loggedin) {
-        var fooname = user.name;
-        $('#comment-preview-comment .byline .author a').html(fooname); // set comment author value
-    } else {
-        $('#comment-preview-comment .byline .author a').html(authorVal); // set comment author value
-    }
-    $("#comment-preview-comment, #comments-open-text .tip").fadeIn(1000); // hide comment preview
-    updatePreviewTime();
-}
-function updatePreview(id, target, defaultVal){
-    v = $(id).val();
-    v = (v.length? v : defaultVal)
-    v = v.replace(/\n/g, "<br />").replace(/\n\n+/g, '<br /><br />').replace(/(<\/?)script/g,"$1noscript");
-    $(target).html(v);
-    updatePreviewTime();
 }
 
 
@@ -625,21 +461,7 @@ function formFieldFocus(){
 }
 
 
-function personalizeCommentForm() {
-    if ( user && user.is_authenticated ) {
-        // Set Commenter Userpic
-        if (user.userpic) {
-            $("#commenter-userpic").attr({
-                src: user.userpic,
-                alt: user.name
-            });
-        };
-    };
-}
-
 var user = {};
-
-$(document).bind('usersignin', showPreview);
 
 // Browser Hacks
 $(document).ready(function() {

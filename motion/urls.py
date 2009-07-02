@@ -39,6 +39,7 @@ urlpatterns = patterns('motion.views',
 
 urlpatterns += patterns('motion.ajax',
     url(r'^ajax/more_comments/?$', 'more_comments', name='comments_url'),
+    url(r'^ajax/more_events/?$', 'more_events', name='events_url'),
     url(r'^ajax/favorite/?$', 'favorite', name='favorite_url'),
     url(r'^ajax/edit_profile/?$', 'edit_profile', name='edit_profile_url'),
     url(r'^ajax/upload_url/?$', 'upload_url', name='upload_url'),

@@ -14,20 +14,14 @@
     {% endspaceless %}
 {% endif %}
 
-{% if event %}
 {% with event.actor as user %}
     {% include "motion/assets/bits/userpic.html" %}
 {% endwith %}
-{% else %}
-{% with entry.author as user %}
-    {% include "motion/assets/bits/userpic.html" %}
-{% endwith %}
-{% endif %}
 
 <div class="asset-header">
     <span class="byline">
     {% block byline %}
-        {% blocktrans with entry.author.get_absolute_url as url and entry.author.display_name as name %}
+        {% blocktrans with event.actor.get_absolute_url as url and event.actor.display_name as name %}
         <span class="vcard author"><a href="{{ url }}">{{ name }}</a></span>
         {% endblocktrans %}
 

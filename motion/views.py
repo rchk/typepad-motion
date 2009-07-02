@@ -40,7 +40,7 @@ def home(request, page=1, **kwargs):
 
 
 class AssetEventView(TypePadView):
-    
+
     def filter_object_list(self):
         """
         Only include Events with Assets - that is, where event.object is an Asset.
@@ -93,7 +93,7 @@ class GroupEventsView(AssetEventView, AssetPostView):
         super(GroupEventsView, self).select_from_typepad(request, *args, **kwargs)
 
 
-class FollowingEventsView(AssetEventView):
+class FollowingEventsView(TypePadView):
     """
     User Inbox
 
@@ -101,12 +101,49 @@ class FollowingEventsView(AssetEventView):
     following. This is a custom list for the logged-in user.
     """
     template_name = "motion/following.html"
-    paginate_by = settings.EVENTS_PER_PAGE
+    # until the API can filter external events for us, we need to select
+    # 50 at a time; once the API works, restore to settings.EVENTS_PER_PAGE
+    paginate_by = 50
     login_required = True
 
     def select_from_typepad(self, request, view='following', *args, **kwargs):
         self.paginate_template = reverse('following_events') + '/page/%d'
-        self.object_list = request.user.notifications.filter(start_index=self.offset, max_results=self.limit)
+
+        self.object_list = request.user.notifications.filter(start_index=self.offset, max_results=self.paginate_by)
+
+    def get(self, request, *args, **kwargs):
+        """
+        This method is a stop-gap measure to filter out non-local events from
+        a user's "following" event stream. Once the API does this itself,
+        we can eliminate this in favor of proper pagination of the following
+        page. The class paginate_by value should also be restored to
+        settings.EVENT_PER_PAGE.
+        """
+        events = self.object_list
+
+        # filter out any non-local events
+        offset = len(events.entries) + 1
+        events.entries = [e for e in events.entries if e.is_local_asset]
+
+        while offset <= events.total_results \
+            and len(events.entries) <= settings.EVENTS_PER_PAGE:
+            # more, please.
+            typepad.client.batch_request()
+            more = request.user.notifications.filter(start_index=offset,
+                max_results=self.paginate_by)
+            typepad.client.complete_batch()
+            for e in more.entries:
+                if e.is_local_asset:
+                    events.entries.append(e)
+                offset += 1
+                if len(events.entries) == settings.EVENTS_PER_PAGE + 1:
+                    break
+
+        if len(events.entries) > settings.EVENTS_PER_PAGE:
+            self.context['next_offset'] = offset - 1
+            events.entries = events.entries[:settings.EVENTS_PER_PAGE]
+
+        return super(FollowingEventsView, self).get(request, *args, **kwargs)
 
 
 class AssetView(TypePadView):
@@ -259,7 +296,7 @@ class MemberView(AssetEventView):
                 self.context['profiledata'] = profileform
 
         return super(MemberView, self).get(request, userid, *args, **kwargs)
-        
+
     def post(self, request, userid, *args, **kwargs):
         typepad.client.batch_request()
         request_user = get_user(request)
@@ -295,7 +332,7 @@ class MemberView(AssetEventView):
 class FeaturedMemberView(MemberView, AssetPostView):
     """ Featured Member Profile Page """
     template_name = "motion/featured_member.html"
-    
+
     def select_from_typepad(self, request, userid, *args, **kwargs):
         super(FeaturedMemberView, self).select_from_typepad(request, userid, *args, **kwargs)
         memberships = request.group.memberships.filter(member=True)[:settings.MEMBERS_PER_WIDGET]

@@ -3,7 +3,11 @@ from django.conf import settings
 from django.contrib.auth import get_user
 from django.template.loader import render_to_string
 from django.template import RequestContext
-from django.utils import simplejson
+
+try:
+    import json
+except ImportError:
+    import simplejson as json
 
 import typepad
 from typepadapp import models
@@ -27,7 +31,8 @@ def more_comments(request):
     typepad.client.batch_request()
     request.user = get_user(request)
     asset = models.Asset.get_by_url_id(asset_id)
-    comments = asset.comments.filter(start_index=offset, max_results=settings.COMMENTS_PER_PAGE)
+    comments = asset.comments.filter(start_index=offset,
+        max_results=settings.COMMENTS_PER_PAGE)
     typepad.client.complete_batch()
 
     # Render HTML for comments
@@ -39,6 +44,59 @@ def more_comments(request):
 
     # Return HTML
     return http.HttpResponse(comment_string)
+
+
+# @ajax_required
+def more_events(request):
+    """
+    Fetch more events for the user and return the HTML for the additional
+    events.
+
+    This method is a stop-gap measure to filter out non-local events from
+    a user's "following" event stream. Once the API does this itself,
+    we can eliminate this in favor of proper pagination of the following
+    page.
+    """
+
+    offset = int(request.GET.get('offset', 1))
+
+    events = []
+    while True:
+        typepad.client.batch_request()
+        if not hasattr(request, 'user'):
+            request.user = get_user(request)
+        more = request.user.notifications.filter(start_index=offset,
+            max_results=50)
+        typepad.client.complete_batch()
+
+        for e in more.entries:
+            if e.is_local_asset:
+                events.append(e)
+            offset += 1
+            if len(events) == settings.EVENTS_PER_PAGE + 1:
+                break
+
+        if offset > more.total_results \
+            or len(events) > settings.EVENTS_PER_PAGE:
+            break
+
+    data = {}
+    # provide the next offset to be used for the next block of events
+    # the client can't determine this on their own since
+    if len(events) > settings.EVENTS_PER_PAGE:
+        data['next_offset'] = offset - 1
+        events = events[:settings.EVENTS_PER_PAGE]
+
+    # Render HTML for assets
+    event_string = ''
+    for event in events:
+        event_string += render_to_string('motion/assets/asset.html', {
+            'entry': event.object,
+            'event': event,
+        }, context_instance=RequestContext(request))
+    data['events'] = event_string
+
+    return http.HttpResponse(json.dumps(data))
 
 
 @ajax_required
@@ -67,7 +125,7 @@ def favorite(request):
         favorite.delete()
 
     return http.HttpResponse('OK')
-    
+
 
 @ajax_required
 def edit_profile(request):
@@ -81,10 +139,10 @@ def edit_profile(request):
 
     if profileform.is_valid():
         profileform.save()
-        return http.HttpResponse(simplejson.dumps({'status': 'success', 'data': 'OK'}))
+        return http.HttpResponse(json.dumps({'status': 'success', 'data': 'OK'}))
     else:
         errorfields = [k for k, v in profileform.errors.items()]
-        return http.HttpResponse(simplejson.dumps({'status': 'error', 'data': ','.join(errorfields)}))
+        return http.HttpResponse(json.dumps({'status': 'error', 'data': ','.join(errorfields)}))
 
 
 @ajax_required
