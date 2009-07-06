@@ -888,6 +888,9 @@ button.button-delete {
     cursor: hand; /* HACK - ie */
     cursor: pointer;
 }
+.asset .asset-meta .loading {
+    background: url(images/icons/throbber.gif) no-repeat right 0;
+}
 .asset .asset-meta .scored {
     background-position: right 0;
 }

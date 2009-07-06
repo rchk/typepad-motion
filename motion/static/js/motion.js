@@ -116,32 +116,36 @@ $(document).ready(function () {
     // Favorite an item
     $('.favorite-action').click(function() {
         if (user && user.is_authenticated) {
-            var count = parseInt($(this).html());
-            if (isNaN(count)) count = 0;
-
+            if ($(this).hasClass('loading')) return false;
+            var favcount = parseInt($(this).html());
+            if (isNaN(favcount)) favcount = 0;
+            // favorite or un-favorite?
             if ($(this).hasClass('scored')) {
                 action = "unfavorite";
-                // decrement favorite count
-                count--;
+                favcount--;
             } else {
                 action = "favorite";
-                // increment favorite count
-                count++;
+                favcount++;
             }
-            $(this).toggleClass('scored');
-            if (count)
-                $(this).html(count.toString());
+            // show loading graphic
+            $(this).toggleClass('loading');
+            // update fav count
+            if (favcount)
+                $(this).html(favcount.toString());
             else
                 $(this).html('&nbsp;');
             // id="favorite-6a0117a70cb0017bf60117d8ad20014cb2"
-            asset_id = $(this).attr('id').split('-')[1]
+            var asset_id = $(this).attr('id').split('-')[1]
+            var favitem = $(this);
             // post the favorite
             $.ajax({
                 type: "POST",
                 url: settings.favorite_url,
                 data: {"asset_id": asset_id, "action": action},
                 success: function(data){
-                    // do nothing
+                    // show scored status
+                    favitem.toggleClass('scored');
+                    favitem.toggleClass('loading');
                 },
                 error: function(xhr, txtStatus, errorThrown) {
                     alert('Server error: ' + xhr.status + ' -- ' + xhr.statusText);
