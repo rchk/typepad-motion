@@ -34,7 +34,7 @@
 
     {% ifnotequal entry.link thumbnail.href %}
     {# provide a link to the original resolution #}
-    <br /><small><a href="{{ entry.link }}">original</a></small>
+    <br /><small><a href="{{ entry.link }}">{% trans "original" %}</a></small>
     {% endifnotequal %}
     {% endwith %}
 </div>

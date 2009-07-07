@@ -71,12 +71,13 @@
                 </div>
             </form>
         {% else %}
+            <h2 class="comments-open-header">{% spaceless %}
             {% url login as login_url %}
             {% url register as register_url %}
             {% blocktrans with request.group.display_name as group_name and request.path|urlencode as next %}
-            <h2 class="comments-open-header">
                 <a href="{{ login_url }}?next={{ next }}">Sign in or join {{ group_name }}</a> to add a comment.
             {% endblocktrans %}
+            {% endspaceless %}</h2>
         {% endif %}
         </div>
     {% endif %}

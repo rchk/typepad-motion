@@ -1,4 +1,5 @@
 {% extends "motion/member.html" %}
+{% load i18n %}
 
 {% block page_id %}featured-member{% endblock %}
 
@@ -15,7 +16,7 @@
     {% endif %}
 
     <div class="actions">
-        <h2>{{ member.display_name }}'s Recent Activity</h2>
+        <h2>{% blocktrans with member.display_name as name %}{{ name }}&rsquo;s Recent Activity{% endblocktrans %}</h2>
 
         {% with page_obj.object_list as events %}
         {% include "motion/bits/event_list.html" %}
