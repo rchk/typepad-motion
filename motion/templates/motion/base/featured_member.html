@@ -3,7 +3,8 @@
 {% block page_id %}featured-member{% endblock %}
 
 {% block beta_widgets %}
-	{% include "motion/widgets/members.html" %}
+    {% include "motion/widgets/members.html" %}
+{{ block.super }}
 {% endblock %}
 
 {% block content_body %}

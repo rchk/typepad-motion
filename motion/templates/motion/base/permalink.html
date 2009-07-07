@@ -23,15 +23,16 @@
 {% endblock %}
 
 {% block beta_widgets %}
-{% include "motion/widgets/ads.html" %}
-{% if favorites %}
-{% include "motion/widgets/favorited.html" %}
-{% endif %}
+    {% include "motion/widgets/ads.html" %}
+    {% if favorites %}
+    {% include "motion/widgets/favorited.html" %}
+    {% endif %}
+{{ block.super }}
 {% endblock %}
 
 {% block content_body %}
-    <div class="actions hfeed">
-        <ul>
+    <div class="actions">
+        <ul class="hfeed">
         {% include "motion/assets/asset.html" %}
         </ul>
     </div>

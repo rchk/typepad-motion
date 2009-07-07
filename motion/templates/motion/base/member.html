@@ -12,10 +12,11 @@
 
 {% block beta_widgets %}
     {% if user.is_superuser %}
-        {% include "motion/widgets/admin.html" %}
+    {% include "motion/widgets/admin.html" %}
     {% endif %}
     {% include "motion/widgets/typepad_frame.html" %}
     {% include "motion/widgets/elsewhere.html" %}
+{{ block.super }}
 {% endblock %}
 
 {% block content_body %}
