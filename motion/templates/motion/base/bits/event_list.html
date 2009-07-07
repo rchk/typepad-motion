@@ -4,10 +4,8 @@
 {% endwith %}
 {% endif %}
 
-<ul class="hfeed">
-{% for event in events %}{% with event.object as entry %}
+<ul class="hfeed">{% for event in events %}{% with event.object as entry %}
     {% include "motion/assets/asset.html" %}
-{% endwith %}{% endfor %}
-</ul>
+{% endwith %}{% endfor %}</ul>
 
 {% include "motion/bits/pagination.html" %}

@@ -139,6 +139,13 @@ PARAGRAPH_WORDCOUNT = 100
 # Maximum number of characters for a link when
 # used as a title.
 LINK_TITLE_LENGTH = 60
+# Set to True to provide the full post content in feeds
+FULL_FEED_CONTENT = False
+# Target photo thumbnail resolution for display; this does not restrict
+# size of photos that are posted to the group
+PHOTO_MAX_WIDTH = 460
+# Target video size for display
+VIDEO_MAX_WIDTH = 400
 
 # Default CSS theme to use for site
 THEME = 'motion'

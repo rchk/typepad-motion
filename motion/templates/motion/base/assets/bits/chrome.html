@@ -1,0 +1,17 @@
+{% ifequal view "permalink" %}
+    {% include "motion/assets/bits/delete.html" %}
+{% endifequal %}
+
+{% if event and event.is_added_favorite %}
+    <a href="{{ entry.get_absolute_url }}"><div class="icon icon-favorite"></div></a>
+{% else %}
+    {% spaceless %}
+    <a href="{{ entry.get_absolute_url }}">
+        <div class="icon icon-{{ entry.type_id }}"></div>
+    </a>
+    {% endspaceless %}
+{% endif %}
+
+{% with event.actor as user %}
+    {% include "motion/assets/bits/userpic.html" %}
+{% endwith %}

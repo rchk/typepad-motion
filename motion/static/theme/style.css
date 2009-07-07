@@ -950,9 +950,7 @@ button.button-delete {
 .asset .entry-title a {
     text-decoration: none;
 }
-.asset .asset-content,
-.asset .asset-header,
-.asset .asset-meta {
+.asset .asset-inner {
     margin-left: 96px;
 }
 .asset .asset-footer {
@@ -984,9 +982,7 @@ button.button-delete {
     background: url(images/icons/external_link.gif) no-repeat right 40%;
 }
 
-.user-profile .asset .asset-content,
-.user-profile .asset .asset-header,
-.user-profile .asset .asset-meta {
+.user-profile .asset .asset-inner {
     margin-left: 35px !important;
 }
 .user-profile .asset .asset-header,
@@ -998,13 +994,14 @@ button.button-delete {
     display: block;
 }
 
+.asset-content .activity {
+    font-style: italic;
+}
 .comment .asset-content {
     background: url(images/comment-bg.gif) no-repeat 0 6px;
-    margin-left: 89px;
 }
 .comment.action-asset .asset-content {
     background: none;
-    margin-left: 96px;
 }
 .asset-content .link a {
     text-decoration: none;
@@ -1837,7 +1834,6 @@ ul.profile-data li .edit {
     height: auto;
 }
 .asset-body img.constrained {
-    width:460px;
     height:auto;
 }
 #alpha,

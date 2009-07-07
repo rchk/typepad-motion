@@ -1,6 +1,19 @@
 {# base template for entry content #}
-{% load generic_filters %}
-{% load typepad_filters %}
+
+{# post type icon, userpic, post controls #}
+{% block chrome %}
+{% include "motion/assets/bits/chrome.html" %}
+{% endblock %}
+
+<div class="asset-inner">
+
+{% block header %}
+{# author name, post source #}
+{% include "motion/assets/bits/header.html" %}
+{% endblock %}
+
+    <div class="asset-content entry-content">
+        <div class="asset-body">
 
 {% block title %}
     {% if entry.title %}{% spaceless %}
@@ -22,3 +35,13 @@
     {% include "motion/assets/bits/content.html" %}
 {% endif %}
 {% endblock %}
+
+        </div>
+    </div>
+
+{% block footer %}
+{# comment count, favorite control, timestamp #}
+{% include "motion/assets/bits/footer.html" %}
+{% endblock %}
+
+</div>

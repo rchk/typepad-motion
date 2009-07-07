@@ -1,11 +1,11 @@
 {% load date_filters %}
 {% load i18n %}
 
-<div class="asset-meta">
+<div class="asset-meta asset-footer">
     {% spaceless %}
     <a href="{{ entry.get_absolute_url }}#comments" class="comment-count">
         {% blocktrans count entry.comment_count as count %}
-            {{ count }} <span>Comment</span>
+            1 <span>Comment</span>
         {% plural %}
             {{ count }} <span>Comments</span>
         {% endblocktrans %}

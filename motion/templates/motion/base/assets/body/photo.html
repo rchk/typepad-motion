@@ -1,10 +1,10 @@
-{% extends "motion/assets/body/base.html" %}
+{% extends base|default:"motion/assets/body/base.html" %}
 {% load typepad_filters %}
 
 {% block media %}
 <div>
     {# select the 500-wide photo since that is a standard size made available #}
-    {% with entry.links.rel__enclosure.width__500 as thumbnail %}
+    {% with entry|enclosurebywidth:settings.photo_max_width as thumbnail %}
     {% spaceless %}
 
     {% ifequal view "permalink" %}
@@ -16,8 +16,8 @@
     {% endifequal %}
 
     {# This bit is necessary for IE6, who doesn't respect max-width CSS rules. #}
-    {% if thumbnail.width|greaterthan:460 %}
-        <img class="constrained" width="460" src="{{ thumbnail.href }}" alt="{{ entry.title }}" />
+    {% if thumbnail.width|greaterthan:settings.photo_max_width %}
+        <img class="constrained" width="{{ settings.photo_max_width }}" src="{{ thumbnail.href }}" alt="{{ entry.title }}" />
     {% else %}
         <img width="{{ thumbnail.width }}" height="{{ thumbnail.height }}" src="{{ thumbnail.href }}" alt="{{ entry.title }}" />
     {% endif %}

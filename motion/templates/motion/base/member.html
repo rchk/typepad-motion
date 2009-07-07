@@ -1,5 +1,6 @@
 {% extends "motion/base.html" %}
 {% load i18n %}
+{% load typepad_filters %}
 
 {% block head_title %}{% blocktrans with block.super as super and member.display_name as name %}{{ super }}: {{ name }}&rsquo;s Profile{% endblocktrans %}{% endblock %}
 {% block page_id %}user-profile{% endblock %}
@@ -23,7 +24,7 @@
         {% include "motion/bits/member_status.html" %}
 
         <div class="userpic">
-            {% with member.links.rel__avatar.width__100 as userpic %}
+            {% with member|userpicbywidth:100 as userpic %}
             <img src="{{ userpic.href }}" width="100" height="100" alt="{{ member.display_name }}" />
             {% endwith %}
         </div>
