@@ -17,7 +17,7 @@
 
     {# This bit is necessary for IE6, who doesn't respect max-width CSS rules. #}
     {% if thumbnail.width|greaterthan:settings.photo_max_width %}
-        <img class="constrained" width="{{ settings.photo_max_width }}" src="{{ thumbnail.href }}" alt="{{ entry.title }}" />
+        <img class="constrained" style="width:{{ settings.photo_max_width }}px" width="{{ settings.photo_max_width }}" src="{{ thumbnail.href }}" alt="{{ entry.title }}" />
     {% else %}
         <img width="{{ thumbnail.width }}" height="{{ thumbnail.height }}" src="{{ thumbnail.href }}" alt="{{ entry.title }}" />
     {% endif %}

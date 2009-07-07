@@ -1829,13 +1829,6 @@ ul.profile-data li .edit {
     /* Prevents horizontal sizing of textarea with Safari */
     max-width: 550px;
 }
-.asset-body img {
-    max-width: 460px;
-    height: auto;
-}
-.asset-body img.constrained {
-    height:auto;
-}
 #alpha,
 #beta {
     float: left;
