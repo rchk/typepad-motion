@@ -59,7 +59,7 @@ urlpatterns += patterns('',
             {
                 'events'  : PublicEventsFeed, # home/index page feed
                 'members' : MemberFeed,       # member page feed
-                'comments': CommentsFeed,     # permalink comments feed
+                'entry'   : CommentsFeed,     # permalink comments feed
             }
         }, name='feeds'),
 )
