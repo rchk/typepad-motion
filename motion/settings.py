@@ -17,11 +17,10 @@ DATABASE_PORT = ''
 APPEND_SLASH = False
 
 TIME_ZONE = 'ETC/UTC'
-USE_I18N = True
-LANGUAGE_CODE = 'en-us'
-LANGUAGES = (
-    ('en', _('English')),
-)
+
+# Enable this if you need to customize application phrases or
+# need real localization
+USE_I18N = False
 
 MEDIA_URL = '/static/'
 ADMIN_MEDIA_PREFIX = '/media/'
