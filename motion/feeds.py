@@ -2,16 +2,20 @@ from datetime import datetime
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.core.exceptions import ObjectDoesNotExist
+from django.utils.translation import ugettext as _
 
 from typepadapp import models
 from typepadapp.views.base import TypePadEventFeed
+import typepad
 
 
 class PublicEventsFeed(TypePadEventFeed):
     description_template = 'motion/assets/feed.html'
 
     def title(self):
-        return "Recent Entries in %s" % self.request.group.display_name
+        return _("Recent Entries in %(group)s") \
+            % { 'group': self.request.group.display_name }
 
     def link(self):
         return reverse("group_events")
@@ -37,7 +41,8 @@ class MemberFeed(TypePadEventFeed):
         self.object = user
 
     def title(self, obj):
-        return "Recent Entries from %s" % obj.display_name
+        return _("Recent Entries from %(user)s") \
+            % { 'user': obj.display_name }
 
     def link(self, obj):
         if not obj:
@@ -45,8 +50,9 @@ class MemberFeed(TypePadEventFeed):
         return obj.get_absolute_url()
 
     def subtitle(self, obj):
-        return "Recent Entries from %s in %s." % (obj.display_name,
-            self.request.group.display_name)
+        return _("Recent Entries from %(user)s in %(group)s.") \
+            % { 'user': obj.display_name,
+                'group': self.request.group.display_name }
 
 
 class CommentsFeed(TypePadEventFeed):
@@ -60,12 +66,11 @@ class CommentsFeed(TypePadEventFeed):
         asset = models.Asset.get_by_url_id(assetid)
         comments = asset.comments.filter(start_index=1,
             max_results=settings.ITEMS_PER_FEED)
-        # TBD: construct a list of faux events to wrap each comment...
-        self.items = comments
+        self.comments = comments
         self.object = asset
 
     def title(self, obj):
-        return "Recent Comments on %s" % obj
+        return _("Recent Comments on %(title)s") % { 'title': obj }
 
     def link(self, obj):
         if not obj:
@@ -73,4 +78,16 @@ class CommentsFeed(TypePadEventFeed):
         return obj.get_absolute_url()
 
     def subtitle(self, obj):
-        return "Recent Comments on %s in %s." % (obj, self.request.group.display_name)
+        return _("Recent Comments on %(title)s in %(group)s.") \
+            % { 'title': obj, 'group': self.request.group.display_name }
+
+    def items(self):
+        comments = self.comments
+        events = []
+        for comment in comments:
+            event = typepad.Event()
+            event.object = comment
+            event.actor = comment.author
+            event.published = comment.published
+            events.append(event)
+        return events
