@@ -116,24 +116,12 @@ $(document).ready(function () {
     // Favorite an item
     $('.favorite-action').click(function() {
         if (user && user.is_authenticated) {
+            // don't do anything if already in progress
             if ($(this).hasClass('loading')) return false;
-            var favcount = parseInt($(this).html());
-            if (isNaN(favcount)) favcount = 0;
-            // favorite or un-favorite?
-            if ($(this).hasClass('scored')) {
-                action = "unfavorite";
-                favcount--;
-            } else {
-                action = "favorite";
-                favcount++;
-            }
             // show loading graphic
             $(this).toggleClass('loading');
-            // update fav count
-            if (favcount)
-                $(this).html(favcount.toString());
-            else
-                $(this).html('&nbsp;');
+            // favorite or un-favorite?
+            var action = $(this).hasClass('scored') ? "unfavorite" : "favorite";
             // id="favorite-6a0117a70cb0017bf60117d8ad20014cb2"
             var asset_id = $(this).attr('id').split('-')[1]
             var favitem = $(this);
@@ -143,12 +131,26 @@ $(document).ready(function () {
                 url: settings.favorite_url,
                 data: {"asset_id": asset_id, "action": action},
                 success: function(data){
-                    // show scored status
+                    // increment/decrement favorite count
+                    var favcount = parseInt(favitem.html());
+                    if (isNaN(favcount)) favcount = 0;
+                    if (action == "favorite")
+                        favcount++;
+                    else
+                        favcount--;
+                    // update count in UI
+                    if (favcount)
+                        favitem.html(favcount.toString());
+                    else
+                        favitem.html('&nbsp;');
+                    // show star status
                     favitem.toggleClass('scored');
                     favitem.toggleClass('loading');
                 },
                 error: function(xhr, txtStatus, errorThrown) {
-                    alert('Server error: ' + xhr.status + ' -- ' + xhr.statusText);
+                    alert('An error occurred: ' + xhr.status + ' -- ' + xhr.statusText);
+                    // restore old star status
+                    favitem.toggleClass('loading');
                 }
             });
         }
