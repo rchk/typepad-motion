@@ -1,4 +1,4 @@
-from urlparse import urljoin
+from urlparse import urljoin, urlparse
 import re
 
 from django.conf import settings
@@ -250,6 +250,7 @@ class MemberView(AssetEventView):
         self.object_list = member.group_events(request.group, start_index=self.offset, max_results=self.limit)
 
         self.context.update(locals())
+        super(MemberView, self).select_from_typepad(request, userid, *args, **kwargs)
 
     def get(self, request, userid, *args, **kwargs):
         # Verify this user is a member of the group.
@@ -343,6 +344,7 @@ class FeaturedMemberView(MemberView, AssetPostView):
         path = re.sub('(/page/\d+)?/?$', '', path)
         self.paginate_template = path + '/page/%d'
         self.context.update(locals())
+        super(FeaturedMemberView, self).select_from_typepad(request, userid, *args, **kwargs)
 
 
 class RelationshipsView(TypePadView):
@@ -376,11 +378,17 @@ def upload_complete(request):
     status = request.GET['status']
     if status == '201' or status == '200':
         # Signal that a new object has been created
-        instance = models.Asset.get(request.GET['asset_url'], batch=False)
+        parts = urlparse(request.GET['asset_url'])
+        instance = models.Asset.get(parts[2], batch=False)
+        request.flash.add('notices', _('Thanks for the %(type)s!') \
+            % { 'type': instance.type_label.lower() })
         signals.post_save.send(sender=upload_complete, instance=instance)
         # Redirect to clear the GET data
         if settings.FEATURED_MEMBER:
-            if not request.user.is_authenticated or not request.user.is_featured_member:
+            typepad.client.batch_request()
+            user = get_user(request)
+            typepad.client.complete_batch()
+            if not user.is_authenticated() or not user.is_featured_member:
                 return HttpResponseRedirect(reverse('group_events'))
         return HttpResponseRedirect(reverse('home'))
     return render_to_response('motion/error.html', {

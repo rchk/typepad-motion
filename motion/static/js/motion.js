@@ -317,12 +317,17 @@ $(document).ready(function () {
                 file_name = f.file.value;
                 if (!file_name) {
                     return compose_error(settings.phrase.fileRequired);
-                } else if (!fileExtensionCheck(file_name, ['mp3', 'aac', 'm4a'])) {
+                } else if (!fileExtensionCheck(file_name, ['mp3'])) {
                     return compose_error(settings.phrase.invalidFileType);
                 }
             }
             // file-based posts do not use ajax no matter what
             if (file_name) {
+                // It is possible this was unset; in this event, fail gracefully
+                if (settings.upload_xhr_endpoint == '') {
+                    alert("No endpoint available for uploading.");
+                    return false;
+                }
                 // Fetch the upload URL via XHR. Submit form to returned URL in callback.
                 $.ajax({
                     'type': 'GET',

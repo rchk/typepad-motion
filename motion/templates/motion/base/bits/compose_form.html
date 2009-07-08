@@ -28,7 +28,7 @@
                         <label id="label-photo" for="compose-file">{% trans "Select a photo file" %}</label>
                         {% if form.errors.file %}<div class="form-error">{{ form.errors.file|join:" " }}</div>{% endif %}
                         {{ form.file }}<br />
-                        <em id="hint-audio">{% trans "Only MP3, AAC and M4A audio files are supported." %}</em>
+                        <em id="hint-audio">{% trans "Only MP3 audio files are supported." %}</em>
                         <em id="hint-photo">{% trans "Only GIF, JPEG and PNG image files are supported." %}</em>
                     </div><!-- end #field-file -->
                     <div id="field-embed" class="field" style="display:none">
