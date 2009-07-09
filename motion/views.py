@@ -308,6 +308,11 @@ class MemberView(AssetEventView):
         return super(MemberView, self).get(request, userid, *args, **kwargs)
 
     def post(self, request, userid, *args, **kwargs):
+        
+        # post from the ban user form?
+        if not request.POST.get('form-action') == 'ban-user':
+            return super(MemberView, self).post(request, userid, *args, **kwargs)
+
         typepad.client.batch_request()
         request_user = get_user(request)
         user_memberships = models.User.get_by_url_id(userid).memberships.filter(by_group=request.group)
