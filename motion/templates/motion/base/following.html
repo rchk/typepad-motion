@@ -20,14 +20,24 @@
 
 {% block empty_events %}
 {% url members as members_url %}
+{% url home as home_url %}
+{% if not following.total_results %}
+
 {% blocktrans with request.group.display_name as group_name %}
-<p>You are not following any members of <a href="/">{{ group_name }}</a>.</p>
-<br/>
+<p>You are not following any members of <a href="{{ home_url }}">{{ group_name }}</a>.</p>
 <p><a href="{{ members_url }}">Find members to follow!</a></p>
-<br/>
-<p>Once you start following other members, their activity on <a href="/">{{ group_name }}</a>,
-as well as other sites within the TypePad network, will appear on this page.</p>
+<p>Once you start following other members, their activity on <a href="{{ home_url }}">{{ group_name }}</a>
+will appear on this page.</p>
 {% endblocktrans %}
+
+{% else %}
+
+{% blocktrans with request.group.display_name as group_name %}
+<p>There is no activity from the members you are following on <a href="{{ home_url }}">{{ group_name }}</a>.</p>
+<p><a href="{{ members_url }}">Find more members to follow!</a></p>
+{% endblocktrans %}
+
+{% endif %}
 {% endblock %}
 
 {% else %}
