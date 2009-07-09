@@ -18,13 +18,17 @@
 
 {% if not page_obj.object_list %}
 
-Welcome to the Following tab &mdash; this is where you can see recent posts
-and updates from the people you are following. If you don&rsquo;t see anything
-in this window, it means you&rsquo;re not following anyone! Click over to the
-Members tab, hover over the picture of a friend you&rsquo;d like to follow and
-click &ldquo;Follow&rdquo;, then come back here. If your friends have posted
-something new recently, their updates will show up on your Following tab. If
-the screen is still empty, it means they have not posted anything yet.
+{% block empty_events %}
+{% url members as members_url %}
+{% blocktrans with request.group.display_name as group_name %}
+<p>You are not following any members of <a href="/">{{ group_name }}</a>.</p>
+<br/>
+<p><a href="{{ members_url }}">Find members to follow!</a></p>
+<br/>
+<p>Once you start following other members, their activity on <a href="/">{{ group_name }}</a>,
+as well as other sites within the TypePad network, will appear on this page.</p>
+{% endblocktrans %}
+{% endblock %}
 
 {% else %}
 
