@@ -9,12 +9,24 @@
 <script type="text/javascript">
 /* <![CDATA[ */
     var total_events = {{ page_obj.object_list.total_results }};
-    var event_offset = {{ next_offset|default:"0" }}{# to be restored to: {{ page_obj.object_list|length }} + 1 #};
+    var event_offset = {{ next_offset|default:"0" }};
 /* ]]> */
 </script>
 {% endblock %}
 
 {% block content_body %}
+
+{% if not page_obj.object_list %}
+
+Welcome to the Following tab &mdash; this is where you can see recent posts
+and updates from the people you are following. If you don&rsquo;t see anything
+in this window, it means you&rsquo;re not following anyone! Click over to the
+Members tab, hover over the picture of a friend you&rsquo;d like to follow and
+click &ldquo;Follow&rdquo;, then come back here. If your friends have posted
+something new recently, their updates will show up on your Following tab. If
+the screen is still empty, it means they have not posted anything yet.
+
+{% else %}
 
 <div class="actions">
     <ul class="hfeed" id="events-content">
@@ -27,5 +39,7 @@
 <div class="controls">
     <button id="more-events" class="button-more" style="display:none;">{% trans "More" %}</button>
 </div>
+
+{% endif %}
 
 {% endblock %}
