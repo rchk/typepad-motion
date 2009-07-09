@@ -119,29 +119,38 @@ class FollowingEventsView(TypePadView):
         page. The class paginate_by value should also be restored to
         settings.EVENT_PER_PAGE.
         """
-        events = self.object_list
+
+        events = []
+        offset = 1
+
+        def filtrate(more, events):
+            num = 0
+            for e in more:
+                if e.is_local_asset:
+                    events.append(e)
+                # step forward our offset
+                num += 1
+                if len(events) == settings.EVENTS_PER_PAGE + 1:
+                    return num
+            return num
 
         # filter out any non-local events
-        offset = len(events.entries) + 1
-        events.entries = [e for e in events.entries if e.is_local_asset]
+        offset += filtrate(self.object_list.entries, events)
 
-        while offset <= events.total_results \
-            and len(events.entries) <= settings.EVENTS_PER_PAGE:
+        while offset <= self.object_list.total_results \
+            and len(events) <= settings.EVENTS_PER_PAGE:
             # more, please.
             typepad.client.batch_request()
             more = request.user.notifications.filter(start_index=offset,
                 max_results=self.paginate_by)
             typepad.client.complete_batch()
-            for e in more.entries:
-                if e.is_local_asset:
-                    events.entries.append(e)
-                offset += 1
-                if len(events.entries) == settings.EVENTS_PER_PAGE + 1:
-                    break
+            offset += filtrate(more, events)
 
-        if len(events.entries) > settings.EVENTS_PER_PAGE:
+        if len(events) > settings.EVENTS_PER_PAGE:
             self.context['next_offset'] = offset - 1
-            events.entries = events.entries[:settings.EVENTS_PER_PAGE]
+            events = events[:settings.EVENTS_PER_PAGE]
+
+        self.object_list.entries = events
 
         return super(FollowingEventsView, self).get(request, *args, **kwargs)
 
@@ -203,7 +212,7 @@ class AssetView(TypePadView):
                 # Redirect to home
                 return HttpResponseRedirect(reverse('home'))
             # Not allowed to delete
-            return HttpResponseForbidden('User not authorized to delete this asset.')
+            return HttpResponseForbidden(_('User not authorized to delete this asset.'))
 
         elif 'comment' in request.POST:
             if self.form_instance.is_valid():
@@ -418,7 +427,7 @@ def handle_exception(request, *args, **kwargs):
     # Output user visible HTTP response
     from django.template.loader import render_to_string
     return HttpResponseServerError(render_to_string("motion/500.html", {
-            'title': "Sorry, we're experiencing technical difficulties.",
+            'title': _("Sorry, we're experiencing technical difficulties."),
         },
         context_instance=RequestContext(request)))
 

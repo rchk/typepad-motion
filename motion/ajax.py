@@ -46,7 +46,7 @@ def more_comments(request):
     return http.HttpResponse(comment_string)
 
 
-# @ajax_required
+@ajax_required
 def more_events(request):
     """
     Fetch more events for the user and return the HTML for the additional
@@ -58,9 +58,20 @@ def more_events(request):
     page.
     """
 
+    events = []
     offset = int(request.GET.get('offset', 1))
 
-    events = []
+    def filtrate(more, events):
+        num = 0
+        for e in more:
+            if e.is_local_asset:
+                events.append(e)
+            # step forward our offset
+            num += 1
+            if len(events) == settings.EVENTS_PER_PAGE + 1:
+                return num
+        return num
+
     while True:
         typepad.client.batch_request()
         if not hasattr(request, 'user'):
@@ -68,13 +79,7 @@ def more_events(request):
         more = request.user.notifications.filter(start_index=offset,
             max_results=50)
         typepad.client.complete_batch()
-
-        for e in more.entries:
-            if e.is_local_asset:
-                events.append(e)
-            offset += 1
-            if len(events) == settings.EVENTS_PER_PAGE + 1:
-                break
+        offset += filtrate(more, events)
 
         if offset > more.total_results \
             or len(events) > settings.EVENTS_PER_PAGE:
