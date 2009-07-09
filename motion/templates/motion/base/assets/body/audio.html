@@ -4,7 +4,22 @@
 {% block title %}{% endblock %}
 
 {% block media %}
-<ul class="graphic">
-    <li><a href="{{ entry.link }}#.mp3" title="{% trans "click to play" %}">{{ entry.title }}</a></li>
-</ul>
+<div class="baconplayer preview audio">
+    <a href="{{ entry.link }}#.mp3" class="play" title="{% trans "play" %}">
+      &nbsp;
+    </a>
+    <a href="{{ entry.link }}#.mp3" class="pause" title="{% trans "pause" %}">
+      &nbsp;      
+    </a>
+    <div class="progress">
+      <div class="title">{{ entry.title }}</div>
+      <span class="timing">
+        <span class="position">0:00</span> /
+        <span class="duration">0:00</span>
+      </span>
+      <div class="loading-progress">
+        <div class="inner-progress">&nbsp;</div>
+      </div>
+    </div>
+</div>
 {% endblock %}
