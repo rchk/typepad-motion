@@ -72,6 +72,7 @@ def more_events(request):
                 return num
         return num
 
+    requests = 0
     while True:
         typepad.client.batch_request()
         if not hasattr(request, 'user'):
@@ -83,6 +84,10 @@ def more_events(request):
 
         if offset > more.total_results \
             or len(events) > settings.EVENTS_PER_PAGE:
+            break
+        # lets not overdo it
+        requests += 1
+        if requests == 3:
             break
 
     data = {}

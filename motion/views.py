@@ -138,6 +138,7 @@ class FollowingEventsView(TypePadView):
         # filter out any non-local events
         offset += filtrate(self.object_list.entries, events)
 
+        requests = 1
         while offset <= self.object_list.total_results \
             and len(events) <= settings.EVENTS_PER_PAGE:
             # more, please.
@@ -146,6 +147,10 @@ class FollowingEventsView(TypePadView):
                 max_results=self.paginate_by)
             typepad.client.complete_batch()
             offset += filtrate(more, events)
+            # lets not overdo it
+            requests += 1
+            if requests == 3:
+                break
 
         if len(events) > settings.EVENTS_PER_PAGE:
             self.context['next_offset'] = offset - 1
