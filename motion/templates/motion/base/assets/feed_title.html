@@ -1,0 +1,15 @@
+{% with obj as event %}{% with event.object as entry %}
+{% spaceless %}{% if entry.title %}
+    {% if entry.is_local %}
+        {% if settings.use_titles %}
+            {{ entry.title }}
+        {% else %}
+            {{ entry|truncatewords:20 }}
+        {% endif %}
+    {% else %}
+        {% autoescape off %}{{ entry.title|striptags }}{% endautoescape %}
+    {% endif %}
+{% else %}
+    {{ entry|truncatewords:20 }}
+{% endif %}{% endspaceless %}
+{% endwith %}{% endwith %}

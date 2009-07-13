@@ -4,6 +4,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import ugettext as _
+from django.template.defaultfilters import truncatewords
 
 from typepadapp import models
 from typepadapp.views.base import TypePadEventFeed
@@ -11,6 +12,7 @@ import typepad
 
 
 class PublicEventsFeed(TypePadEventFeed):
+    title_template = 'motion/assets/feed_title.html'
     description_template = 'motion/assets/feed.html'
 
     def title(self):
@@ -28,6 +30,7 @@ class PublicEventsFeed(TypePadEventFeed):
 
 
 class MemberFeed(TypePadEventFeed):
+    #title_template = 'motion/assets/feed_title.html'
     description_template = 'motion/assets/feed.html'
 
     def select_from_typepad(self, bits, *args, **kwargs):
@@ -56,6 +59,7 @@ class MemberFeed(TypePadEventFeed):
 
 
 class CommentsFeed(TypePadEventFeed):
+    title_template = 'motion/assets/feed_title.html'
     description_template = 'motion/assets/feed.html'
 
     def select_from_typepad(self, bits, *args, **kwargs):
@@ -70,7 +74,7 @@ class CommentsFeed(TypePadEventFeed):
         self.object = asset
 
     def title(self, obj):
-        return _("Recent Comments on %(title)s") % { 'title': obj }
+        return _("Recent Comments on %(title)s") % { 'title': truncatewords(obj, 40) }
 
     def link(self, obj):
         if not obj:
@@ -79,7 +83,7 @@ class CommentsFeed(TypePadEventFeed):
 
     def subtitle(self, obj):
         return _("Recent Comments on %(title)s in %(group)s.") \
-            % { 'title': obj, 'group': self.request.group.display_name }
+            % { 'title': truncatewords(obj, 40), 'group': self.request.group.display_name }
 
     def items(self):
         comments = self.comments
