@@ -262,10 +262,8 @@ p {
     float:left;
     height:16px;
     margin-right:10px;
-    opacity:0.5;
-    overflow:hidden;
-    text-indent:-9999px;
     width:16px;
+    cursor: pointer;
 }
 
 /* Navigation ------------------------------------------------------------- */
