@@ -868,7 +868,7 @@ button.button-delete {
     visibility: visible;
 }
 .asset .asset-meta .favorite-count {
-    background: url(images/favorite-stars.gif) no-repeat right -48px;
+    background: url(images/fav-off.gif) no-repeat right 0;
     margin: 5px 5px 0 0;
     /* height of favorite image is 16px */
     padding-top: 16px;
@@ -876,24 +876,21 @@ button.button-delete {
     position: absolute;
     top: 0;
     right: 0;
-    /* clips favorite sprite */
-    height: 0;
     overflow: visible;
-    line-height: 18px;
 }
 .asset .asset-meta .favorite-action:hover {
-    background-position: right -32px;
+    background-image: url(images/fav-hover.gif);
     cursor: hand; /* HACK - ie */
     cursor: pointer;
 }
 .asset .asset-meta .loading {
-    background: url(images/icons/throbber.gif) no-repeat right 0;
+    background-image: url(images/icons/throbber.gif);
 }
 .asset .asset-meta .scored {
-    background-position: right 0;
+    background-image: url(images/fav-on.gif);
 }
 .asset .asset-meta .scored:hover {
-    background-position: right 0;
+    background-image: url(images/fav-off.gif);
 }
 .asset-meta a {
     color: #aaa;
