@@ -5,10 +5,10 @@
 
 {% block media %}
 <div class="baconplayer preview audio">
-    <a href="{{ entry.link }}#.mp3" class="play" title="{% trans "play" %}">
+    <a href="#" class="play" title="{% trans "play" %}" onclick="BaconPlayer.playOrPause('{{ entry.link }}'); return false;">
       &nbsp;
     </a>
-    <a href="{{ entry.link }}#.mp3" class="pause" title="{% trans "pause" %}">
+    <a href="#" class="pause" title="{% trans "pause" %}" onclick="BaconPlayer.playOrPause('{{ entry.link }}'); return false;">
       &nbsp;      
     </a>
     <div class="progress">
