@@ -1434,37 +1434,46 @@ button.button-delete {
 }
 .member-listitem {
     float: left;
-    width: 288px;
-    border: 1px solid #ddd;
+    width: 262px;
+    border: none;
+    border-top: #DDDDDD 1px solid !important;
     background: #fff;
-    padding: 0;
+    padding: 10px;
     margin-right: 20px;
     margin-bottom: 20px;
-    min-height: 68px;
+    height: 68px;
 }
 .member-listitem.first {
     clear: left;
 }
+.member-listitem:hover {
+    background: #f1f1f1;
+}
 .member-listitem .userpic {
-    margin-left: 5px;
-    margin-top: 10px;
+    float: left;
+    margin: 0;
 }
 #alpha .member-listitem .userpic-link {
     border: 0;
     padding: 0;
 }
 .member-listitem .member-info {
-    margin-top: 15px;
-    padding-left: 12px;
+    margin-top: 0;
+    padding-left: 8px;
+    width: 200px;
+    height: 68px;
+    float: left;
     overflow: hidden;
 }
 .member-listitem .member-info h4 {
     margin-bottom: 3px;
-    font-size: 1em;
-    font-weight: normal;
+    font-size: 12px;
+    font-weight: bold;
     white-space: nowrap;
     width: 220px;
-    overflow: hidden;
+}
+.member-listitem .member-info p {
+    font-size: 12px;
 }
 .member-listitem .member-info p a {
     white-space: nowrap;
