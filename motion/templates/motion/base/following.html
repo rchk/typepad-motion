@@ -24,7 +24,7 @@
 {% if not following.total_results %}
 
 {% blocktrans with request.group.display_name as group_name %}
-<a href="{{ members_url }}">Follow members</a> of <a href="{{ home_url }}">{{ group_name }}</a> and see their updates as they get posted.
+<p><a href="{{ members_url }}">Follow members</a> of <a href="{{ home_url }}">{{ group_name }}</a> and see their updates as they get posted.</p>
 {% endblocktrans %}
 
 {% else %}
