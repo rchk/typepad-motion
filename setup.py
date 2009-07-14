@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from setuptools import setup
+from setuptools import setup, find_packages
 setup(
     name='motion',
     version='1.0',
@@ -8,7 +8,7 @@ setup(
     author_email='python@sixapart.com',
     url='http://code.sixapart.com/svn/motion/',
 
-    packages=['motion'],
+    packages=find_packages(),
     provides=['motion'],
     include_package_data=True,
     zip_safe=False,
