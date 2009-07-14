@@ -24,10 +24,7 @@
 {% if not following.total_results %}
 
 {% blocktrans with request.group.display_name as group_name %}
-<p>You are not following any members of <a href="{{ home_url }}">{{ group_name }}</a>.</p>
-<p><a href="{{ members_url }}">Find members to follow!</a></p>
-<p>Once you start following other members, their activity on <a href="{{ home_url }}">{{ group_name }}</a>
-will appear on this page.</p>
+<a href="{{ members_url }}">Follow members</a> of <a href="{{ home_url }}">{{ group_name }}</a> and see their updates as they get posted.
 {% endblocktrans %}
 
 {% else %}
