@@ -214,8 +214,10 @@ class AssetView(TypePadView):
                 asset.delete()
                 if isinstance(asset, models.Comment):
                     # Return to permalink page
+                    request.flash.add('notices', _('Comment deleted.'))
                     return HttpResponseRedirect(request.path)
                 # Redirect to home
+                request.flash.add('notices', _('Post deleted.'))
                 return HttpResponseRedirect(reverse('home'))
             # Not allowed to delete
             return HttpResponseForbidden(_('User not authorized to delete this asset.'))
@@ -227,6 +229,7 @@ class AssetView(TypePadView):
                 typepad.client.complete_batch()
                 comment = self.form_instance.save()
                 asset.comments.post(comment)
+                request.flash.add('notices', _('Comment created successfully!'))
                 # Return to permalink page
                 return HttpResponseRedirect(request.path)
 
