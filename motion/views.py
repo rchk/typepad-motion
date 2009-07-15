@@ -109,8 +109,6 @@ class FollowingEventsView(TypePadView):
     def select_from_typepad(self, request, view='following', *args, **kwargs):
         self.paginate_template = reverse('following_events') + '/page/%d'
         self.object_list = request.user.notifications.filter(start_index=self.offset, max_results=self.paginate_by)
-        following = request.user.following(group=request.group, max_results=0)
-        self.context.update(locals())
 
     def get(self, request, *args, **kwargs):
         """

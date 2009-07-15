@@ -20,21 +20,10 @@
 
 {% block empty_events %}
 {% url members as members_url %}
-{% url home as home_url %}
-{% if not following.total_results %}
-
 {% blocktrans with request.group.display_name as group_name %}
-<p><a href="{{ members_url }}">Follow members</a> of <a href="{{ home_url }}">{{ group_name }}</a> and see their updates as they get posted.</p>
+<p><a href="{{ members_url }}">Follow members</a> of {{ group_name }} and see their updates as they get posted.</p>
+<p>Once the people you follow add new content, their updates will show here.</p>
 {% endblocktrans %}
-
-{% else %}
-
-{% blocktrans with request.group.display_name as group_name %}
-<p>There is no activity from the members you are following on <a href="{{ home_url }}">{{ group_name }}</a>.</p>
-<p><a href="{{ members_url }}">Find more members to follow!</a></p>
-{% endblocktrans %}
-
-{% endif %}
 {% endblock %}
 
 {% else %}
