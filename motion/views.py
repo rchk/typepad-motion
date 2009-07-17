@@ -385,7 +385,7 @@ class RelationshipsView(TypePadView):
 
         # Fetch logged-in group member
         member = models.User.get_by_url_id(userid)
-        paginate_template = reverse(rel, args=[userid]) + '/page/%d'
+        self.paginate_template = reverse(rel, args=[userid]) + '/page/%d'
 
         self.object_list = getattr(member, rel)(start_index=self.offset, max_results=self.limit, group=request.group)
         self.context.update(locals())
