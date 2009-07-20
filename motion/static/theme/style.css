@@ -257,14 +257,6 @@ p {
 .flash.error {
     background: #fde2e2;
 }
-.flash-close {
-    background:transparent url(images/icons/cross.png) no-repeat scroll 50% 50%;
-    float:left;
-    height:16px;
-    margin-right:10px;
-    width:16px;
-    cursor: pointer;
-}
 
 /* Navigation ------------------------------------------------------------- */
 

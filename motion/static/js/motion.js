@@ -42,10 +42,9 @@ function convertLineBreaks(str) {
 
 $(document).ready(function () {
 
-    // Flash close button
-    $('.flash-close').click(function() {
-        $($(this).parent().get(0)).fadeOut();
-        return false;
+    // Click flash to close
+    $('.flash').click(function() {
+        $(this).fadeOut();
     });
 
     // Load more comments -- permalink page

@@ -1,10 +1,6 @@
 {% for error in flash.errors %}
-<div class="flash error">
-    <a class="flash-close" href="#"> </a>{{ error }}
-</div>
+<div class="flash error">{{ error }}</div>
 {% endfor %}
 {% for notice in flash.notices %}
-<div class="flash notice">
-    <a class="flash-close" href="#"> </a>{{ notice }}
-</div>
+<div class="flash notice">{{ notice }}</div>
 {% endfor %}
