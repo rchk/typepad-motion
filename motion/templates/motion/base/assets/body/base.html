@@ -17,7 +17,7 @@
 
 {% block title %}
     {% if entry.title %}{% spaceless %}
-        {% if entry.is_local %}
+        {% if not entry.source %}
             {% if settings.use_titles %}
             <h2 class="entry-title"><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h2>
             {% endif %}
