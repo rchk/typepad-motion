@@ -3,11 +3,7 @@ from django.conf import settings
 from django.contrib.auth import get_user
 from django.template.loader import render_to_string
 from django.template import RequestContext
-
-try:
-    import json
-except ImportError:
-    import simplejson as json
+import simplejson as json
 
 import typepad
 from typepadapp import models
