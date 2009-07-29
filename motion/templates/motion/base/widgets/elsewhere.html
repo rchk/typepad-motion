@@ -6,7 +6,12 @@
         <ul>
             {% for account in elsewhere %}
             <li>
-                <img class="service-icon" src="{{ account.provider_icon_url }}" height="16" width="16" alt="" /> <a href="{{ account.url }}" rel="me">{{ account.provider_name }}</a>
+                {% if account.provider_icon_url %}
+                <img class="service-icon" src="{{ account.provider_icon_url }}" height="16" width="16" alt="" />
+                {% else %}
+                <img class="service-icon" src="http://static.typepad.com/.shared:v20090616.1:typepad:en_us//images/profile/service_icons/other.png" height="16" width="16" alt="" />
+                {% endif %}
+                <a href="{{ account.url }}" rel="me">{{ account.provider_name }}</a>
             </li>
             {% endfor %}
         </ul>
