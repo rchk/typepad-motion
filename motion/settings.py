@@ -3,6 +3,8 @@
 import os
 import logging
 from django.utils.translation import ugettext_lazy as _
+from typepadapp.settings import *
+
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
@@ -93,10 +95,7 @@ OAUTH_CONSUMER_SECRET = 'secret'
 OAUTH_GENERAL_PURPOSE_KEY = 'gp_key'
 OAUTH_GENERAL_PURPOSE_SECRET = 'gp_secret'
 
-BATCH_REQUESTS = not os.getenv('TYPEPAD_BATCHLESS')
-
 SESSION_COOKIE_NAME = 'motion'
-TYPEPAD_COOKIES = {}
 
 AUTH_PROFILE_MODULE = ''
 CACHE_BACKEND = 'locmem:///'
@@ -123,14 +122,11 @@ ALLOW_USERS_TO_DELETE_POSTS = True
 # Allow users to post new content to the group
 ALLOW_COMMUNITY_POSTS = True
 
-# Number of events on the home page.
-EVENTS_PER_PAGE = 25
 # Number of items in the atom feed.
 ITEMS_PER_FEED = 18
-COMMENTS_PER_PAGE = 50
+
 # Group members, following, followers
 MEMBERS_PER_PAGE = 18
-MEMBERS_PER_WIDGET = 30
 FOLLOWERS_PER_WIDGET = 5
 # Max number or words for a short paragraph,
 # used for truncating on the front page.
@@ -148,12 +144,3 @@ VIDEO_MAX_WIDTH = 400
 
 # Default CSS theme to use for site
 THEME = 'motion'
-
-# Logging
-LOG_FORMAT = '%(name)-20s %(levelname)-8s %(message)s'
-LOG_LEVEL = logging.INFO
-LOG_LEVELS = {
-    'remoteobjects.http': logging.WARNING,
-    'batchhttp.client': logging.WARNING,
-    'typepad.oauthclient': logging.WARNING,
-}
