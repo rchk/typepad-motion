@@ -6,7 +6,7 @@
     {% if member.email %}
         <p><a href="mailto:{{ member.email }}">{% blocktrans with member.display_name as name %}E-mail {{ name }}{% endblocktrans %}</a></p>
     {% endif %}
-    {% if not member.is_superuser %}
+    {% if not member.is_superuser and not member.is_featured_member %}
         <form id="ban-user-form" action="{{ request.path }}" method="post">
             <input type="hidden" name="form-action" value="ban-user" />
         </form>
