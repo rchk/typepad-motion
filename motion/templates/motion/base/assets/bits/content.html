@@ -11,7 +11,7 @@
 {% else %}
     {% ifequal entry.text_format "html" %}
         {% withblock %}{% autoescape off %}{{ entry.content|striptags }}{% endautoescape %}{% as content %}
-        {{ content|truncatewords:settings.paragraph_wordcount }}
+        {{ content|urlize|linebreaks|truncatewords:settings.paragraph_wordcount }}
         {{ entry|morelink:settings.paragraph_wordcount }}
         {% endwithblock %}
     {% else %}
