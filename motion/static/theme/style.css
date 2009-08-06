@@ -1405,6 +1405,11 @@ button.button-delete {
     text-align: left;
     display: inline;
 }
+#comment-posting {
+    display: none;
+    font-size: 11px;
+    color: #444;
+}
 
 /* Members ---------------------------------------------------------------- */
 

@@ -42,9 +42,10 @@ function convertLineBreaks(str) {
 
 $(document).ready(function () {
 
-    // Disable comment form on submit
+    // Hide comment button on submit
     $('#comments-form').submit(function(){
-        $('input[type=submit]', this).attr('disabled', 'disabled');
+        $('#comment-submit').hide();
+        $('#comment-posting').show();
     });
 
     // Click flash to close
