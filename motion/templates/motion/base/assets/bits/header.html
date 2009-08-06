@@ -3,13 +3,11 @@
 <div class="asset-header">
     <span class="byline">
     {% block byline %}
-        {% blocktrans with event.actor.get_absolute_url as url and event.actor.display_name as name %}
-        <span class="vcard author"><a href="{{ url }}">{{ name }}</a></span>
-        {% endblocktrans %}
+        <span class="vcard author"><a href="{{ event.actor.get_absolute_url }}">{{ event.actor.display_name }}</a></span>
 
         {% if entry.source %}
         <span class="source">
-            {% trans "posted from" %}
+            {% block source_phrase %}{% trans "posted from" %}{% endblock %}
             {% with entry.source.original_link.href as original_href %}
                 {% if entry.source.provider %}
                     {% if entry.source.provider.icon %}
@@ -22,7 +20,7 @@
             {% endwith %}
         </span>
         {% else %}
-            {% trans "posted" %}
+            {% block local_phrase %}{% trans "posted" %}{% endblock %}
         {% endif %}
 
     {% endblock %}
