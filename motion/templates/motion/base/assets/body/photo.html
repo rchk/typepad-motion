@@ -5,7 +5,7 @@
 {% block media %}
 <div>
     {# select the 500-wide photo since that is a standard size made available #}
-    {% with entry|enclosurebywidth:settings.photo_max_width as thumbnail %}
+    {% with entry|enclosurebysize:settings.photo_max_width as thumbnail %}
     {% spaceless %}
 
     {% ifequal view "permalink" %}
