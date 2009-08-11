@@ -687,16 +687,6 @@ p {
     background: #fff;
 }
 
-/* Error Page: 500.html */
-
-body.error {
-    background-color: #fff;
-    background-image: none;
-    margin-top: 20px;
-    text-align: center;
-    font-size: 12px;
-}
-
 /* Entry Listing ---------------------------------------------------------- */
 
 

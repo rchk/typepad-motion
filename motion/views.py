@@ -5,7 +5,7 @@ from django.conf import settings
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.generic.simple import redirect_to
-from django.http import Http404, HttpResponseRedirect, HttpResponseServerError, HttpResponseForbidden, HttpResponseNotFound
+from django.http import Http404, HttpResponseRedirect, HttpResponseForbidden
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import SiteProfileNotAvailable
@@ -414,41 +414,4 @@ def upload_complete(request):
         return HttpResponseRedirect(reverse('home'))
     return render_to_response('motion/error.html', {
         'message': request.GET['error'],
-    }, context_instance=RequestContext(request))
-
-
-def handle_exception(request, *args, **kwargs):
-    """
-    Custom exception handler for Django.
-
-    Note that settings.DEBUG must be False or this handler is never run.
-    """
-
-    import sys
-    import logging
-
-    # Get the latest exception from Python system service
-    exception = sys.exc_info()[0]
-
-    # Use  Python logging module to log the exception
-    # For more information see:
-    # http://docs.python.org/lib/module-logging.html
-    logging.error("Uncaught exception got through, rendering 500 page.")
-    logging.exception(exception)
-
-    # Output user visible HTTP response
-    from django.template.loader import render_to_string
-    return HttpResponseServerError(render_to_string("motion/500.html", {
-            'title': _("Sorry, we're experiencing technical difficulties."),
-        },
-        context_instance=RequestContext(request)))
-
-
-def handle_not_found(request, *args, **kwargs):
-    """
-    Custom 404 handler for Motion logging (non-debug mode only).
-    """
-    import logging
-    logging.warning("Page not found: %s" % request.path)
-    return render_to_response('motion/404.html', {
     }, context_instance=RequestContext(request))
