@@ -5,7 +5,7 @@ from django.conf import settings
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.generic.simple import redirect_to
-from django.http import Http404, HttpResponseRedirect, HttpResponseServerError, HttpResponseForbidden
+from django.http import Http404, HttpResponseRedirect, HttpResponseServerError, HttpResponseForbidden, HttpResponseNotFound
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import SiteProfileNotAvailable
@@ -463,5 +463,5 @@ def handle_not_found(request, *args, **kwargs):
 
     # Output user visible HTTP response
     from django.template.loader import render_to_string
-    return HttpResponseServerError(render_to_string("motion/404.html", {},
+    return HttpResponseNotFound(render_to_string("motion/404.html", {},
         context_instance=RequestContext(request)))
