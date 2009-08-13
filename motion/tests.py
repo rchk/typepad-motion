@@ -21,7 +21,7 @@ class ProfileTestCase(unittest.TestCase):
         from django.core import management
         management.call_command('syncdb', verbosity=1, interactive=False)
 
-    def testProfile(self):
+    def test_profile(self):
         from motion.models import UserProfile
         p = UserProfile(user_id='6paf37603c44724b3a',
             hiphop_name='dj fred')
