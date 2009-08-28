@@ -207,16 +207,21 @@ class AssetView(TypePadView):
             asset = models.Asset.get_by_url_id(asset_id)
             typepad.client.complete_batch()
 
-            # Check permissions for deleting an asset
-            if request.user.is_superuser or (settings.ALLOW_USERS_TO_DELETE_POSTS and request.user.id == asset.author.id):
-                asset.delete()
-                if isinstance(asset, models.Comment):
-                    # Return to permalink page
-                    request.flash.add('notices', _('Comment deleted.'))
-                    return HttpResponseRedirect(request.path)
-                # Redirect to home
-                request.flash.add('notices', _('Post deleted.'))
-                return HttpResponseRedirect(reverse('home'))
+            # Only let plain users delete stuff if so configured.
+            if request.user.is_superuser or settings.ALLOW_USERS_TO_DELETE_POSTS:
+                try:
+                    asset.delete()
+                except asset.Forbidden:
+                    pass
+                else:
+                    if isinstance(asset, models.Comment):
+                        # Return to permalink page
+                        request.flash.add('notices', _('Comment deleted.'))
+                        return HttpResponseRedirect(request.path)
+                    # Redirect to home
+                    request.flash.add('notices', _('Post deleted.'))
+                    return HttpResponseRedirect(reverse('home'))
+
             # Not allowed to delete
             return HttpResponseForbidden(_('User not authorized to delete this asset.'))
 
