@@ -130,4 +130,14 @@ class TwittilizeTestCase(unittest.TestCase):
                 '<a href="http://bit.ly/nmpoK" rel="nofollow">http://bit.ly/nmpoK</a> '
                 '<a href="http://twitter.com/search?q=#lego">#lego</a> '
                 '<a href="http://twitter.com/search?q=#scifi">#scifi</a>'),
+            (mark_safe('RT <a href="http://twitter.com/monkinetic">@monkinetic</a> '
+                'Grease Alley continues to grow: '
+                '<a href="http://bit.ly/nmpoK" rel="nofollow">http://bit.ly/nmpoK</a> '
+                '<a href="http://twitter.com/search?q=#lego">#lego</a> '
+                '<a href="http://twitter.com/search?q=#scifi">#scifi</a>'),
+             'RT <a href="http://twitter.com/monkinetic">@monkinetic</a> '
+                'Grease Alley continues to grow: '
+                '<a href="http://bit.ly/nmpoK" rel="nofollow">http://bit.ly/nmpoK</a> '
+                '<a href="http://twitter.com/search?q=#lego">#lego</a> '
+                '<a href="http://twitter.com/search?q=#scifi">#scifi</a>'),
         )
