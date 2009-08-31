@@ -1,21 +1,30 @@
 {% load typepad_filters %}
 {% load generic_filters %}
 {% load withblock %}
+{% load twittilize %}
 
 {% ifequal view "permalink" %}
-    {% ifequal entry.text_format "html" %}
-        {{ entry.content|sanitizetags }}
+    {% ifequal entry.source.provider.uri "http://twitter.com/" %}
+        {{ entry.content|twittilize }}
     {% else %}
-        {{ entry.content|urlize|linebreaks }}
+        {% ifequal entry.text_format "html" %}
+            {{ entry.content|sanitizetags }}
+        {% else %}
+            {{ entry.content|urlize|linebreaks }}
+        {% endifequal %}
     {% endifequal %}
 {% else %}
-    {% ifequal entry.text_format "html" %}
-        {% withblock %}{% autoescape off %}{{ entry.content|striptags }}{% endautoescape %}{% as content %}
-        {{ content|urlize|linebreaks|truncatewords:settings.paragraph_wordcount }}
-        {{ entry|morelink:settings.paragraph_wordcount }}
-        {% endwithblock %}
+    {% ifequal entry.source.provider.uri "http://twitter.com/" %}
+        {{ entry.content|twittilize }}
     {% else %}
-        {{ entry.content|urlize|linebreaks|truncatewords_html:settings.paragraph_wordcount }}
-        {{ entry|morelink:settings.paragraph_wordcount }}
+        {% ifequal entry.text_format "html" %}
+            {% withblock %}{% autoescape off %}{{ entry.content|striptags }}{% endautoescape %}{% as content %}
+            {{ content|urlize|linebreaks|truncatewords:settings.paragraph_wordcount }}
+            {{ entry|morelink:settings.paragraph_wordcount }}
+            {% endwithblock %}
+        {% else %}
+            {{ entry.content|urlize|linebreaks|truncatewords_html:settings.paragraph_wordcount }}
+            {{ entry|morelink:settings.paragraph_wordcount }}
+        {% endifequal %}
     {% endifequal %}
 {% endifequal %}
