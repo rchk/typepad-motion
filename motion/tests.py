@@ -80,23 +80,24 @@ class TwittilizeTestCase(unittest.TestCase):
     def test_hashtags(self):
         self.run_tests(
             ('This is a tweet with a #hashtag',
-             'This is a tweet with a <a href="http://twitter.com/search?q=#hashtag">#hashtag</a>'),
+             'This is a tweet with a <a href="http://twitter.com/search?q=%23hashtag">#hashtag</a>'),
             ('This is a #tweet with an inline tag',
-             'This is a <a href="http://twitter.com/search?q=#tweet">#tweet</a> with an inline tag'),
+             'This is a <a href="http://twitter.com/search?q=%23tweet">#tweet</a> with an inline tag'),
             ('#hashtags rarely come at the front',
-             '<a href="http://twitter.com/search?q=#hashtags">#hashtags</a> rarely come at the front'),
+             '<a href="http://twitter.com/search?q=%23hashtags">#hashtags</a> rarely come at the front'),
             ('Using #some-long-hashtag is fine #spaces--',
-             'Using <a href="http://twitter.com/search?q=#some-long-hashtag">'
+             'Using <a href="http://twitter.com/search?q=%23some-long-hashtag">'
                 '#some-long-hashtag</a> is fine <a href="http://twitter.com/'
-                'search?q=#spaces">#spaces</a>--'),
+                'search?q=%23spaces">#spaces</a>--'),
             ('Hashtags have #fU77&!$$(!)!($!)%#&@(#&$)nny_syntax!',
-             'Hashtags have <a href="http://twitter.com/search?q=#fU77&amp;!'
-                '$$(!)!($!)%#&amp;@(#&amp;$)nny_syntax">#fU77&amp;!$$(!)!($!'
-                ')%#&amp;@(#&amp;$)nny_syntax</a>!'),
+             'Hashtags have <a href="http://twitter.com/search?q=%23fU77%26'
+                '%21%24%24%28%21%29%21%28%24%21%29%25%23%26%40%28%23%26%24'
+                '%29nny_syntax">#fU77&amp;!$$(!)!($!)%#&amp;@(#&amp;$)nny_'
+                'syntax</a>!'),
             ("#hashtags' syntax for #o'neill's stream",
-             '<a href="http://twitter.com/search?q=#hashtags">#hashtags</a>'
+             '<a href="http://twitter.com/search?q=%23hashtags">#hashtags</a>'
                 '&#39; syntax for <a href="http://twitter.com/search?q='
-                """#o&#39;neill">#o&#39;neill</a>&#39;s stream"""),
+                """%23o%27neill">#o&#39;neill</a>&#39;s stream"""),
         )
 
     def test_complex(self):
@@ -105,8 +106,8 @@ class TwittilizeTestCase(unittest.TestCase):
              'RT @<a href="http://twitter.com/monkinetic">monkinetic</a> '
                 'Grease Alley continues to grow: '
                 '<a href="http://bit.ly/nmpoK" rel="nofollow">http://bit.ly/nmpoK</a> '
-                '<a href="http://twitter.com/search?q=#lego">#lego</a> '
-                '<a href="http://twitter.com/search?q=#scifi">#scifi</a>'),
+                '<a href="http://twitter.com/search?q=%23lego">#lego</a> '
+                '<a href="http://twitter.com/search?q=%23scifi">#scifi</a>'),
         )
 
     def test_safety(self):

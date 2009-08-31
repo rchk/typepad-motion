@@ -1,4 +1,6 @@
+import htmlentitydefs
 import re
+from urllib import quote
 
 from django import template
 from django.template.defaultfilters import urlize, stringfilter
@@ -34,6 +36,34 @@ hashtags_re = re.compile(r"""
     """, re.VERBOSE | re.MULTILINE | re.DOTALL)
 
 
+html_numeric_entity_re = re.compile(r"""
+        &\#
+        (\d+)  # some decimal digits
+        ;
+    """, re.VERBOSE | re.MULTILINE | re.DOTALL)
+
+
+html_named_entity_re = re.compile(r"""
+        &
+        (\w+)  # the entity name
+        ;
+    """, re.VERBOSE | re.MULTILINE | re.DOTALL)
+
+
+def html_escaped_to_uri_escaped(text):
+    text = re.sub(
+        html_numeric_entity_re,
+        lambda m: unichr(int(m.group(1))),
+        text,
+    )
+    text = re.sub(
+        html_named_entity_re,
+        lambda m: unichr(htmlentitydefs.name2codepoint[m.group(1)]),
+        text,
+    )
+    return quote(text)
+
+
 @register.filter
 @needs_autoescape
 @stringfilter
@@ -54,7 +84,8 @@ def twittilize(tweet, autoescape=None):
     # Auto-link hashtags.
     tweet = re.sub(
         hashtags_re,
-        lambda m: '<a href="http://twitter.com/search?q=%s">%s</a>' % (m.group(0), m.group(0)),
+        lambda m: ('<a href="http://twitter.com/search?q=%s">%s</a>'
+            % (html_escaped_to_uri_escaped(m.group(0)), m.group(0))),
         tweet,
     )
 
