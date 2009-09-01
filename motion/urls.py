@@ -11,6 +11,7 @@ theme_dir = os.path.join(app_path, 'static', 'theme')
 urlpatterns = patterns('motion.views',
     # main index
     url(r'^$', 'home', name='home'),
+    url(r'^$', 'home', name='motion_post_url'), # an alias for home
     url(r'^page/(?P<page>\d+)/?$', 'home'),
 
     # file upload callback

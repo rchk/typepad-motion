@@ -361,9 +361,6 @@ $(document).ready(function () {
                 // Don't submit the form just yet.
                 return false;
             }
-            else {
-                f.action = "";
-            }
 
             return true;
         });
