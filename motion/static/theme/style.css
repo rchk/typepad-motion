@@ -12,6 +12,7 @@
 
 
 @import url(../../typepadapp/css/reset.css);
+@import url(../../typepadapp/css/flash.css);
 
 /* Default Styles --------------------------------------------------------- */
 
@@ -239,23 +240,9 @@ p {
 
 .flash {
     width: 930px;
-    display: block;
-    margin: 0 auto;
-    margin-bottom: 4px;
-    padding: 8px 10px;
-    text-decoration: none;
     font-size: 13px;
-    font-weight: normal;
     line-height: 15px;
     border: 2px solid #00334c;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-}
-.flash.notice {
-    background: #bbddbb; 
-}
-.flash.error {
-    background: #fde2e2;
 }
 
 /* Navigation ------------------------------------------------------------- */
