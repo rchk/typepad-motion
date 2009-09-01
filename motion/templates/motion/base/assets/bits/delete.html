@@ -1,7 +1,9 @@
 {% load i18n %}
-{% if user.is_authenticated and entry.can_delete %}
-{% if user.is_superuser or settings.allow_users_to_delete_posts %}
+{% if user.is_authenticated %}
 <div class="controls">
+    {% block controls %}
+    {% if user.is_superuser or entry.can_delete %}
+    {% if user.is_superuser or settings.allow_users_to_delete_posts %}
     <form id="delete-{{ entry.url_id }}" method="post" action="">
         <input type="hidden" name="asset-id" value="{{ entry.url_id }}" />
         <button class="button-delete" type="submit"
@@ -10,12 +12,17 @@
                 'Are you sure you want to delete this {{ type }}? This action cannot be undone.'
             {% endblocktrans %}
             {% endspaceless %});" name="delete" title={% spaceless %}
-            {% blocktrans with entry.type_id as type %}
+            {% blocktrans with entry.type_label as type %}
                 "Delete {{ type }}"
             {% endblocktrans %}
             {% endspaceless %}>{% trans "Delete" %}
         </button>
     </form>
+    {% endif %}
+    {% endif %}
+    {% if settings.use_moderation %}
+    {% include "moderation/bits/moderate.html" %}
+    {% endif %}
+    {% endblock %}
 </div>
-{% endif %}
 {% endif %}
