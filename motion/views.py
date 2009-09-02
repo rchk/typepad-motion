@@ -46,6 +46,16 @@ class AssetEventView(TypePadView):
         Only include Events with Assets - that is, where event.object is an Asset.
         """
         self.object_list.entries = [event for event in self.object_list.entries if isinstance(event.object, models.Asset)]
+        if settings.USE_MODERATION:
+            id_list = [event.object.url_id for event in self.object_list.entries]
+            if id_list:
+                from moderation import models as mod_models
+                suppressed = mod_models.Asset.objects.filter(asset_id__in=id_list,
+                    status=mod_models.Asset.SUPPRESSED)
+                if suppressed:
+                    suppressed_ids = [a.asset_id for a in suppressed]
+                    self.object_list.entries = [event for event in self.object_list.entries
+                        if event.object.url_id not in suppressed_ids]
 
 
 class AssetPostView(TypePadView):
