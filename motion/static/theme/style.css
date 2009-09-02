@@ -758,6 +758,10 @@ button.button-flag {
     background-color: transparent;
 }
 
+button.button-flag.flagged {
+    background-image: url(images/icons/flag_gray.png);
+}
+
 .asset.admin {
     border-bottom-width: 3px;
     border-right: 2px solid #ddd;

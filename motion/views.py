@@ -191,6 +191,13 @@ class AssetView(TypePadView):
         event.actor = entry.author
         event.published = entry.published
         self.context['event'] = event
+        
+        # Check if the user has flagged this asset
+        user_flags = []
+        if settings.USE_MODERATION:
+            from moderation.models import Flag
+            user_flags = Flag.objects.filter(tp_asset_id=entry.url_id, user_id=self.context['user'].url_id)
+        self.context['user_flags'] = user_flags
 
         return super(AssetView, self).get(*args, **kwargs)
 
