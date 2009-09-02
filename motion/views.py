@@ -27,7 +27,8 @@ def home(request, page=1, **kwargs):
     """
     if settings.FEATURED_MEMBER:
         # Home page is a featured user.
-        return FeaturedMemberView(request, settings.FEATURED_MEMBER, page=page, view='home', **kwargs)
+        return FeaturedMemberView(request, settings.FEATURED_MEMBER,
+            page=page, view='home', **kwargs)
     if settings.HOME_MEMBER_EVENTS:
         typepad.client.batch_request()
         user = get_user(request)
@@ -43,9 +44,12 @@ class AssetEventView(TypePadView):
 
     def filter_object_list(self):
         """
-        Only include Events with Assets - that is, where event.object is an Asset.
+        Only include Events with Assets - that is, where event.object is an
+        Asset.
         """
-        self.object_list.entries = [event for event in self.object_list.entries if isinstance(event.object, models.Asset)]
+        self.object_list.entries = [event for event in self.object_list.entries
+            if isinstance(event.object, models.Asset)]
+
         if settings.USE_MODERATION:
             id_list = [event.object.url_id for event in self.object_list.entries]
             if id_list:
@@ -118,7 +122,8 @@ class FollowingEventsView(TypePadView):
 
     def select_from_typepad(self, request, view='following', *args, **kwargs):
         self.paginate_template = reverse('following_events') + '/page/%d'
-        self.object_list = request.user.notifications.filter(start_index=self.offset, max_results=self.paginate_by)
+        self.object_list = request.user.notifications.filter(start_index=self.offset,
+            max_results=self.paginate_by)
 
     def get(self, request, *args, **kwargs):
         """
@@ -269,7 +274,8 @@ class MembersView(TypePadView):
 
     def select_from_typepad(self, request, *args, **kwargs):
         self.paginate_template = reverse('members') + '/page/%d'
-        self.object_list = request.group.memberships.filter(start_index=self.offset, max_results=self.limit, member=True)
+        self.object_list = request.group.memberships.filter(start_index=self.offset,
+            max_results=self.limit, member=True)
         self.context.update(locals())
 
 
@@ -288,7 +294,8 @@ class MemberView(AssetEventView):
         member = models.User.get_by_url_id(userid)
         user_memberships = member.memberships.filter(by_group=request.group)
         elsewhere = member.elsewhere_accounts
-        self.object_list = member.group_events(request.group, start_index=self.offset, max_results=self.limit)
+        self.object_list = member.group_events(request.group,
+            start_index=self.offset, max_results=self.limit)
 
         self.context.update(locals())
         super(MemberView, self).select_from_typepad(request, userid, *args, **kwargs)
@@ -340,7 +347,6 @@ class MemberView(AssetEventView):
         return super(MemberView, self).get(request, userid, *args, **kwargs)
 
     def post(self, request, userid, *args, **kwargs):
-        
         # post from the ban user form?
         if not request.POST.get('form-action') == 'ban-user':
             return super(MemberView, self).post(request, userid, *args, **kwargs)
@@ -412,7 +418,8 @@ class RelationshipsView(TypePadView):
         member = models.User.get_by_url_id(userid)
         self.paginate_template = reverse(rel, args=[userid]) + '/page/%d'
 
-        self.object_list = getattr(member, rel)(start_index=self.offset, max_results=self.limit, group=request.group)
+        self.object_list = getattr(member, rel)(start_index=self.offset,
+            max_results=self.limit, group=request.group)
         self.context.update(locals())
 
 
