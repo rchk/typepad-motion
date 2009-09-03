@@ -84,6 +84,8 @@ class AssetPostView(TypePadView):
         self.context.update(locals())
 
     def post(self, request, *args, **kwargs):
+        self.typepad_request(request, *args, **kwargs)
+
         if request.FILES:
             data = json.loads(request.POST['asset'])
             post = typepad.Asset.from_dict(data)
