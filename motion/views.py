@@ -100,8 +100,8 @@ class AssetPostView(TypePadView):
             if not (request.user.is_superuser or request.user.is_featured_member):
                 # lets hand off to the moderation app
                 from moderation import views as mod_view
-                mod_view.moderate_post(request, post)
-                return HttpResponseRedirect(request.path)
+                if mod_view.moderate_post(request, post):
+                    return HttpResponseRedirect(request.path)
 
         try:
             new_post = post.save(group=request.group)
