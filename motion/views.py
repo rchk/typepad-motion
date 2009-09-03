@@ -19,6 +19,12 @@ from typepadapp import models, signals
 from typepadapp.views.base import TypePadView
 
 
+if 'moderation' in settings.INSTALLED_APPS:
+    from moderation import models as moderation
+else:
+    moderation = None
+
+
 def home(request, page=1, **kwargs):
     """
     Determine the homepage view based on settings. Options are the list
@@ -50,12 +56,11 @@ class AssetEventView(TypePadView):
         self.object_list.entries = [event for event in self.object_list.entries
             if isinstance(event.object, models.Asset)]
 
-        if settings.USE_MODERATION:
+        if moderation:
             id_list = [event.object.url_id for event in self.object_list.entries]
             if id_list:
-                from moderation import models as mod_models
-                suppressed = mod_models.Asset.objects.filter(asset_id__in=id_list,
-                    status=mod_models.Asset.SUPPRESSED)
+                suppressed = moderation.Asset.objects.filter(asset_id__in=id_list,
+                    status=moderation.Asset.SUPPRESSED)
                 if suppressed:
                     suppressed_ids = [a.asset_id for a in suppressed]
                     self.object_list.entries = [event for event in self.object_list.entries
@@ -72,24 +77,40 @@ class AssetPostView(TypePadView):
     def select_from_typepad(self, request, *args, **kwargs):
         if request.user.is_authenticated():
             upload_xhr_endpoint = reverse('upload_url')
+            if moderation:
+                if not (request.user.is_superuser or request.user.is_featured_member):
+                    upload_xhr_endpoint = reverse('moderated_upload_url')
             upload_complete_endpoint = urljoin(settings.FRONTEND_URL, reverse('upload_complete'))
         self.context.update(locals())
 
     def post(self, request, *args, **kwargs):
-        if self.form_instance.is_valid():
-            post = self.form_instance.save()
-            try:
-                new_post = post.save(group=request.group)
-            except models.assets.Video.ConduitError, ex:
-                request.flash.add('errors', ex.message)
-            else:
-                request.flash.add('notices', _('Post created successfully!'))
-                if request.is_ajax():
-                    return self.render_to_response('motion/assets/asset.html', { 'entry': new_post })
-                else: # Return to current page.
-                    return HttpResponseRedirect(request.path)
+        if request.FILES:
+            data = json.loads(request.POST['asset'])
+            post = typepad.Asset.from_dict(data)
         else:
-            request.flash.add('errors', _('Please correct the errors below.'))
+            if self.form_instance.is_valid():
+                post = self.form_instance.save()
+            else:
+                request.flash.add('errors', _('Please correct the errors below.'))
+                return
+
+        if moderation:
+            if not (request.user.is_superuser or request.user.is_featured_member):
+                # lets hand off to the moderation app
+                from moderation import views as mod_view
+                mod_view.moderate_post(request, post)
+                return HttpResponseRedirect(request.path)
+
+        try:
+            new_post = post.save(group=request.group)
+        except models.assets.Video.ConduitError, ex:
+            request.flash.add('errors', ex.message)
+        else:
+            request.flash.add('notices', _('Post created successfully!'))
+            if request.is_ajax():
+                return self.render_to_response('motion/assets/asset.html', { 'entry': new_post })
+            else: # Return to current page.
+                return HttpResponseRedirect(request.path)
 
 
 class GroupEventsView(AssetEventView, AssetPostView):
@@ -206,14 +227,15 @@ class AssetView(TypePadView):
         event.actor = entry.author
         event.published = entry.published
         self.context['event'] = event
-        
+
         # Check if this asset has been approved by a moderator
         # and if the user has flagged this asset
         user_flags = moderator_approved = []
-        if settings.USE_MODERATION:
-            from moderation.models import Asset, Flag
-            moderator_approved = Asset.objects.filter(asset_id=entry.url_id, status=Asset.APPROVED)
-            user_flags = Flag.objects.filter(tp_asset_id=entry.url_id, user_id=self.context['user'].url_id)
+        if moderation:
+            moderator_approved = moderation.Asset.objects.filter(asset_id=entry.url_id,
+                status=moderation.Asset.APPROVED)
+            user_flags = moderation.Flag.objects.filter(tp_asset_id=entry.url_id,
+                user_id=self.context['user'].url_id)
         self.context['moderator_approved'] = moderator_approved
         self.context['user_flags'] = user_flags
 
