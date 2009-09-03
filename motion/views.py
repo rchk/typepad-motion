@@ -54,7 +54,7 @@ class AssetEventView(TypePadView):
         Asset.
         """
         self.object_list.entries = [event for event in self.object_list.entries
-            if isinstance(event.object, models.Asset)]
+            if isinstance(event.object, models.Asset) and event.object.is_local]
 
         if moderation:
             id_list = [event.object.url_id for event in self.object_list.entries]
