@@ -42,13 +42,25 @@ def more_comments(request):
     if moderation:
         id_list = [comment.url_id for comment in comments]
         if id_list:
+            approved = moderation.Asset.objects.filter(asset_id__in=id_list,
+                status=moderation.Asset.APPROVED)
+            approved_ids = [a.asset_id for a in approved]
+
             suppressed = moderation.Asset.objects.filter(asset_id__in=id_list,
                 status=moderation.Asset.SUPPRESSED)
-            if suppressed:
-                suppressed_ids = [a.asset_id for a in suppressed]
-                for comment in comments:
-                    if comment.url_id in suppressed_ids:
-                        comment.suppress = True
+            suppressed_ids = [a.asset_id for a in suppressed]
+
+            flags = moderation.Flag.objects.filter(tp_asset_id__in=id_list,
+                user_id=request.user.url_id)
+            flag_ids = [f.tp_asset_id for f in flags]
+
+            for comment in comments:
+                if comment.url_id in suppressed_ids:
+                    comment.suppress = True
+                if comment.url_id in approved_ids:
+                    comment.moderation_approved = True
+                if comment.url_id in flag_ids:
+                    comment.moderation_flagged = True
 
     # Render HTML for comments
     comment_string = ''

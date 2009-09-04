@@ -215,7 +215,7 @@ class AssetView(TypePadView):
         favorites = entry.favorites
         self.context.update(locals())
 
-    def get(self, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         # Verify this user is a member of the group.
         entry = self.context['entry']
 
@@ -231,33 +231,39 @@ class AssetView(TypePadView):
         event.published = entry.published
         self.context['event'] = event
 
-        # Check if this asset has been approved by a moderator
-        # and if the user has flagged this asset
-        user_flags = []
-
         ### Moderation
-        moderator_approved = []
         if moderation:
-            moderator_approved = moderation.Asset.objects.filter(asset_id=entry.url_id,
+            entry.moderation_approved = moderation.Asset.objects.filter(asset_id=entry.url_id,
                 status=moderation.Asset.APPROVED)
-            user_flags = moderation.Flag.objects.filter(tp_asset_id=entry.url_id,
-                user_id=self.context['user'].url_id)
+            if not entry.moderation_approved:
+                entry.moderation_flagged = moderation.Flag.objects.filter(tp_asset_id=entry.url_id,
+                    user_id=request.user.url_id)
 
-            id_list = [comment.url_id for comment in self.context['comments']]
+            comments = self.context['comments']
+
+            id_list = [comment.url_id for comment in comments]
             if id_list:
+                approved = moderation.Asset.objects.filter(asset_id__in=id_list,
+                    status=moderation.Asset.APPROVED)
+                approved_ids = [a.asset_id for a in approved]
+
                 suppressed = moderation.Asset.objects.filter(asset_id__in=id_list,
                     status=moderation.Asset.SUPPRESSED)
-                if suppressed:
-                    suppressed_ids = [a.asset_id for a in suppressed]
-                    for comment in self.context['comments']:
-                        if comment.url_id in suppressed_ids:
-                            comment.suppress = True
+                suppressed_ids = [a.asset_id for a in suppressed]
 
-        self.context['moderator_approved'] = moderator_approved
+                flags = moderation.Flag.objects.filter(tp_asset_id__in=id_list,
+                    user_id=request.user.url_id)
+                flag_ids = [f.tp_asset_id for f in flags]
 
-        self.context['user_flags'] = user_flags
+                for comment in comments:
+                    if comment.url_id in suppressed_ids:
+                        comment.suppress = True
+                    if comment.url_id in approved_ids:
+                        comment.moderation_approved = True
+                    if comment.url_id in flag_ids:
+                        comment.moderation_flagged = True
 
-        return super(AssetView, self).get(*args, **kwargs)
+        return super(AssetView, self).get(request, *args, **kwargs)
 
     def post(self, request, postid, *args, **kwargs):
         # Delete entry
