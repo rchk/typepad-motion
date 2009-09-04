@@ -981,6 +981,9 @@ button.button-flag.flagged {
 .comment .asset-content {
     background: url(images/comment-bg.gif) no-repeat 0 6px;
 }
+.comment.suppress {
+    color: #CCC;
+}
 .comment.action-asset .asset-content {
     background: none;
 }

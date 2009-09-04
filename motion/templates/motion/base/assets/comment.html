@@ -1,7 +1,7 @@
 {% load date_filters %}
 {% load typepad_filters %}
 
-<div id="comment-{{ comment.url_id }}" class="comment {% ifequal entry.author.id comment.author.id %}comment-by-author{% endifequal %}">
+<div id="comment-{{ comment.url_id }}" class="comment {% ifequal entry.author.id comment.author.id %}comment-by-author{% endifequal %}{% if comment.suppress %} suppress{% endif %}">
 
     <div class="inner">
         {% with comment.author as user %}

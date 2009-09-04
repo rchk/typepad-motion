@@ -11,6 +11,13 @@ import typepadapp.forms
 from typepadapp.decorators import ajax_required
 
 
+### Moderation
+if 'moderation' in settings.INSTALLED_APPS:
+    from moderation import models as moderation
+else:
+    moderation = None
+
+
 @ajax_required
 def more_comments(request):
     """
@@ -31,9 +38,21 @@ def more_comments(request):
         max_results=settings.COMMENTS_PER_PAGE)
     typepad.client.complete_batch()
 
+    ### Moderation
+    if moderation:
+        id_list = [comment.url_id for comment in comments]
+        if id_list:
+            suppressed = moderation.Asset.objects.filter(asset_id__in=id_list,
+                status=moderation.Asset.SUPPRESSED)
+            if suppressed:
+                suppressed_ids = [a.asset_id for a in suppressed]
+                for comment in comments:
+                    if comment.url_id in suppressed_ids:
+                        comment.suppress = True
+
     # Render HTML for comments
     comment_string = ''
-    for comment in comments.entries:
+    for comment in comments:
         comment_string += render_to_string('motion/assets/comment.html', {
             'comment': comment,
         }, context_instance=RequestContext(request))

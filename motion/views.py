@@ -242,6 +242,17 @@ class AssetView(TypePadView):
                 status=moderation.Asset.APPROVED)
             user_flags = moderation.Flag.objects.filter(tp_asset_id=entry.url_id,
                 user_id=self.context['user'].url_id)
+
+            id_list = [comment.url_id for comment in self.context['comments']]
+            if id_list:
+                suppressed = moderation.Asset.objects.filter(asset_id__in=id_list,
+                    status=moderation.Asset.SUPPRESSED)
+                if suppressed:
+                    suppressed_ids = [a.asset_id for a in suppressed]
+                    for comment in self.context['comments']:
+                        if comment.url_id in suppressed_ids:
+                            comment.suppress = True
+
         self.context['moderator_approved'] = moderator_approved
 
         self.context['user_flags'] = user_flags
