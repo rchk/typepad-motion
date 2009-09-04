@@ -98,11 +98,10 @@ class AssetPostView(TypePadView):
 
         ### Moderation
         if moderation:
-            if not (request.user.is_superuser or request.user.is_featured_member):
-                # lets hand off to the moderation app
-                from moderation import views as mod_view
-                if mod_view.moderate_post(request, post):
-                    return HttpResponseRedirect(request.path)
+            # lets hand off to the moderation app
+            from moderation import views as mod_view
+            if mod_view.moderate_post(request, post):
+                return HttpResponseRedirect(request.path)
 
         try:
             new_post = post.save(group=request.group)
@@ -283,9 +282,11 @@ class AssetView(TypePadView):
         elif 'comment' in request.POST:
             if self.form_instance.is_valid():
                 typepad.client.batch_request()
+                self.select_typepad_user(request)
                 asset = models.Asset.get_by_url_id(postid)
                 typepad.client.complete_batch()
                 comment = self.form_instance.save()
+                comment.in_reply_to = asset.asset_ref
 
                 ### Moderation
                 if moderation:
