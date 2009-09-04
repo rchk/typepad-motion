@@ -30,7 +30,7 @@ class PostForm(forms.Form):
         post_type = self.data.get('post_type', 'post')
         self.fields['body'].required = post_type == 'post'
         self.fields['url'].required = post_type == 'link'
-        self.fields['file'].required = post_type == 'photo' or post_type == 'audio'
+        self.fields['file'].required = post_type in ('photo', 'audio')
         self.fields['title'].required = False
         #log.debug('PostForm is_valid() fields: %s' % self.fields)
         return super(PostForm, self).is_valid(*args, **kwargs)
@@ -72,6 +72,12 @@ class PostForm(forms.Form):
         elif self.cleaned_data['post_type'] == 'video':
             post = typepadapp.models.Video()
             post.link = self.cleaned_data['url']
+        elif self.cleaned_data['post_type'] == 'audio':
+            post = typepadapp.models.Audio()
+            post.file = self.cleaned_data['file']
+        elif self.cleaned_data['post_type'] == 'photo':
+            post = typepadapp.models.Photo()
+            post.file = self.cleaned_data['file']
         else:
             post = typepadapp.models.Post()
 

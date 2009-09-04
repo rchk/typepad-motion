@@ -328,41 +328,38 @@ $(document).ready(function () {
                     return compose_error(settings.phrase.invalidFileType);
                 }
             }
+
+            f.action = "";
+
             // file-based posts do not use ajax no matter what
             if (file_name) {
-                // It is possible this was unset; in this event, fail gracefully
-                if (settings.upload_xhr_endpoint == '') {
-                    alert("No endpoint available for uploading.");
+                if (settings.upload_xhr_endpoint != '') {
+                    // Fetch the upload URL via XHR. Submit form to returned URL in callback.
+                    $.ajax({
+                        'type': 'GET',
+                        'url': settings.upload_xhr_endpoint,
+                        'success': function(data, textStatus) {
+                            f.action = data.substring(8, data.length);
+                            if (!f.action) {
+                                return compose_error(settings.phrase.errorFetchingUploadURL);
+                            }
+                            // JSON object to upload
+                            f.asset.value = $.toJSON({
+                                //'title': file_name,
+                                'content': f.body.value,
+                                'objectTypes':  ['tag:api.typepad.com,2009:' + 
+                                    post_type.substring(0,1).toUpperCase() + post_type.substring(1)]
+                            });
+                            // All set, submit!
+                            f.submit();
+                        },
+                        'error': function(xhr, status_, error) {
+                            alert(settings.phrase.errorFetchingUploadURL);
+                        }
+                    });
+                    // Don't submit the form just yet.
                     return false;
                 }
-                // Fetch the upload URL via XHR. Submit form to returned URL in callback.
-                $.ajax({
-                    'type': 'GET',
-                    'url': settings.upload_xhr_endpoint,
-                    'success': function(data, textStatus) {
-                        f.action = data.substring(8, data.length);
-                        if (!f.action) {
-                            return compose_error(settings.phrase.errorFetchingUploadURL);
-                        }
-                        // JSON object to upload
-                        f.asset.value = $.toJSON({
-                            //'title': file_name,
-                            'content': f.body.value,
-                            'objectTypes':  ['tag:api.typepad.com,2009:' + 
-                                post_type.substring(0,1).toUpperCase() + post_type.substring(1)]
-                        });
-                        // All set, submit!
-                        f.submit();
-                    },
-                    'error': function(xhr, status_, error) {
-                        alert(settings.phrase.errorFetchingUploadURL);
-                    }
-                });
-                // Don't submit the form just yet.
-                return false;
-            }
-            else {
-                f.action = "";
             }
 
             return true;

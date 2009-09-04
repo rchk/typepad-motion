@@ -3,6 +3,7 @@
 <div class="widget widget-admin-options{% if member.email %} display{% endif %}{% if not member.is_superuser %} display{% endif %}">
     <h3 class="design-highlight-color">{% trans "Administrative Options" %}</h3>
     <div class="widget-content">
+    {% block options %}
     {% if member.email %}
         <p><a href="mailto:{{ member.email }}">{% blocktrans with member.display_name as name %}E-mail {{ name }}{% endblocktrans %}</a></p>
     {% endif %}
@@ -18,13 +19,29 @@
             </a></p>
         {% else %}
             {% if is_member %}
-            <p><a href="#" onclick="if (confirm(
+
+            {% if settings.moderate_some %}
+            <form id="moderate-user-form" action="{{ request.path }}" method="post">
+                <input type="hidden" name="form-action" value="moderate-user" />
+                    <label for="moderation-status">{% trans "Moderation Status:" %}</label><br />
+                    <select id="moderation-status" name="moderation_status">
+                        <option value="moderate" {% if moderation_moderated %}selected="selected"{% endif %}>{% trans "Moderate" %}</option>
+                        <option value="block" {% if moderation_blocked %}selected="selected"{% endif %}>{% trans "Cannot post" %}</option>
+                        <option value="normal" {% if moderation_unmoderated %}selected="selected"{% endif %}>{% trans "Unmoderated" %}</option>
+                    </select>
+                    <button type="submit">{% trans "Set" %}</button>
+            </form>
+            {% endif %}
+
+            <p>
+                <a href="#" onclick="if (confirm(
                 {% blocktrans %}'Are you sure you want to ban this user? They will no longer be a member of the group and will be unable to post, comment, or rejoin.'{% endblocktrans %}))
                 { $('#ban-user-form').submit(); } return false;">
-                {% blocktrans with member.display_name as name %}Ban {{ name }}{% endblocktrans %}
-            </a></p>
+                {% blocktrans with member.display_name as name %}Ban {{ name }}{% endblocktrans %}</a>
+            </p>
             {% endif %}
         {% endif %}
     {% endif %}
+    {% endblock %}
     </div><!-- end .widget-content -->
 </div><!-- end .widget-admin-options -->

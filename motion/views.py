@@ -19,6 +19,7 @@ from typepadapp import models, signals
 from typepadapp.views.base import TypePadView
 
 
+### Moderation
 if 'moderation' in settings.INSTALLED_APPS:
     from moderation import models as moderation
 else:
@@ -56,6 +57,7 @@ class AssetEventView(TypePadView):
         self.object_list.entries = [event for event in self.object_list.entries
             if isinstance(event.object, models.Asset) and event.object.is_local]
 
+        ### Moderation
         if moderation:
             id_list = [event.object.url_id for event in self.object_list.entries]
             if id_list:
@@ -77,25 +79,24 @@ class AssetPostView(TypePadView):
     def select_from_typepad(self, request, *args, **kwargs):
         if request.user.is_authenticated():
             upload_xhr_endpoint = reverse('upload_url')
+
+            ### Moderation
             if moderation:
-                if not (request.user.is_superuser or request.user.is_featured_member):
-                    upload_xhr_endpoint = reverse('moderated_upload_url')
+                upload_xhr_endpoint = reverse('moderated_upload_url')
+
             upload_complete_endpoint = urljoin(settings.FRONTEND_URL, reverse('upload_complete'))
         self.context.update(locals())
 
     def post(self, request, *args, **kwargs):
         self.typepad_request(request, *args, **kwargs)
 
-        if request.FILES:
-            data = json.loads(request.POST['asset'])
-            post = typepad.Asset.from_dict(data)
+        if self.form_instance.is_valid():
+            post = self.form_instance.save()
         else:
-            if self.form_instance.is_valid():
-                post = self.form_instance.save()
-            else:
-                request.flash.add('errors', _('Please correct the errors below.'))
-                return
+            request.flash.add('errors', _('Please correct the errors below.'))
+            return
 
+        ### Moderation
         if moderation:
             if not (request.user.is_superuser or request.user.is_featured_member):
                 # lets hand off to the moderation app
@@ -107,6 +108,7 @@ class AssetPostView(TypePadView):
             new_post = post.save(group=request.group)
         except models.assets.Video.ConduitError, ex:
             request.flash.add('errors', ex.message)
+            # TODO: if request.FILES['file'], do we need to remove the uploaded file?
         else:
             request.flash.add('notices', _('Post created successfully!'))
             if request.is_ajax():
@@ -232,13 +234,17 @@ class AssetView(TypePadView):
 
         # Check if this asset has been approved by a moderator
         # and if the user has flagged this asset
-        user_flags = moderator_approved = []
+        user_flags = []
+
+        ### Moderation
+        moderator_approved = []
         if moderation:
             moderator_approved = moderation.Asset.objects.filter(asset_id=entry.url_id,
                 status=moderation.Asset.APPROVED)
             user_flags = moderation.Flag.objects.filter(tp_asset_id=entry.url_id,
                 user_id=self.context['user'].url_id)
         self.context['moderator_approved'] = moderator_approved
+
         self.context['user_flags'] = user_flags
 
         return super(AssetView, self).get(*args, **kwargs)
@@ -280,6 +286,13 @@ class AssetView(TypePadView):
                 asset = models.Asset.get_by_url_id(postid)
                 typepad.client.complete_batch()
                 comment = self.form_instance.save()
+
+                ### Moderation
+                if moderation:
+                    from moderation import views as mod_view
+                    if mod_view.moderate_post(request, comment):
+                        return HttpResponseRedirect(request.path)
+
                 asset.comments.post(comment)
                 request.flash.add('notices', _('Comment created successfully!'))
                 # Return to permalink page
@@ -368,39 +381,77 @@ class MemberView(AssetEventView):
             else:
                 self.context['profiledata'] = profileform
 
+
+        ### Moderation
+        if moderation:
+            if hasattr(settings, 'MODERATE_SOME') and settings.MODERATE_SOME:
+                blacklist = moderation.Blacklist.objects.filter(user_id=member.url_id)
+                if blacklist:
+                    self.context['moderation_moderated'] = not blacklist[0].block
+                    self.context['moderation_blocked'] = blacklist[0].block
+                else:
+                    self.context['moderation_unmoderated'] = True
+
+
         return super(MemberView, self).get(request, userid, *args, **kwargs)
 
     def post(self, request, userid, *args, **kwargs):
         # post from the ban user form?
-        if not request.POST.get('form-action') == 'ban-user':
-            return super(MemberView, self).post(request, userid, *args, **kwargs)
+        if request.POST.get('form-action') == 'ban-user':
+            typepad.client.batch_request()
+            request_user = get_user(request)
+            user_memberships = models.User.get_by_url_id(userid).memberships.filter(by_group=request.group)
+            typepad.client.complete_batch()
 
-        typepad.client.batch_request()
-        request_user = get_user(request)
-        user_memberships = models.User.get_by_url_id(userid).memberships.filter(by_group=request.group)
-        typepad.client.complete_batch()
+            try:
+                user_membership = user_memberships[0]
+            except IndexError:
+                is_admin = False
+                is_member = False
+                is_blocked = False
+            else:
+                is_admin = user_membership.is_admin()
+                is_member = user_membership.is_member()
+                is_blocked = user_membership.is_blocked()
 
-        try:
-            user_membership = user_memberships[0]
-        except IndexError:
-            is_admin = False
-            is_member = False
-            is_blocked = False
+            if not request_user.is_superuser or is_admin:
+                # must be an admin to ban and cannot ban/unban another admin
+                raise Http404
+
+            if is_member:
+                # ban user
+                user_membership.block()
+            elif is_blocked:
+                # unban user
+                user_membership.unblock()
+
+        ### Moderation
+        elif moderation and request.POST.get('form-action') == 'moderate-user':
+            typepad.client.batch_request()
+            request_user = get_user(request)
+            member = models.User.get_by_url_id(userid)
+            typepad.client.complete_batch()
+
+            try:
+                blacklist = moderation.Blacklist.objects.get(user_id=member.url_id)
+            except:
+                blacklist = moderation.Blacklist()
+                blacklist.user_id = member.url_id
+
+            if request.POST['moderation_status'] == 'block':
+                blacklist.block = True
+                blacklist.save()
+                request.flash.add('notices', _('This user can no longer post.'))
+            elif request.POST['moderation_status'] == 'moderate':
+                blacklist.block = False
+                blacklist.save()
+                request.flash.add('notices', _('This user\'s posts will be moderated.'))
+            elif blacklist and blacklist.pk:
+                blacklist.delete()
+                request.flash.add('notices', _('This user is no longer moderated.'))
+
         else:
-            is_admin = user_membership.is_admin()
-            is_member = user_membership.is_member()
-            is_blocked = user_membership.is_blocked()
-
-        if not request_user.is_superuser or is_admin:
-            # must be an admin to ban and cannot ban/unban another admin
-            raise Http404
-
-        if is_member:
-            # ban user
-            user_membership.block()
-        elif is_blocked:
-            # unban user
-            user_membership.unblock()
+            return super(MemberView, self).post(request, userid, *args, **kwargs)
 
         # Return to current page.
         return HttpResponseRedirect(request.path)
