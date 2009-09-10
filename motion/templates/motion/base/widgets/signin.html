@@ -10,6 +10,14 @@
             {% blocktrans with user.get_absolute_url as url and user.display_name as name %}Hi <a href="{{ url }}">{{ name }}</a>{% endblocktrans %}
             <span class="separator">|</span>
             <a href="{{ user.get_absolute_url }}">{% trans "Profile" %}</a>
+
+            {% if settings.use_moderation %}
+            {% if request.user.is_superuser %}
+            <span class="separator">|</span>
+            <a href="{% url dashboard %}">{% trans "Dashboard" %}</a>
+            {% endif %}
+            {% endif %}
+
             <span class="separator">|</span>
             <a href="{% url logout %}">{% trans "Sign out" %}</a>
         {% endif %}
