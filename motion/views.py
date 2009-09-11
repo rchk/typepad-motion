@@ -271,7 +271,7 @@ class AssetView(TypePadView):
         if moderation:
             entry.moderation_approved = moderation.Asset.objects.filter(asset_id=entry.url_id,
                 status=moderation.Asset.APPROVED)
-            if not entry.moderation_approved:
+            if not entry.moderation_approved and request.user.is_authenticated():
                 entry.moderation_flagged = moderation.Flag.objects.filter(tp_asset_id=entry.url_id,
                     user_id=request.user.url_id)
 
@@ -287,9 +287,12 @@ class AssetView(TypePadView):
                     status=moderation.Asset.SUPPRESSED)
                 suppressed_ids = [a.asset_id for a in suppressed]
 
-                flags = moderation.Flag.objects.filter(tp_asset_id__in=id_list,
-                    user_id=request.user.url_id)
-                flag_ids = [f.tp_asset_id for f in flags]
+                if request.user.is_authenticated():
+                    flags = moderation.Flag.objects.filter(tp_asset_id__in=id_list,
+                        user_id=request.user.url_id)
+                    flag_ids = [f.tp_asset_id for f in flags]
+                else:
+                    flag_ids = []
 
                 for comment in comments:
                     if comment.url_id in suppressed_ids:
