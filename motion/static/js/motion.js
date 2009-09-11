@@ -353,7 +353,7 @@ $(document).ready(function () {
                                 crosspost = [];
                                 for (var i in f.elements) {
                                     var fld = f.elements[i];
-                                    if ((fld.name == 'crosspost') and fld.checked)
+                                    if ((fld.name == 'crosspost') && fld.checked)
                                         crosspost.push(fld.value);
                                 }
                                 if (crosspost.length)
