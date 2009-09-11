@@ -76,9 +76,12 @@
                     {% if form.errors.body %}<div class="form-error">{{ form.errors.body|join:" " }}</div>{% endif %}
                     {{ form.body }}
                 </div>
+                {% if form.fields.crosspost.choices %}
                 <div id="field-crosspost" class="field">
+                    <p>{% trans "Also post to..." %}</p>
                     {{ form.crosspost }}
                 </div><!-- end #field-crosspost -->
+                {% endif %}
                 <div>
                     <button type="submit" id="comment-submit" name="comment" value="Submit">{% trans "Post" %}</button>
                     <span id="comment-posting">{% trans "Posting comment..." %}</span>
