@@ -1,4 +1,6 @@
 {% load i18n %}
+{% load ifinstalled %}
+
 <div class="widget-sign-in widget">
     <div id="signin-widget-content" class="widget-content">
         {% if not user.is_authenticated %}
@@ -11,12 +13,12 @@
             <span class="separator">|</span>
             <a href="{{ user.get_absolute_url }}">{% trans "Profile" %}</a>
 
-            {% if settings.use_moderation %}
+            {% ifinstalled moderation %}
             {% if request.user.is_superuser %}
             <span class="separator">|</span>
             <a href="{% url dashboard %}">{% trans "Dashboard" %}</a>
             {% endif %}
-            {% endif %}
+            {% endifinstalled %}
 
             <span class="separator">|</span>
             <a href="{% url logout %}">{% trans "Sign out" %}</a>

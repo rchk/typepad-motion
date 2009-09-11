@@ -1,6 +1,7 @@
 {% extends "motion/base.html" %}
 {% load i18n %}
 {% load generic_filters %}
+{% load ifinstalled %}
 
 {% block head_title %}{{ block.super }}{% if entry.title %}: {{ entry.title }}{% else %}{% if entry.content %}: {{ entry.content|striptags|truncatechars:40 }}{% endif %}{% endif %}{% endblock %}
 {% block page_layout %}layout-wm{% endblock %}
@@ -8,8 +9,10 @@
 {% block html_head %}
 {{ block.super }}
 
+{% ifinstalled moderation %}
 <script type="text/javascript" src="{{ settings.media_url }}typepadapp/js/jquery-ui-1.6.min.js"></script>
 <link rel="stylesheet" type="text/css" href="{{ settings.media_url }}typepadapp/css/smoothness/ui.all.css" />
+{% endifinstalled %}
 
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -69,10 +72,16 @@
         {% if user.is_authenticated %}
             <h2 class="comments-open-header">{% trans "Leave a comment" %}</h2>
             <form method="post" action="" name="comments_form" id="comments-form">
-                <div>{{ form.body }}</div>
+                <div id="field-body" class="field">
+                    {% if form.errors.body %}<div class="form-error">{{ form.errors.body|join:" " }}</div>{% endif %}
+                    {{ form.body }}
+                </div>
+                <div id="field-crosspost" class="field">
+                    {{ form.crosspost }}
+                </div><!-- end #field-crosspost -->
                 <div>
                     <button type="submit" id="comment-submit" name="comment" value="Submit">{% trans "Post" %}</button>
-                    <span id="comment-posting">Posting comment...</span>
+                    <span id="comment-posting">{% trans "Posting comment..." %}</span>
                 </div>
             </form>
         {% else %}
@@ -89,7 +98,7 @@
 
     </div>
 
-{% if settings.use_moderation %}
+{% ifinstalled moderation %}
 {% include "moderation/dialogs.html" %}
-{% endif %}
+{% endifinstalled %}
 {% endblock %}

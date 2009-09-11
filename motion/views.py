@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import SiteProfileNotAvailable
 from django.contrib.auth import get_user
 from django.utils.translation import ugettext as _
+from django.utils.safestring import mark_safe
 
 from motion import forms
 import typepad
@@ -69,6 +70,27 @@ class AssetEventView(TypePadView):
                         if event.object.url_id not in suppressed_ids]
 
 
+def configure_crosspost_field(view):
+
+    if 'elsewhere' in view.context:
+        elsewhere = view.context['elsewhere']
+        choices = []
+        for acct in elsewhere:
+            if acct.crosspostable:
+                choices.append((acct.id,
+                    mark_safe("""<img src="%(icon)s" height="16" width="16" alt="" /> """
+                    """%(provider)s """
+                    """(%(username)s) """ % {
+                        'icon': acct.provider_icon_url,
+                        'provider': acct.provider_name,
+                        'username': acct.username
+                    })
+                ))
+
+        if len(choices):
+            view.form_instance.fields['crosspost'].choices = choices
+
+
 class AssetPostView(TypePadView):
     """
     Views that subclass AssetPostView may post new content
@@ -76,9 +98,14 @@ class AssetPostView(TypePadView):
     """
     form = forms.PostForm
 
+    def setup(self, request, *args, **kwargs):
+        super(AssetPostView, self).setup(request, *args, **kwargs)
+        configure_crosspost_field(self)
+
     def select_from_typepad(self, request, *args, **kwargs):
         if request.user.is_authenticated():
             upload_xhr_endpoint = reverse('upload_url')
+            elsewhere = request.user.elsewhere_accounts
 
             ### Moderation
             if moderation:
@@ -88,8 +115,6 @@ class AssetPostView(TypePadView):
         self.context.update(locals())
 
     def post(self, request, *args, **kwargs):
-        self.typepad_request(request, *args, **kwargs)
-
         if self.form_instance.is_valid():
             post = self.form_instance.save()
         else:
@@ -209,10 +234,21 @@ class AssetView(TypePadView):
     form = forms.CommentForm
     template_name = "motion/permalink.html"
 
+    def setup(self, request, *args, **kwargs):
+        super(AssetView, self).setup(request, *args, **kwargs)
+        configure_crosspost_field(self)
+
     def select_from_typepad(self, request, postid, *args, **kwargs):
         entry = models.Asset.get_by_url_id(postid)
-        comments = entry.comments.filter(start_index=1, max_results=settings.COMMENTS_PER_PAGE)
-        favorites = entry.favorites
+
+        if request.user.is_authenticated():
+            elsewhere = request.user.elsewhere_accounts
+
+        if request.method == 'GET':
+            # no need to do these for POST...
+            comments = entry.comments.filter(start_index=1, max_results=settings.COMMENTS_PER_PAGE)
+            favorites = entry.favorites
+
         self.context.update(locals())
 
     def get(self, request, *args, **kwargs):
@@ -273,10 +309,14 @@ class AssetView(TypePadView):
             if asset_id is None:
                 raise Http404
 
-            typepad.client.batch_request()
-            self.select_typepad_user(request)
-            asset = models.Asset.get_by_url_id(asset_id)
-            typepad.client.complete_batch()
+            entry = self.context['entry']
+            if entry.url_id == asset_id:
+                asset = entry
+            else:
+                # this request must be to delete a comment shown on this page
+                typepad.client.batch_request()
+                asset = models.Asset.get_by_url_id(asset_id)
+                typepad.client.complete_batch()
 
             # Only let plain users delete stuff if so configured.
             if request.user.is_superuser or settings.ALLOW_USERS_TO_DELETE_POSTS:
@@ -348,9 +388,12 @@ class MemberView(AssetEventView):
 
         member = models.User.get_by_url_id(userid)
         user_memberships = member.memberships.filter(by_group=request.group)
-        elsewhere = member.elsewhere_accounts
-        self.object_list = member.group_events(request.group,
-            start_index=self.offset, max_results=self.limit)
+
+        if request.method == 'GET':
+            # no need to do these for POST requests
+            elsewhere = member.elsewhere_accounts
+            self.object_list = member.group_events(request.group,
+                start_index=self.offset, max_results=self.limit)
 
         self.context.update(locals())
         super(MemberView, self).select_from_typepad(request, userid, *args, **kwargs)
@@ -416,10 +459,7 @@ class MemberView(AssetEventView):
     def post(self, request, userid, *args, **kwargs):
         # post from the ban user form?
         if request.POST.get('form-action') == 'ban-user':
-            typepad.client.batch_request()
-            request_user = get_user(request)
-            user_memberships = models.User.get_by_url_id(userid).memberships.filter(by_group=request.group)
-            typepad.client.complete_batch()
+            user_memberships = self.context['user_memberships']
 
             try:
                 user_membership = user_memberships[0]
@@ -432,7 +472,7 @@ class MemberView(AssetEventView):
                 is_member = user_membership.is_member()
                 is_blocked = user_membership.is_blocked()
 
-            if not request_user.is_superuser or is_admin:
+            if not request.user.is_superuser or is_admin:
                 # must be an admin to ban and cannot ban/unban another admin
                 raise Http404
 
@@ -445,10 +485,7 @@ class MemberView(AssetEventView):
 
         ### Moderation
         elif moderation and request.POST.get('form-action') == 'moderate-user':
-            typepad.client.batch_request()
-            request_user = get_user(request)
-            member = models.User.get_by_url_id(userid)
-            typepad.client.complete_batch()
+            member = self.context['member']
 
             try:
                 blacklist = moderation.Blacklist.objects.get(user_id=member.url_id)

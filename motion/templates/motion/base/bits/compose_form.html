@@ -39,6 +39,9 @@
                         {% if form.errors.body %}<div class="form-error">{{ form.errors.body|join:" " }}</div>{% endif %}
                         {{ form.body }}
                     </div><!-- end #field-body -->
+                    <div id="field-crosspost" class="field">
+                        {{ form.crosspost }}
+                    </div><!-- end #field-crosspost -->
                     {% if settings.use_titles %}
                     <div id="entry-fields-optional">
                         <div id="field-title" class="field">

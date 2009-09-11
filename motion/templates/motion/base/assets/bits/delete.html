@@ -1,4 +1,6 @@
 {% load i18n %}
+{% load ifinstalled %}
+
 {% if user.is_authenticated %}
 <div class="controls">
     {% block controls %}
@@ -20,9 +22,11 @@
     </form>
     {% endif %}
     {% endif %}
-    {% if settings.use_moderation %}
+
+    {% ifinstalled moderation %}
     {% include "moderation/bits/moderate.html" %}
-    {% endif %}
+    {% endifinstalled %}
+
     {% endblock %}
 </div>
 {% endif %}

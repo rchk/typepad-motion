@@ -21,9 +21,10 @@ class PostForm(forms.Form):
 
     post_type = forms.CharField(widget=forms.HiddenInput())
     body = forms.CharField(widget=forms.Textarea(attrs={'rows': 5, 'cols': 50, 'title':body_default_text, 'id':'compose-body', 'class':'ta'}))
-    title = forms.CharField(widget=forms.TextInput(attrs={'title':title_default_text, 'id':'compose-title', 'class':'ti'}))
+    title = forms.CharField(widget=forms.TextInput(attrs={'title':title_default_text, 'id':'compose-title', 'class':'ti'}), required=False)
     url = forms.URLField(widget=forms.TextInput(attrs={'title':url_default_text, 'id':'compose-url', 'class':'ti'}))
     file = forms.FileField(widget=forms.FileInput(attrs={'name':'file', 'id':'compose-file', 'class':'fi'}))
+    crosspost = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={'name':'crosspost'}), required=False)
 
     def is_valid(self, *args, **kwargs):
         # remove/require form fields based on the note type
@@ -31,7 +32,6 @@ class PostForm(forms.Form):
         self.fields['body'].required = post_type == 'post'
         self.fields['url'].required = post_type == 'link'
         self.fields['file'].required = post_type in ('photo', 'audio')
-        self.fields['title'].required = False
         #log.debug('PostForm is_valid() fields: %s' % self.fields)
         return super(PostForm, self).is_valid(*args, **kwargs)
     
@@ -81,12 +81,16 @@ class PostForm(forms.Form):
         else:
             post = typepadapp.models.Post()
 
+        if 'crosspost' in self.cleaned_data and len(self.cleaned_data['crosspost']) > 0:
+            post.crosspost_accounts = self.cleaned_data['crosspost']
+
         if settings.USE_TITLES:
             post.title = self.cleaned_data['title']
         else:
             post.title = ''
 
         post.content = self.cleaned_data['body']
+
         return post
 
 
@@ -94,6 +98,7 @@ class CommentForm(forms.Form):
     """ Form for creating comments. """
 
     body = forms.CharField(widget=forms.Textarea(attrs={'id':'comment-text'}))
+    crosspost = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={'name':'crosspost'}), required=False)
 
     def save(self):
         """ Create the new comment and return it,
@@ -102,4 +107,6 @@ class CommentForm(forms.Form):
         comment = typepadapp.models.Comment()
         comment.title = ''
         comment.content = self.cleaned_data['body']
+        if 'crosspost' in self.cleaned_data and len(self.cleaned_data['crosspost']) > 0:
+            comment.crosspost_accounts = self.cleaned_data['crosspost']
         return comment

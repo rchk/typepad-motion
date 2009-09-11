@@ -204,10 +204,10 @@ $(document).ready(function () {
 
     // Entry Field Manager
         // Field types
-        var fieldTypes = ['title','body','url',"file",'tags'];
+        var fieldTypes = ['title','body','url',"file",'tags','crosspost'];
         // Entry Editor
         var entryTypes = {
-            "entry-post": ['title','body','tags'],
+            "entry-post": ['title','body','tags','crosspost'],
             "entry-photo": ['title','body','tags','file'],
             "entry-link": ['title','body','tags','url'],
             "entry-video": ['title','body','tags','url'],
@@ -344,12 +344,22 @@ $(document).ready(function () {
                                 return compose_error(settings.phrase.errorFetchingUploadURL);
                             }
                             // JSON object to upload
-                            f.asset.value = $.toJSON({
-                                //'title': file_name,
+                            var asset = {
                                 'content': f.body.value,
                                 'objectTypes':  ['tag:api.typepad.com,2009:' + 
                                     post_type.substring(0,1).toUpperCase() + post_type.substring(1)]
-                            });
+                            };
+                            if (f['crosspost']) {
+                                crosspost = [];
+                                for (var i in f.elements) {
+                                    var fld = f.elements[i];
+                                    if (fld.name == 'crosspost')
+                                        crosspost.push(fld.value);
+                                }
+                                if (crosspost.length)
+                                    asset['crosspostAccounts'] = crosspost;
+                            }
+                            f.asset.value = $.toJSON(asset);
                             // All set, submit!
                             f.submit();
                         },
