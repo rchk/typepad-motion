@@ -531,7 +531,7 @@ p {
 #entry-fields .field {
     margin-bottom: 10px;
     font-size: 13px;
-    color: #aaa;
+    color: #555;
 }
 #entry-fields-optional {
     display: none;
