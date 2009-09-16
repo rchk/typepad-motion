@@ -10,6 +10,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import SiteProfileNotAvailable
 from django.contrib.auth import get_user
+from django.utils.html import escape
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 
@@ -88,8 +89,8 @@ class AssetPostView(TypePadView):
                     choices.append((acct.id,
                         mark_safe("""<img src="%(icon)s" height="16" width="16" alt="" /> """
                         """%(username)s """ % {
-                            'icon': acct.provider_icon_url,
-                            'username': acct.username # FIXME: html encode this
+                            'icon': escape(acct.provider_icon_url),
+                            'username': escape(acct.username)
                         })
                     ))
 
