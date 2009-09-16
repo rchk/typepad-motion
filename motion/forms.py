@@ -98,7 +98,6 @@ class CommentForm(forms.Form):
     """ Form for creating comments. """
 
     body = forms.CharField(widget=forms.Textarea(attrs={'id':'comment-text'}))
-    crosspost = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={'name':'crosspost'}), required=False)
 
     def save(self):
         """ Create the new comment and return it,
@@ -107,6 +106,4 @@ class CommentForm(forms.Form):
         comment = typepadapp.models.Comment()
         comment.title = ''
         comment.content = self.cleaned_data['body']
-        if 'crosspost' in self.cleaned_data and len(self.cleaned_data['crosspost']) > 0:
-            comment.crosspost_accounts = self.cleaned_data['crosspost']
         return comment

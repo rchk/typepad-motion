@@ -70,27 +70,6 @@ class AssetEventView(TypePadView):
                         if event.object.url_id not in suppressed_ids]
 
 
-def configure_crosspost_field(view):
-
-    if 'elsewhere' in view.context:
-        elsewhere = view.context['elsewhere']
-        choices = []
-        for acct in elsewhere:
-            if acct.crosspostable:
-                choices.append((acct.id,
-                    mark_safe("""<img src="%(icon)s" height="16" width="16" alt="" /> """
-                    """%(provider)s """
-                    """(%(username)s) """ % {
-                        'icon': acct.provider_icon_url,
-                        'provider': acct.provider_name,
-                        'username': acct.username
-                    })
-                ))
-
-        if len(choices):
-            view.form_instance.fields['crosspost'].choices = choices
-
-
 class AssetPostView(TypePadView):
     """
     Views that subclass AssetPostView may post new content
@@ -100,7 +79,22 @@ class AssetPostView(TypePadView):
 
     def setup(self, request, *args, **kwargs):
         super(AssetPostView, self).setup(request, *args, **kwargs)
-        configure_crosspost_field(self)
+
+        if 'elsewhere' in self.context:
+            elsewhere = self.context['elsewhere']
+            choices = []
+            for acct in elsewhere:
+                if acct.crosspostable:
+                    choices.append((acct.id,
+                        mark_safe("""<img src="%(icon)s" height="16" width="16" alt="" /> """
+                        """%(username)s """ % {
+                            'icon': acct.provider_icon_url,
+                            'username': acct.username # FIXME: html encode this
+                        })
+                    ))
+
+            if len(choices):
+                self.form_instance.fields['crosspost'].choices = choices
 
     def select_from_typepad(self, request, *args, **kwargs):
         if request.user.is_authenticated():
@@ -236,13 +230,9 @@ class AssetView(TypePadView):
 
     def setup(self, request, *args, **kwargs):
         super(AssetView, self).setup(request, *args, **kwargs)
-        configure_crosspost_field(self)
 
     def select_from_typepad(self, request, postid, *args, **kwargs):
         entry = models.Asset.get_by_url_id(postid)
-
-        if request.user.is_authenticated():
-            elsewhere = request.user.elsewhere_accounts
 
         if request.method == 'GET':
             # no need to do these for POST...
