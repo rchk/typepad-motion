@@ -5,5 +5,5 @@ Django==1.0.2-final
 -e git://github.com/sixapart/remoteobjects#egg=remoteobjects
 -e git://github.com/sixapart/batchhttp#egg=batchhttp
 -e git+ssh://git@github.com/sixapart/typepad.git#egg=typepad
--e svn+http://svn.sixapart.com/repos/typeapp/trunk/libraries/python/typepadapp#egg=typepadapp
+-e git+ssh://git@github.com/sixapart/typepadapp.git#egg=typepadapp
 -e git://github.com/leah/django-flash.git#egg=djangoflash
