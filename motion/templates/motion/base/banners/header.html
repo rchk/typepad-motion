@@ -1,18 +1,20 @@
 <div id="header">
     <div id="header-inner">
         <div id="header-content">
+            {% block header_content %}
 
-            {% include "motion/widgets/signin.html" %}
+                {% include "motion/widgets/signin.html" %}
 
-            {# Use h1 and h2 html tags on the main index of the site as the title, use divs on all other pages where there are page titles. #}
-            {% ifequal request.path url_home %}
-                <h1 id="header-name"><a href="{% url home %}" accesskey="1" class="design-logo">{{ request.group.display_name }}</a></h1>
-                <h2 id="header-description">{# group.tagline #}</h2>
-            {% else %}
-                <div id="header-name"><a href="{% url home %}" accesskey="1" class="design-logo">{{ request.group.display_name }}</a></div>
-                <div id="header-description">{# group.tagline #}</div>
-            {% endifequal %}
+                {# Use h1 and h2 html tags on the main index of the site as the title, use divs on all other pages where there are page titles. #}
+                {% ifequal request.path url_home %}
+                    <h1 id="header-name"><a href="{% url home %}" accesskey="1" class="design-logo">{{ request.group.display_name }}</a></h1>
+                    <h2 id="header-description">{# group.tagline #}</h2>
+                {% else %}
+                    <div id="header-name"><a href="{% url home %}" accesskey="1" class="design-logo">{{ request.group.display_name }}</a></div>
+                    <div id="header-description">{# group.tagline #}</div>
+                {% endifequal %}
 
+            {% endblock %}
         </div><!-- end #header-content -->
     </div><!-- end #header-inner -->
 </div><!-- end #header -->
