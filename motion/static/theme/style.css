@@ -10,27 +10,34 @@
 - IE 8 doesn't render any background on the navigation tabs (IE6 does due to the conditioned IE6 stylesheet that uses DXImageTransform to do it; should this be loaded for all IE versions?)
 */
 
+/* USEFUL INFO:
+- Alpha is the left main column, beta is the right side column.
+- The main top logo is under "branding".
+- To change the colors of the avatar-hover stuff, you have to edit the url codes in the two templates in /templates.
+- Good luck and have fun!
+*/
 
 @import url(../../typepadapp/css/reset.css);
 @import url(../../typepadapp/css/flash.css);
 
 /* Default Styles --------------------------------------------------------- */
 
+
 body {
     font-size: 62.5%;
     font-family: "Helvetica Neue", Arial, Verdana;
-    background-color: #00334c;
-    background-image: url(images/page-bg.png);
-    background-repeat: repeat-x;
+    background-color: #dddddd;
+    color:#777;
 }
 a:link,
 a:visited,
 a:hover,
 a:active {
-    color: #069;
+    color: #444;
 }
 a {
     text-decoration: none;
+    color: #444;
 }
 a:hover {
     text-decoration: underline;
@@ -45,14 +52,14 @@ h3 {
     clear: both;
     color: #444;
     padding: 8px 10px 7px;
-    border-bottom: 1px dotted #ddd;
+    border-bottom: 1px solid #aaa;
 }
 h1 {
     font-size: 24px;
     margin: 0 0 15px 0;
     padding: 0;
     border: none;
-    color: #000;
+    color: #444;
     font-style: normal;
     font-weight: normal;
     clear: none;
@@ -61,6 +68,7 @@ textarea {
     font-family: inherit;
     background: #fff;
     padding: 2px;
+    border:1px solid #aaa;
 }
 p {
     margin: 0 0 10px;
@@ -77,7 +85,7 @@ p {
     display: none;
 }
 
-/* Userpics --------------------------------------------------------------- */
+/* Userpics/User info --------------------------------------------------------------- */
 
 .userpic {
     position: relative;
@@ -108,7 +116,6 @@ p {
     padding: 15px 10px 10px;
     width: 160px;
     height: 136px;
-    background: url(images/userinfo-bg.png) no-repeat 0 0;
     font-size: 11px;
     line-height: 1.4;
 }
@@ -122,6 +129,11 @@ p {
     font-size: 13px;
     font-weight: normal;
     margin-bottom: 3px;
+    color:#444;
+}
+
+.user-info a{
+    color:#444;
 }
 
 /* Layout ----------------------------------------------------------------- */
@@ -130,17 +142,19 @@ p {
     margin-left: auto;
     margin-right: auto;
 }
-#content {
+#pagebody {
     background: #fff;
     margin: 0 auto;
     font-size: 1.2em;
-    border: 2px solid #00334c;
+    border: 1px solid #aaaaaa;
     padding-bottom: 20px;
-    -moz-border-radius-topleft: 8px;
-    -moz-border-radius-topright: 8px;
-    -webkit-border-top-right-radius: 8px;
-    -webkit-border-top-left-radius: 8px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-top-left-radius: 5px;
 }
+
+/* Submit button, used 3 places: user-compose/comments/POST STUFF ----------------------------- */
 .submit-wrapper {
     float: right;
     text-align: right;
@@ -149,25 +163,21 @@ p {
 #form-compose .submit-wrapper {
     float: none;
 }
-.submit-wrapper button {
-    background-color: #fff;
-    background-image: url(images/post-it-bg.jpg);
-    background-repeat: repeat-x;
+.submit-wrapper button, #comment-submit {
+    background-color: #555555;
     height: 31px;
-    border: 3px solid #fff;
+    border: 1px solid #999;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     color: #fff;
-    padding: 5px 10px;
-    font-weight: bold;
-    font-size: 12px;
+    font-size: 13px;
     cursor: pointer;
+    width:100px;
 }
 .submit-wrapper button.posting {
-    background-image: url(images/post-it-bg-disabled.png);
     display: none;
 }
-#content-inner {
+#pagebody-inner {
     margin: 0;
 }
 #alpha {
@@ -178,23 +188,24 @@ p {
     font-size: 1.1em;
 }
 
-/* Header ----------------------------------------------------------------- */
+/* banner ----------------------------------------------------------------- */
+/* The main logo image is under "branding" */
 
-#header {
+#banner {
     margin: 0 auto;
     padding-left: 22px;
     padding-right: 22px;
 }
-#header-inner {
+#banner-inner {
     margin: 0 auto;
 }
-#header #header-name {
+#banner #banner-header {
     margin: 0;
-    padding-top: 15px;
+    padding: 15px 0;
     font-size: 5em;
 }
-#header #header-name a {
-    height: 85px;
+#banner #banner-header a {
+    height: 50px;
     width: 400px;
     display: block;
 }
@@ -202,11 +213,11 @@ p {
     padding-right: 5px;
     padding-left: 5px;
 }
-#header #header-description {
+#banner #banner-description {
     margin: 0;
     border: 0;
 }
-#header sup {
+#banner sup {
     height: 0;
     line-height: 1;
     position: relative;
@@ -217,35 +228,53 @@ p {
 
 /* Authentication --------------------------------------------------------- */
 
-#header .widget-sign-in {
+#banner .widget-sign-in {
     float: right;
     right: 20px;
     padding-top: 20px;
     top: 6px;
     font-size: 12px;
 }
-#header .widget-sign-in h3 {
+#banner .widget-sign-in h3 {
     display: none;
 }
-.widget-sign-in,
+.widget-sign-in{ color:#666;}
 .widget-sign-in a,
 .widget-sign-in a:link,
 .widget-sign-in a:visited,
 .widget-sign-in a:hover,
 .widget-sign-in a:active {
-    color: #fff;
+    color: #444;
 }
 
-/* Flash ------------------------------------------------------------------ */
+/* Flash Notifications (for post/comments actions) ------------------------ */
 
 .flash {
     width: 930px;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 4px;
+    padding: 8px 10px;
+    text-decoration: none;
     font-size: 13px;
+    font-weight: normal;
     line-height: 15px;
-    border: 2px solid #00334c;
+    border: 1px solid #aaa;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    color:#444;
+    cursor:pointer;
+    cursor:hand;
+}
+.flash.notice {
+    background: #fff9df url(images/cross.png) no-repeat 925px;
+
+}
+.flash.error {
+    background: #ffdfdf url(images/cross.png) no-repeat 925px;
 }
 
-/* Navigation ------------------------------------------------------------- */
+/* Navigation (tabs) ------------------------------------------------------------- */
 
 #nav {
     width: 100%;
@@ -314,7 +343,7 @@ p {
     width: 300px;
     text-align: right;
 }
-#nav .widget-header {
+#nav .widget-banner {
     display: none;
 }
 #nav .widget-content {
@@ -371,9 +400,11 @@ p {
     display: none;
 }
 
+/* Signed-In Add-A-Post Top Area */
+
+/* Top Area Main Box */
 #user-compose-friends {
-    background: #dceddc url(images/compose-bg.jpg) repeat-x 0 top;
-    position: relative;
+    background-color:#efefef;
     -moz-border-radius-topleft: 4px;
     -moz-border-radius-topright: 4px;
     -webkit-border-top-right-radius: 4px;
@@ -394,6 +425,7 @@ p {
     font-size: large;
     line-height: 1.5em;
     overflow: hidden;
+    color:#444;
 }
 #user-compose-friends .widget-following h3,
 #user-compose-friends .widget-followers h3 {
@@ -403,8 +435,10 @@ p {
 #beta .widget-followers label {
     display: none;
 }
+
+/* Top Area User profile Following/Follwers */
 .widget-following, .widget-followers {
-    border-top: 1px dotted #ddd;
+    border-top: 1px solid #ddd;
     margin-top: 10px;
     padding-top: 5px;
     clear: both;
@@ -448,6 +482,8 @@ p {
     clear: both;
     margin-bottom: 4px;
 }
+
+/* Top Area Add-A-Post! prompt */
 #compose-prompt-post,
 #compose-prompt-link,
 #compose-prompt-photo,
@@ -458,6 +494,8 @@ p {
     top: 0;
     font-size: 1.5em;
     display: none;
+    color:#444;
+    font-size:22px;
 }
 #compose label {
     color: #000;
@@ -465,7 +503,7 @@ p {
     margin: 2px 0;
 }
 #compose-inner {
-    background-color: #f6f6f2;
+    background-color: #efefef;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     padding: 10px;
@@ -476,12 +514,11 @@ p {
     font-style: italic;
     font-size: 14px;
     line-height: 16px;
-    background: #D9E8F0 url(images/compose-header-bg.gif) no-repeat 0 0;
     padding: 10px 15px;
     border: none;
     margin: 0 0 10px;
     color: #111;
-    border-bottom: 1px solid #C3DBE7;
+    border-bottom: 1px solid #ddd;
 }
 #compose-content {
 }
@@ -490,7 +527,7 @@ p {
     padding-top: 45px;
 }
 #compose-userpic {
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
     padding: 2px;
     width: 50px;
     height: 50px;
@@ -531,7 +568,7 @@ p {
 #entry-fields .field {
     margin-bottom: 10px;
     font-size: 13px;
-    color: #555;
+    color: #aaa;
 }
 #entry-fields-optional {
     display: none;
@@ -554,13 +591,11 @@ p {
 #form-compose .ti,
 #form-compose .ta {
     font-size: 13px;
-    border: 1px solid #bbb;
-    border-right: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
     width: 550px;
     max-width: 550px;
     padding: 2px 4px;
-    font-family: Arial, Verdana, "Sans-Serif";
+    background: #fff;
+    border:1px solid #aaa;
 }
 #form-compose .fi {
     width: 100%;
@@ -573,6 +608,10 @@ p {
 #form-compose #field-title input {
     font-size: 20px;
 }
+
+/* Entry-type sprites, for the Add-A-Post Area */
+/* There is a psd in images to easily customize the sprites */
+
 #entry-types {
     position: absolute;
     top: 0;
@@ -582,7 +621,6 @@ p {
     float: left;
 }
 
-/* entry type sprites */
 #entry-types li a {
     display: block;
     text-decoration: none;
@@ -599,11 +637,10 @@ p {
     position: absolute;
     font-size: 11px;
     padding: 3px 0;
-    background-image: url(images/post-it-bg.png);
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
-    background-color: #005a87;
-    color: #fff;
+    background-color: #dcdcdc;
+    color: #444;
     text-indent: 0;
     width: 42px;
     top: 38px;
@@ -613,7 +650,6 @@ p {
     display:none;
 }
 #entry-types li a .hint .tip {
-    background-image: url(images/post-types-tooltip.png);
     height: 3px;
     width: 5px;
     position: absolute;
@@ -657,6 +693,8 @@ p {
 #response-handler {
     display: none;
 }
+
+/* There is a coorinating spinner in images incase this is used... */
 #spinner,
 #spinner-status {
     display: none;
@@ -674,11 +712,21 @@ p {
     background: #fff;
 }
 
+/* Error Page: 500.html */
+
+body.error {
+    background-color: #fff;
+    background-image: none;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 12px;
+}
+
 /* Entry Listing ---------------------------------------------------------- */
 
 
 #alpha .userpic .userpic-link {
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
     padding: 2px;
     display: block;
     float: left;
@@ -687,12 +735,13 @@ p {
 /* Actions Listing -------------------------------------------------------- */
 
 /* entry type tab sprites */
+/* There is a psd in images to easily customize the sprites */
 .asset .icon {
     background-image: url(images/post-type-tabs.gif);
     height: 32px;
     width: 38px;
     top: 10px;
-    left: -13px;
+    left: -15px;
     background-position: 0 -224px;
     background-repeat: none;
     position: absolute;
@@ -704,7 +753,6 @@ p {
 .asset .icon-video { background-position: 0 -128px }
 .asset .icon-comment { background-position: 0 -160px }
 .asset .icon-favorite { background-position: 0 -192px }
-
 .service-icon { background-repeat: no-repeat; }
 
 .actions ul {
@@ -717,6 +765,9 @@ p {
 .controls {
     text-align: center;
 }
+.controls form {
+    display: inline;
+}
 .comment .controls,
 .asset .controls {
     position: absolute;
@@ -724,9 +775,6 @@ p {
     bottom: 0;
     z-index: 10;
     padding: 5px;
-}
-.controls form {
-    display: inline;
 }
 button.button-more {
     font-size: 18px;
@@ -738,6 +786,7 @@ button.button-more {
     cursor: hand; /* HACK - ie */
     cursor: pointer;
 }
+/* Delete Button */
 button.button-delete {
     background-image: url(images/icons/cross.png);
     background-repeat: no-repeat;
@@ -766,72 +815,68 @@ button.button-flag.flagged {
     border-bottom-width: 3px;
     border-right: 2px solid #ddd;
 }
+
+/* Entry Area! */
 .asset,
 .action {
-    border-bottom: 1px solid #ddd;
-    border-right: 1px solid #ddd;
-    background-color: #f6f6f2;
     position: relative;
     list-style-type: none;
-    margin-bottom: 15px;
-    border-top: 1px solid #f6f6f2;
+    margin-bottom: 65px;
+    padding-bottom:15px;
+    margin-top:15px;
+    margin-left:8px;
+	background: url(images/asset-action-bg.gif) repeat-y left top;
 }
 .action {
-    background-repeat: no-repeat;
     padding: 8px 10px 15px 35px;
     margin: 0;
     font-size: 11px;
     color: #222;
-    border-top: 1px solid #bbb;
+    border-top: 1px solid #aaa;
     background-repeat: no-repeat;
     background-position: 10px 5px;
 }
 .action a {
-    color: #069;
+    color: #444;
 }
 
-.action .date {
-    padding-left: 10px;
+.action .date, .asset .date {
+
 }
 .asset .asset-body, 
 .action .asset-body { 
-    margin-bottom: 10px;
+    margin-bottom: 30px;
 }
 
-.asset-header {
+.asset-banner {
     margin-top: 10px;
     margin-right: 30px;
 }
+
+/* Entry Footer Area */
 .asset-meta {
     font-size: 11px;
     color: #aaa;
     margin-bottom: 5px;
-    background-repeat: no-repeat;
-    background-position: 10px 6px;
+    text-align:right;
+    float:left;
 }
 
-.hover,
-.noscript .asset-meta,
-.hover .asset-meta,
-.user-profile .asset-meta {
-    color: #555;
-}
 .asset .asset-meta .separator {
     display: none;
-}
-.asset .asset-meta .comment-count {
-    margin-right: 10px;
 }
 .asset .asset-meta {
     line-height: 20px;
 }
-.asset .asset-header .byline {
+.asset .asset-banner .byline {
     display: block;
+    
 }
 .noscript .favorite-action {
     display: none !important;
 }
 
+/* Entry Footer comment/favorite icons and counters */
 .asset .asset-meta .comment-count,
 .asset .asset-meta .favorite-count {
     display: block;
@@ -841,11 +886,21 @@ button.button-flag.flagged {
     text-decoration: none;
     font-weight: bold;
     line-height: 20px;
+    text-align:right;
+}
+
+.asset .asset-meta .comment-count {
+    margin-right: 10px;
+}
+
+.asset .asset-meta .byline{
+    float:left;
 }
 .asset .asset-meta .comment-count {
-    float: left;
-    background: url(images/icons/comments.png) no-repeat 0 0;
+    background: url(images/comments.png) no-repeat 0 0;
+    float:left;
 }
+
 .asset-meta .comment-count span {
     display: none;
 }
@@ -854,15 +909,11 @@ button.button-flag.flagged {
     visibility: visible;
 }
 .asset .asset-meta .favorite-count {
-    background: url(images/fav-off.gif) no-repeat right 0;
-    margin: 5px 5px 0 0;
+    background: url(images/fav-off.gif) no-repeat left 0;
+    float:left;
+    margin-right:10px;
+    color:#999;
     /* height of favorite image is 16px */
-    padding-top: 16px;
-    text-align: center;
-    position: absolute;
-    top: 0;
-    right: 0;
-    overflow: visible;
 }
 .asset .asset-meta .favorite-action:hover {
     background-image: url(images/fav-hover.gif);
@@ -882,15 +933,8 @@ button.button-flag.flagged {
     color: #aaa;
     text-decoration: underline;
 }
-.hover a,
-.noscript .asset-meta a,
-.hover .asset-meta a,
-.user-profile .asset-meta a {
-    color: #069;
-}
-.asset .asset-meta a:hover {
-    color: #069;
-}
+
+/* More Entry styles */
 .asset .userpic {
     position: relative;
     margin-top: 15px;
@@ -900,7 +944,6 @@ button.button-flag.flagged {
     margin: 15px 15px 0 0;
     font-size: 13px;
     line-height: 1.5;
-    color: #222;
 }
 .asset-body ul {
     list-style: disc;
@@ -918,7 +961,7 @@ button.button-flag.flagged {
     margin-bottom: 10px;
 }
 #alpha .asset .entry-title {
-    font-size: 16px;
+    font-size: 25px;
     margin: 0 0 5px 0;
     font-style: normal;
     clear: none;
@@ -930,6 +973,8 @@ button.button-flag.flagged {
 }
 .asset .entry-title a {
     text-decoration: none;
+    color:#333;
+    font-weight:normal;
 }
 .asset .asset-inner {
     margin-left: 96px;
@@ -957,21 +1002,20 @@ button.button-flag.flagged {
     margin-bottom: 2px;
 }
 .hfeed .icon-link .entry-title a {
-    color: #069;
+    color: #444;
     font-weight: bold;
     padding-right: 15px;
-    background: url(images/icons/external_link.gif) no-repeat right 40%;
 }
 
 .user-profile .asset .asset-inner {
     margin-left: 35px !important;
 }
-.user-profile .asset .asset-header,
-.user-profile .asset .asset-header .byline .author,
+.user-profile .asset .asset-banner,
+.user-profile .asset .asset-banner .byline .author,
 .user-profile .asset .userpic {
     display: none;
 }
-.user-profile .asset.elsewhere .asset-header {
+.user-profile .asset.elsewhere .asset-banner {
     display: block;
 }
 
@@ -979,7 +1023,6 @@ button.button-flag.flagged {
     font-style: italic;
 }
 .comment .asset-content {
-    background: url(images/comment-bg.gif) no-repeat 0 6px;
 }
 .comment.suppress {
     color: #CCC;
@@ -990,11 +1033,11 @@ button.button-flag.flagged {
 .asset-content .link a {
     text-decoration: none;
     padding: 2px 6px 2px 24px;
-    background: #F1F7FB url(images/icons/external_link.gif) no-repeat 6px 50%;
-    border: 1px solid #D9E8F0;
+    background: #efefef url(images/icons/external_link.gif) no-repeat 6px 50%;
+    border: 1px solid #ddd;
 }
 .asset-content .link a:hover {
-    background: #ffd url(images/icons/external_link.gif) no-repeat 6px 50%;
+    background: #eee url(images/icons/external_link.gif) no-repeat 6px 50%;
     border: 1px solid #fc3;
 }
 
@@ -1016,7 +1059,6 @@ button.button-flag.flagged {
 }
 
 .most-recent-comment {
-    background: url(images/recent-comment-bg.gif) no-repeat 0 0;
     margin-top: 10px;
     padding: 13px 5px 7px;
     line-height: 24px;
@@ -1029,7 +1071,7 @@ button.button-flag.flagged {
     text-decoration: none;
 }
 .most-recent-comment a:hover {
-    color: #069;
+    color: #444;
     text-decoration: underline;
 }
 .most-recent-comment .userpic,
@@ -1066,7 +1108,7 @@ button.button-flag.flagged {
 }
 #beta h2,
 #beta h3 {
-    color: #f60;
+    color: #444;
     margin-bottom: 10px;
     font-size: 18px;
     clear: both;
@@ -1155,7 +1197,7 @@ button.button-flag.flagged {
     overflow: hidden;
     width: 16px;
     height: 16px;
-    background: #069;
+    background: #444;
     text-indent: -9999px;
     background: url(images/gallery-nav.gif) no-repeat 0 0;
 }
@@ -1228,7 +1270,7 @@ button.button-flag.flagged {
     margin: 0 0 15px 0;
 }
 .action-listing li {
-    border-bottom: 1px dotted #ddd;
+    border-bottom: 1px solid #aaa;
     clear: left;
     position: relative;
     padding: 8px 0 6px 10px;
@@ -1289,9 +1331,19 @@ button.button-flag.flagged {
     clear: left;
     margin-bottom: 25px;
 }
+
+/* Comment Box */
 .comment {
     clear: both;
     position: relative;
+    margin-top: 25px;
+    margin-left: 40px;
+    width:510px;
+}
+
+body.user-profile .comment, body.user-following .comment{
+    margin-left: 0;
+    width:100%;
 }
 .comment-last {
     border-bottom: none;
@@ -1300,45 +1352,40 @@ button.button-flag.flagged {
 .comment-content {
     font-size: 13px;
     line-height: 1.5;
-    margin-bottom: 0;
     padding: 0;
 }
 .comment-footer,
 .comment-content {
     margin-left: 60px;
+    text-align:left;
 }
 .comment-content {
-    background: url(images/comment-bg.gif) no-repeat 0 6px;
     position: relative;
 }
 .comment-content-inner {
     padding: 10px 15px;
     margin-left: 7px;
-    background: #f4f4f4;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #ddd;
 }
 .comment-footer {
     padding: 5px 0 0 22px;
     line-height: 1.5;
 }
 .comment-by-author .comment-content {
-    background-image: url(images/comment-bg-author.gif);
 }
 .comment-by-author .comment-content-inner {
-    background: #F1F7FB;
-    border-bottom: 1px solid #D9E8F0;
+    border-bottom: 1px solid #999;
 }
 .comment-highlight .comment-content {
-    background-image: url(images/comment-bg-new.gif);
 }
 .comment-highlight .comment-content-inner {
-    background: #ffd;
-    border-bottom: 1px solid #D9D9BC;
+    border-bottom: 1px solid #999;
 }
 
-.comments-open-header,
-.comments-header {
+.comments-open-banner,
+.comments-banner {
     margin-bottom: 15px;
+    font-size:22px;
 }
 .comment .userpic {
     float: left;
@@ -1365,6 +1412,7 @@ button.button-flag.flagged {
 #comments-form {
     margin-bottom: 10px;
     margin-left: 97px;
+    text-align:center;
 }
 #comment-preview-comment {
     display: none;
@@ -1373,22 +1421,27 @@ button.button-flag.flagged {
 #comments-form div {
     margin-bottom: 5px;
 }
+
+/* Comment Input */
 #comments-form input.ti,
 #comments-form textarea {
     width: 250px;
     font-size: 13px;
     color: #000;
     background: #fff;
+    border:1px solid #ddd;
 }
+
 #comments-form input.default-value  ,
 #comments-form textarea.default-value {
-    background: #f6f6f6;
-    color: #aaa;
+    background: #fff;
+    border:1px solid #aaa;
 }
 #comments-form textarea {
-    width: 350px;
+    width: 400px;
     height: 200px;
     margin-bottom: 5px;
+    border:1px solid #aaa;
 }
 #comment-form-remember-me,
 #comment-form-reply,
@@ -1408,19 +1461,19 @@ button.button-flag.flagged {
     color: #444;
 }
 
-/* Members ---------------------------------------------------------------- */
+/* Members Area ---------------------------------------------------------------- */
 
 .featured-member .actions h2,
 .user-profile .actions h2,
 .members-list #page-title {
-    border-bottom: 1px dotted #ddd;
-    color: #f60;
+    border-bottom: 1px solid #aaa;
+    color: #444;
     margin-bottom: 10px;
     padding-bottom: 5px;
     font-size: 20px;
 }
 #page-title .range {
-    color: #bbb;
+    color: #aaa;
     font-size: 18px;
 }
 .members-list .member-list {
@@ -1478,31 +1531,31 @@ button.button-flag.flagged {
     text-align: center;
 }
 
-/* Profile ---------------------------------------------------------------- */
+/* Profile Area ---------------------------------------------------------------- */
 
 .user-profile #page-title {
-    border-bottom: 1px dotted #ddd;
+    border-bottom: 1px solid #aaa;
     color: #000;
     margin-bottom: 10px;
     padding-bottom: 5px;
     font-size: 24px;
 }
-.user-profile .profile-header .userpic {
+.user-profile .profile-banner .userpic {
     float: left;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
     padding: 2px;
 }
-.user-profile .profile-header,
+.user-profile .profile-banner,
 .user-profile .recent-entry,
 .user-profile .actions,
 .user-profile .comment-threads {
     margin-bottom: 15px;
 }
-.profile-header-content {
+.profile-banner-content {
     margin-left: 125px;
     overflow: hidden;
 }
-.profile-header-content #page-title {
+.profile-banner-content #page-title {
     white-space: nowrap;
 }
 #edit-profile-link {
@@ -1517,7 +1570,7 @@ button.button-flag.flagged {
     background-position: 0 7px;
     padding:8px 0 6px 24px;
     margin: 0 10px 10px;
-    border-bottom: 1px dotted #ddd;
+    border-bottom: 1px solid #aaa;
 }
 .comment-threads .excerpt {
     padding: 6px 0 0;
@@ -1575,7 +1628,7 @@ button.button-flag.flagged {
 
 .pkg:after,
 #footer-inner:after,
-#content-inner:after,
+#pagebody-inner:after,
 #compose-inner:after,
 .widget:after,
 .comment:after,
@@ -1584,7 +1637,7 @@ button.button-flag.flagged {
 .actions ul li:after,
 .actions ul li .asset-meta:after,
 .action-listing li:after,
-.profile-header:after {
+.profile-banner:after {
     content: " ";
     display: block;
     visibility: hidden;
@@ -1595,7 +1648,7 @@ button.button-flag.flagged {
 }
 .pkg,
 #footer-inner,
-#content-inner,
+#pagebody-inner,
 #compose-inner,
 .widget,
 #nav ul,
@@ -1605,13 +1658,13 @@ button.button-flag.flagged {
 .actions ul li,
 .actions ul li .asset-meta,
 .action-listing li,
-.profile-header {
+.profile-banner {
     display: inline-block;
 }
 /* no ie mac \*/
 * html .pkg,
 * html #footer-inner,
-* html #content-inner,
+* html #pagebody-inner,
 * html #compose-inner,
 * html .widget,
 * html #nav ul,
@@ -1621,12 +1674,12 @@ button.button-flag.flagged {
 * html .actions ul li
 * html .actions ul li .asset-meta
 * html .action-listing li,
-* html .profile-header {
+* html .profile-banner {
     height: 1%;
 }
 .pkg,
 #footer-inner,
-#content-inner,
+#pagebody-inner,
 #compose-inner,
 .widget,
 #nav ul,
@@ -1636,7 +1689,7 @@ button.button-flag.flagged {
 .actions ul li,
 .actions ul li .asset-meta,
 .action-listing li,
-.profile-header {
+.profile-banner {
     display: block;
 }
 /* */
@@ -1680,8 +1733,8 @@ ul.profile-data li .edit {
     margin-left: 0;
 }
 
-.user-profile-edit .field .field-header,
-.register .field .field-header {
+.user-profile-edit .field .field-banner,
+.register .field .field-banner {
     float: left;
     width: 130px;
     margin-right: 10px;
@@ -1815,9 +1868,7 @@ ul.profile-data li .edit {
 #container {
     width: 954px;
 }
-#user-compose-friends {
-    width: 910px;
-}
+
 #compose {
     width: 580px;
 }
@@ -1836,25 +1887,16 @@ ul.profile-data li .edit {
     margin-right: 20px;
 }
 /* main column */
-.layout-wm #alpha {
+.layout-two-column-right #alpha {
     width: 590px;
     margin-right: 0;
 }
 /* sidebar */
-.layout-wm #beta {
+.layout-two-column-right #beta {
     width: 300px;
 }
 #footer-inner {
     width: 940px;
-}
-
-/* branding */
-
-#header #header-name a {
-    text-indent: -9999px;
-    /* logo image is 400px by 85px; PNG with alpha layer */
-    background-image: url(images/motion-logo.png);
-    background-repeat: no-repeat;
 }
 
 /* colors:
@@ -1875,8 +1917,8 @@ Headings: #f60
 
 */
 
-#header #header-name a {
-    color: #fff;
+#banner #banner-header a {
+    color: #444;
 }
 #nav li a:hover,
 #nav li.current a {
@@ -1900,19 +1942,19 @@ Headings: #f60
 .design-compose-background {
     /* background: #9AE4E8 url(YOUR_URL_HERE) fixed no-repeat top left !important; */
 }
-/* assigned to #header #header-name a */
+/* assigned to #banner #banner-header a */
 .design-logo {
     /* background-image: url(YOUR_URL_HERE) !important; */
 }
-/* assigned to #content */
+/* assigned to #pagebody */
 .design-content-color {
     /* color: #f00; */
 }
-/* assigned to #content */
+/* assigned to #pagebody */
 .design-content-font {
     /* font-family: "Comic Sans MS" !important; */
 }
-/* assigned to #content */
+/* assigned to #pagebody */
 .design-content-border, h2, h3 {
     /* border-color: #0f0 !important; */
 }
