@@ -101,7 +101,7 @@ INSTALLED_APPS = (
 SITE_ID = 1
 SECRET_KEY = ''
 
-BACKEND_URL = 'http://127.0.0.1:8800'
+BACKEND_URL = 'https://api.typepad.com'
 FRONTEND_URL = 'http://127.0.0.1:8000'
 
 ## Potion site layout settings.
