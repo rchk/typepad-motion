@@ -188,63 +188,13 @@ class FollowingEventsView(TypePadView):
     following. This is a custom list for the logged-in user.
     """
     template_name = "motion/following.html"
-    # until the API can filter external events for us, we need to select
-    # 50 at a time; once the API works, restore to settings.EVENTS_PER_PAGE
-    paginate_by = 50
+    paginate_by = settings.EVENTS_PER_PAGE
     login_required = True
 
     def select_from_typepad(self, request, view='following', *args, **kwargs):
         self.paginate_template = reverse('following_events') + '/page/%d'
-        self.object_list = request.user.notifications.filter(start_index=self.offset,
-            max_results=self.paginate_by)
-
-    def get(self, request, *args, **kwargs):
-        """
-        This method is a stop-gap measure to filter out non-local events from
-        a user's "following" event stream. Once the API does this itself,
-        we can eliminate this in favor of proper pagination of the following
-        page. The class paginate_by value should also be restored to
-        settings.EVENT_PER_PAGE.
-        """
-
-        events = []
-        offset = 1
-
-        def filtrate(more, events):
-            num = 0
-            for e in more:
-                if e.is_local_asset:
-                    events.append(e)
-                # step forward our offset
-                num += 1
-                if len(events) == settings.EVENTS_PER_PAGE + 1:
-                    return num
-            return num
-
-        # filter out any non-local events
-        offset += filtrate(self.object_list.entries, events)
-
-        requests = 1
-        while offset <= self.object_list.total_results \
-            and len(events) <= settings.EVENTS_PER_PAGE:
-            # more, please.
-            typepad.client.batch_request()
-            more = request.user.notifications.filter(start_index=offset,
-                max_results=self.paginate_by)
-            typepad.client.complete_batch()
-            offset += filtrate(more, events)
-            # lets not overdo it
-            requests += 1
-            if requests == 3:
-                break
-
-        if len(events) > settings.EVENTS_PER_PAGE:
-            self.context['next_offset'] = offset - 1
-            events = events[:settings.EVENTS_PER_PAGE]
-
-        self.object_list.entries = events
-
-        return super(FollowingEventsView, self).get(request, *args, **kwargs)
+        self.object_list = request.user.notifications.filter(by_group=request.group,
+            start_index=self.offset, max_results=self.paginate_by)
 
 
 class AssetView(TypePadView):

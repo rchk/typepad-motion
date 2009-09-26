@@ -34,7 +34,6 @@ settings = {
     upload_url: '',
     favorite_url: '',
     comments_url: '',
-    events_url: '',
     phrase: {
         textRequired: 'Please enter some text.',
         URLRequired: 'Please enter a URL.',
@@ -108,40 +107,6 @@ $(document).ready(function () {
                     },
                     error: function(xhr, txtStatus, errorThrown) {
                         el.removeAttr("disabled");
-                        alert('Server error: ' + xhr.status + ' -- ' + xhr.statusText);
-                    }
-                });
-            });
-        }
-    }
-
-    // Load more following events
-    if ($('#more-events').size()) {
-        if (event_offset) {
-            var el = $('#more-events');
-            el.show();
-            el.click(function() {
-                el.html(settings.phrase.loading);
-                el.attr("disabled", "disabled");
-                $.ajax({
-                    type: "GET",
-                    url: settings.events_url,
-                    data: {"offset": event_offset},
-                    dataType: "json",
-                    success: function(data) {
-                        el.removeAttr("disabled");
-                        $("#events-content").append(data['events']);
-                        if (data['next_offset']) {
-                            event_offset = parseInt(data['next_offset']);
-                            el.html(settings.phrase.more);
-                        } else {
-                            el.hide();
-                            event_offset = false;
-                        }
-                    },
-                    error: function(xhr, txtStatus, errorThrown) {
-                        el.removeAttr("disabled");
-                        el.html(settings.phrase.more);
                         alert('Server error: ' + xhr.status + ' -- ' + xhr.statusText);
                     }
                 });

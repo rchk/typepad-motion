@@ -103,69 +103,6 @@ def more_comments(request):
 
 
 @ajax_required
-def more_events(request):
-    """
-    Fetch more events for the user and return the HTML for the additional
-    events.
-
-    This method is a stop-gap measure to filter out non-local events from
-    a user's "following" event stream. Once the API does this itself,
-    we can eliminate this in favor of proper pagination of the following
-    page.
-    """
-
-    events = []
-    offset = int(request.GET.get('offset', 1))
-
-    def filtrate(more, events):
-        num = 0
-        for e in more:
-            if e.is_local_asset:
-                events.append(e)
-            # step forward our offset
-            num += 1
-            if len(events) == settings.EVENTS_PER_PAGE + 1:
-                return num
-        return num
-
-    requests = 0
-    while True:
-        typepad.client.batch_request()
-        if not hasattr(request, 'user'):
-            request.user = get_user(request)
-        more = request.user.notifications.filter(start_index=offset,
-            max_results=50)
-        typepad.client.complete_batch()
-        offset += filtrate(more, events)
-
-        if offset > more.total_results \
-            or len(events) > settings.EVENTS_PER_PAGE:
-            break
-        # lets not overdo it
-        requests += 1
-        if requests == 3:
-            break
-
-    data = {}
-    # provide the next offset to be used for the next block of events
-    # the client can't determine this on their own since
-    if len(events) > settings.EVENTS_PER_PAGE:
-        data['next_offset'] = offset - 1
-        events = events[:settings.EVENTS_PER_PAGE]
-
-    # Render HTML for assets
-    event_string = ''
-    for event in events:
-        event_string += render_to_string('motion/assets/asset.html', {
-            'entry': event.object,
-            'event': event,
-        }, context_instance=RequestContext(request))
-    data['events'] = event_string
-
-    return http.HttpResponse(json.dumps(data))
-
-
-@ajax_required
 def favorite(request):
     """
     Add this item to the user's favorites. Return OK.
