@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # Copyright (c) 2009 Six Apart Ltd.
 # All rights reserved.
 #
@@ -27,23 +29,9 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-import logging
+import motion
 
-from settings import INSTALLED_APPS
-
-INSTALLED_APPS = INSTALLED_APPS + ('typepadapp', 'motion')
-
-DATABASE_ENGINE = 'sqlite3'
-
-COMMENTS_PER_PAGE = 10
-EVENTS_PER_PAGE = 10
-MEMBERS_PER_WIDGET = 10
-
-LOG_LEVEL = logging.CRITICAL
-LOG_FORMAT = '%(name)-20s %(levelname)-8s %(message)s'
-LOG_LEVELS = {}
-
-BACKEND_URL = 'http://localhost'
-TYPEPAD_COOKIES = {}
-BATCH_REQUESTS = True
-
+readme = file('README.rst', 'w')
+readme.write(motion.__doc__.strip())
+readme.write("\n")
+readme.close()

@@ -1,22 +1,18 @@
+{% extends "motion/base.html" %}
 {% load i18n %}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml" id="sixapart-standard">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="generator" content="TypePad Motion" />
-    <link rel="stylesheet" href="{{ settings.media_url }}themes/motion/style.css" type="text/css" />
-    <link rel="start" href="{% url home %}" title="Home" />
-    <link rel="shortcut icon" type="image/x-icon" href="{{ settings.media_url }}themes/motion/favicon.ico" />
-    <title>{{ request.group.display_name }} / 404</title>
-</head>
+{% block head_title %}{{ block.super }} - {% trans "404 File Not Found" %}{% endblock %}
 
-<body id="motion" class="error">
-    <p>{% trans "Sorry, we can&rsquo;t find that page." %}
-        <a href="{% url home %}">{% trans "Return to the home page." %}</a></p>
-    <p><img src="{{ settings.media_url }}images/fail.png"
-        height="620" width="502" alt="{% trans "Spacegiraffe is having a massage" %}"
-        title="{% trans "Spacegiraffe is having a massage" %}" /></p>
-</body>
-</html>
+{% block navigation %}
+{% include "motion/bits/navigation.html" %}
+{% endblock %}
+
+{% block content_body %}
+
+<h1>{% trans "404 File Not Found" %}</h1>
+
+<p class="error-page">{% trans "You have reached a 404 File Not found. Please contact the server administrator to let us know a that file is missing. Thank you!" %}</p>
+<p class="error-page"><strong><a href="{% url home %}">{% trans "Head home!" %}</a></strong></p>
+<div id="error-big-space"></div>
+
+{% endblock %}

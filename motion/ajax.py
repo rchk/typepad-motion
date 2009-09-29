@@ -1,3 +1,32 @@
+# Copyright (c) 2009 Six Apart Ltd.
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#
+# * Redistributions of source code must retain the above copyright notice,
+#   this list of conditions and the following disclaimer.
+#
+# * Redistributions in binary form must reproduce the above copyright notice,
+#   this list of conditions and the following disclaimer in the documentation
+#   and/or other materials provided with the distribution.
+#
+# * Neither the name of Six Apart Ltd. nor the names of its contributors may
+#   be used to endorse or promote products derived from this software without
+#   specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+# LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+
 from django import http
 from django.conf import settings
 from django.contrib.auth import get_user
@@ -71,69 +100,6 @@ def more_comments(request):
 
     # Return HTML
     return http.HttpResponse(comment_string)
-
-
-@ajax_required
-def more_events(request):
-    """
-    Fetch more events for the user and return the HTML for the additional
-    events.
-
-    This method is a stop-gap measure to filter out non-local events from
-    a user's "following" event stream. Once the API does this itself,
-    we can eliminate this in favor of proper pagination of the following
-    page.
-    """
-
-    events = []
-    offset = int(request.GET.get('offset', 1))
-
-    def filtrate(more, events):
-        num = 0
-        for e in more:
-            if e.is_local_asset:
-                events.append(e)
-            # step forward our offset
-            num += 1
-            if len(events) == settings.EVENTS_PER_PAGE + 1:
-                return num
-        return num
-
-    requests = 0
-    while True:
-        typepad.client.batch_request()
-        if not hasattr(request, 'user'):
-            request.user = get_user(request)
-        more = request.user.notifications.filter(start_index=offset,
-            max_results=50)
-        typepad.client.complete_batch()
-        offset += filtrate(more, events)
-
-        if offset > more.total_results \
-            or len(events) > settings.EVENTS_PER_PAGE:
-            break
-        # lets not overdo it
-        requests += 1
-        if requests == 3:
-            break
-
-    data = {}
-    # provide the next offset to be used for the next block of events
-    # the client can't determine this on their own since
-    if len(events) > settings.EVENTS_PER_PAGE:
-        data['next_offset'] = offset - 1
-        events = events[:settings.EVENTS_PER_PAGE]
-
-    # Render HTML for assets
-    event_string = ''
-    for event in events:
-        event_string += render_to_string('motion/assets/asset.html', {
-            'entry': event.object,
-            'event': event,
-        }, context_instance=RequestContext(request))
-    data['events'] = event_string
-
-    return http.HttpResponse(json.dumps(data))
 
 
 @ajax_required

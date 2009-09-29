@@ -1,3 +1,32 @@
+# Copyright (c) 2009 Six Apart Ltd.
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#
+# * Redistributions of source code must retain the above copyright notice,
+#   this list of conditions and the following disclaimer.
+#
+# * Redistributions in binary form must reproduce the above copyright notice,
+#   this list of conditions and the following disclaimer in the documentation
+#   and/or other materials provided with the distribution.
+#
+# * Neither the name of Six Apart Ltd. nor the names of its contributors may
+#   be used to endorse or promote products derived from this software without
+#   specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+# LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+
 from urlparse import urljoin, urlparse
 import re
 
@@ -159,63 +188,13 @@ class FollowingEventsView(TypePadView):
     following. This is a custom list for the logged-in user.
     """
     template_name = "motion/following.html"
-    # until the API can filter external events for us, we need to select
-    # 50 at a time; once the API works, restore to settings.EVENTS_PER_PAGE
-    paginate_by = 50
+    paginate_by = settings.EVENTS_PER_PAGE
     login_required = True
 
     def select_from_typepad(self, request, view='following', *args, **kwargs):
         self.paginate_template = reverse('following_events') + '/page/%d'
-        self.object_list = request.user.notifications.filter(start_index=self.offset,
-            max_results=self.paginate_by)
-
-    def get(self, request, *args, **kwargs):
-        """
-        This method is a stop-gap measure to filter out non-local events from
-        a user's "following" event stream. Once the API does this itself,
-        we can eliminate this in favor of proper pagination of the following
-        page. The class paginate_by value should also be restored to
-        settings.EVENT_PER_PAGE.
-        """
-
-        events = []
-        offset = 1
-
-        def filtrate(more, events):
-            num = 0
-            for e in more:
-                if e.is_local_asset:
-                    events.append(e)
-                # step forward our offset
-                num += 1
-                if len(events) == settings.EVENTS_PER_PAGE + 1:
-                    return num
-            return num
-
-        # filter out any non-local events
-        offset += filtrate(self.object_list.entries, events)
-
-        requests = 1
-        while offset <= self.object_list.total_results \
-            and len(events) <= settings.EVENTS_PER_PAGE:
-            # more, please.
-            typepad.client.batch_request()
-            more = request.user.notifications.filter(start_index=offset,
-                max_results=self.paginate_by)
-            typepad.client.complete_batch()
-            offset += filtrate(more, events)
-            # lets not overdo it
-            requests += 1
-            if requests == 3:
-                break
-
-        if len(events) > settings.EVENTS_PER_PAGE:
-            self.context['next_offset'] = offset - 1
-            events = events[:settings.EVENTS_PER_PAGE]
-
-        self.object_list.entries = events
-
-        return super(FollowingEventsView, self).get(request, *args, **kwargs)
+        self.object_list = request.user.notifications.filter(by_group=request.group,
+            start_index=self.offset, max_results=self.paginate_by)
 
 
 class AssetView(TypePadView):

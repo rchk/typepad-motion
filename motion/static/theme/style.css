@@ -27,7 +27,7 @@ body {
     font-size: 62.5%;
     font-family: "Helvetica Neue", Arial, Verdana;
     background-color: #dddddd;
-    color:#777;
+    color: #777;
 }
 a:link,
 a:visited,
@@ -47,12 +47,13 @@ sup {
 }
 h2,
 h3 {
-    font-size: 11px;
+    font-size: 20px;
     font-weight: normal;
     clear: both;
     color: #444;
     padding: 8px 10px 7px;
     border-bottom: 1px solid #aaa;
+    margin-bottom:15px;
 }
 h1 {
     font-size: 24px;
@@ -129,11 +130,11 @@ p {
     font-size: 13px;
     font-weight: normal;
     margin-bottom: 3px;
-    color:#444;
+    color: #444;
 }
 
-.user-info a{
-    color:#444;
+.user-info a {
+    color: #444;
 }
 
 /* Layout ----------------------------------------------------------------- */
@@ -201,13 +202,12 @@ p {
 }
 #banner #banner-header {
     margin: 0;
-    padding: 15px 0;
+    padding: 25px 0;
     font-size: 5em;
 }
 #banner #banner-header a {
-    height: 50px;
-    width: 400px;
     display: block;
+    font-weight: lighter;
 }
 .widget-sign-in .separator {
     padding-right: 5px;
@@ -238,7 +238,7 @@ p {
 #banner .widget-sign-in h3 {
     display: none;
 }
-.widget-sign-in{ color:#666;}
+.widget-sign-in { color:#666 }
 .widget-sign-in a,
 .widget-sign-in a:link,
 .widget-sign-in a:visited,
@@ -262,16 +262,16 @@ p {
     border: 1px solid #aaa;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
-    color:#444;
-    cursor:pointer;
-    cursor:hand;
+    color: #444;
+    cursor: pointer;
+    cursor: hand;
 }
 .flash.notice {
-    background: #fff9df url(images/cross.png) no-repeat 925px;
+    background: #EFEFEF url(images/cross.png) no-repeat 925px;
 
 }
 .flash.error {
-    background: #ffdfdf url(images/cross.png) no-repeat 925px;
+    background: #EFEFEF url(images/cross.png) no-repeat 925px;
 }
 
 /* Navigation (tabs) ------------------------------------------------------------- */
@@ -404,7 +404,7 @@ p {
 
 /* Top Area Main Box */
 #user-compose-friends {
-    background-color:#efefef;
+    background-color: #efefef;
     -moz-border-radius-topleft: 4px;
     -moz-border-radius-topright: 4px;
     -webkit-border-top-right-radius: 4px;
@@ -425,7 +425,7 @@ p {
     font-size: large;
     line-height: 1.5em;
     overflow: hidden;
-    color:#444;
+    color: #444;
 }
 #user-compose-friends .widget-following h3,
 #user-compose-friends .widget-followers h3 {
@@ -519,8 +519,6 @@ p {
     margin: 0 0 10px;
     color: #111;
     border-bottom: 1px solid #ddd;
-}
-#compose-content {
 }
 #form-compose {
     position: relative;
@@ -647,7 +645,7 @@ p {
     margin-left: -5px;
     text-align: center;
     line-height: 1.5em;
-    display:none;
+    display: none;
 }
 #entry-types li a .hint .tip {
     height: 3px;
@@ -657,7 +655,7 @@ p {
     left: 18px;
 }
 #entry-types li a:hover .hint {
-    display:block;
+    display: block;
 }
 
 #entry-types #entry-post a { background-position: 0 -65px }
@@ -706,9 +704,9 @@ p {
     background: transparent url(images/spinner.gif) no-repeat center center;
 }
 #spinner {
-    filter:alpha(opacity=5);
-    -moz-opacity:.5;
-    opacity:.5;
+    filter: alpha(opacity=5);
+    -moz-opacity: .5;
+    opacity: .5;
     background: #fff;
 }
 
@@ -788,7 +786,7 @@ button.button-more {
 }
 /* Delete Button */
 button.button-delete {
-    background-image: url(images/icons/cross.png);
+    background-image: url(images/cross.png);
     background-repeat: no-repeat;
     width: 16px;
     height: 16px;
@@ -812,8 +810,7 @@ button.button-flag.flagged {
 }
 
 .asset.admin {
-    border-bottom-width: 3px;
-    border-right: 2px solid #ddd;
+    border-right: 1px solid #efefef;
 }
 
 /* Entry Area! */
@@ -821,10 +818,10 @@ button.button-flag.flagged {
 .action {
     position: relative;
     list-style-type: none;
-    margin-bottom: 65px;
-    padding-bottom:15px;
-    margin-top:15px;
-    margin-left:8px;
+    margin-bottom: 40px;
+    padding-bottom: 0px;
+    margin-top: 15px;
+    margin-left: 8px;
 	background: url(images/asset-action-bg.gif) repeat-y left top;
 }
 .action {
@@ -845,7 +842,7 @@ button.button-flag.flagged {
 }
 .asset .asset-body, 
 .action .asset-body { 
-    margin-bottom: 30px;
+    margin-bottom: 18px;
 }
 
 .asset-banner {
@@ -857,9 +854,9 @@ button.button-flag.flagged {
 .asset-meta {
     font-size: 11px;
     color: #aaa;
-    margin-bottom: 5px;
-    text-align:right;
-    float:left;
+    margin-bottom: 0px;
+    text-align: right;
+    float: left;
 }
 
 .asset .asset-meta .separator {
@@ -886,19 +883,19 @@ button.button-flag.flagged {
     text-decoration: none;
     font-weight: bold;
     line-height: 20px;
-    text-align:right;
+    text-align: right;
 }
 
 .asset .asset-meta .comment-count {
     margin-right: 10px;
 }
 
-.asset .asset-meta .byline{
-    float:left;
+.asset .asset-meta .byline {
+    float: left;
 }
 .asset .asset-meta .comment-count {
     background: url(images/comments.png) no-repeat 0 0;
-    float:left;
+    float: left;
 }
 
 .asset-meta .comment-count span {
@@ -910,9 +907,9 @@ button.button-flag.flagged {
 }
 .asset .asset-meta .favorite-count {
     background: url(images/fav-off.gif) no-repeat left 0;
-    float:left;
-    margin-right:10px;
-    color:#999;
+    float: left;
+    margin-right: 10px;
+    color: #999;
     /* height of favorite image is 16px */
 }
 .asset .asset-meta .favorite-action:hover {
@@ -973,8 +970,8 @@ button.button-flag.flagged {
 }
 .asset .entry-title a {
     text-decoration: none;
-    color:#333;
-    font-weight:normal;
+    color: #333;
+    font-weight: normal;
 }
 .asset .asset-inner {
     margin-left: 96px;
@@ -1079,6 +1076,16 @@ button.button-flag.flagged {
     border: none;
     margin: 0 5px 0 0;
     padding: 0;
+}
+
+/* audio post */
+
+.baconplayer.audio {
+    background-color: #ccc;
+}
+
+.baconplayer.audio .progress {
+    background-color: #ddd;
 }
 
 /* Pages ------------------------------------------------------------------ */
@@ -1326,6 +1333,13 @@ button.button-flag.flagged {
 
 /* Comments --------------------------------------------------------------- */
 
+body.user-following .comment .asset-body {
+    position: absolute;
+    top: 20px;
+}
+
+#comment-posting { display: none }
+
 .comments, 
 #comments-list {
     clear: left;
@@ -1338,12 +1352,13 @@ button.button-flag.flagged {
     position: relative;
     margin-top: 25px;
     margin-left: 40px;
-    width:510px;
+    width: 510px;
 }
 
-body.user-profile .comment, body.user-following .comment{
-    margin-left: 0;
-    width:100%;
+body.user-profile .comment, body.user-following .comment {
+    margin-left: 8px;
+    width: 100%;
+    position: relative;
 }
 .comment-last {
     border-bottom: none;
@@ -1357,7 +1372,7 @@ body.user-profile .comment, body.user-following .comment{
 .comment-footer,
 .comment-content {
     margin-left: 60px;
-    text-align:left;
+    text-align: left;
 }
 .comment-content {
     position: relative;
@@ -1410,9 +1425,10 @@ body.user-profile .comment, body.user-following .comment{
 
 #comment-greeting,
 #comments-form {
+    margin-top,
     margin-bottom: 10px;
-    margin-left: 97px;
-    text-align:center;
+    margin-left: 0;
+    text-align: center;
 }
 #comment-preview-comment {
     display: none;
@@ -1454,11 +1470,6 @@ body.user-profile .comment, body.user-following .comment{
     width: auto;
     text-align: left;
     display: inline;
-}
-#comment-posting {
-    display: none;
-    font-size: 11px;
-    color: #444;
 }
 
 /* Members Area ---------------------------------------------------------------- */
@@ -1540,22 +1551,22 @@ body.user-profile .comment, body.user-following .comment{
     padding-bottom: 5px;
     font-size: 24px;
 }
-.user-profile .profile-banner .userpic {
+.user-profile .profile-header .userpic {
     float: left;
     border: 1px solid #ddd;
     padding: 2px;
 }
-.user-profile .profile-banner,
+.user-profile .profile-header,
 .user-profile .recent-entry,
 .user-profile .actions,
 .user-profile .comment-threads {
     margin-bottom: 15px;
 }
-.profile-banner-content {
+.profile-header-content {
     margin-left: 125px;
     overflow: hidden;
 }
-.profile-banner-content #page-title {
+.profile-header-content #page-title {
     white-space: nowrap;
 }
 #edit-profile-link {
@@ -1931,6 +1942,14 @@ Headings: #f60
 }
 #footer-inner {
     color: #777;
+}
+
+#error-big-space {
+    height: 300px;
+}
+
+.error-page {
+    font-size: 16px;
 }
 
 /* Easily overridable classes that are assigned to the right places in the DOM */

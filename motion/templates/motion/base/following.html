@@ -4,16 +4,6 @@
 {% block page_id %}user-following{% endblock %}
 {% block page_layout %}layout-two-column-right{% endblock %}
 
-{% block html_head %}
-{{ block.super }}
-<script type="text/javascript">
-/* <![CDATA[ */
-    var total_events = {{ page_obj.object_list.total_results }};
-    var event_offset = {{ next_offset|default:"0" }};
-/* ]]> */
-</script>
-{% endblock %}
-
 {% block content_body %}
 
 {% if not page_obj.object_list %}
@@ -29,16 +19,10 @@
 {% else %}
 
 <div class="actions">
-    <ul class="hfeed" id="events-content">
-    {% for event in page_obj.object_list %}{% with event.object as entry %}
-        {% include "motion/assets/asset.html" %}
-    {% endwith %}{% endfor %}
-    </ul>
+    {% with page_obj.object_list as events %}
+    {% include "motion/bits/event_list.html" %}
+    {% endwith %}
 </div><!-- end .actions -->
-
-<div class="controls">
-    <button id="more-events" class="button-more" style="display:none;">{% trans "More" %}</button>
-</div>
 
 {% endif %}
 
