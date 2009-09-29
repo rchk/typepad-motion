@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Featured accounts &mdash; motion v1.1a1 documentation</title>
+    <link rel="stylesheet" href="static/default.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1a1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <link rel="top" title="motion v1.1a1 documentation" href="index.html" />
+    <link rel="next" title="Theming Motion" href="themes.html" />
+    <link rel="prev" title="motion – Motion in the TypePad cloud" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="themes.html" title="Theming Motion"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="motion – Motion in the TypePad cloud"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">motion v1.1a1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="featured-accounts">
+<h1>Featured accounts<a class="headerlink" href="#featured-accounts" title="Permalink to this headline">¶</a></h1>
+<p>Motion sites can have <em>featured accounts</em>. If the Motion site has featured
+accounts, the home page shows only those accounts&#8217; events, not the events of
+all site members.</p>
+<p>An account can also be marked featured on the TypePad cloud side. When an
+account is so marked, external actions that happen on other sites are
+collected by TypePad and provided in the accounts&#8217; profile.</p>
+<p>These two behaviors together create the Motion app&#8217;s &#8220;featured account&#8221;
+experience: the home page is the profile event stream for the featured
+account. Other site members can favorite and comment and even post new content
+themselves, but their events are only shown on their profiles. (Apps in your
+project can provide other member event views besides the home page, though.)</p>
+<div class="section" id="featuring-an-account-in-motion">
+<h2>Featuring an account in Motion<a class="headerlink" href="#featuring-an-account-in-motion" title="Permalink to this headline">¶</a></h2>
+<p>To feature an account, set the <tt class="docutils literal"><span class="pre">FEATURED_MEMBER</span></tt> setting to that TypePad
+user&#8217;s XID:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">FEATURED_MEMBER</span> <span class="o">=</span> <span class="s">&#39;6p0ddba11ba5eba11&#39;</span>
+</pre></div>
+</div>
+<p>This will enable the featured home page view, providing only the named user&#8217;s
+events on the home page of the site.</p>
+</div>
+<div class="section" id="featuring-an-account-in-typepad">
+<h2>Featuring an account in TypePad<a class="headerlink" href="#featuring-an-account-in-typepad" title="Permalink to this headline">¶</a></h2>
+<p>Again, user accounts must be featured on TypePad&#8217;s side in order for TypePad
+to collect those users&#8217; external behavior. Accounts are featured on TypePad
+using the <tt class="docutils literal"><span class="pre">admin-typeapp</span></tt> tool available to TypePad operations staff.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">Featured accounts</a><ul>
+<li><a class="reference external" href="#featuring-an-account-in-motion">Featuring an account in Motion</a></li>
+<li><a class="reference external" href="#featuring-an-account-in-typepad">Featuring an account in TypePad</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="index.html"
+                                  title="previous chapter"><tt class="docutils literal"><span class="pre">motion</span></tt> – Motion in the TypePad cloud</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="themes.html"
+                                  title="next chapter">Theming Motion</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="sources/featured.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="themes.html" title="Theming Motion"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="motion – Motion in the TypePad cloud"
+             >previous</a> |</li>
+        <li><a href="index.html">motion v1.1a1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Six Apart.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+  </body>
+</html>

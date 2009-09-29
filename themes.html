@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Theming Motion &mdash; motion v1.1a1 documentation</title>
+    <link rel="stylesheet" href="static/default.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.1a1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <link rel="top" title="motion v1.1a1 documentation" href="index.html" />
+    <link rel="prev" title="Featured accounts" href="featured.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="featured.html" title="Featured accounts"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">motion v1.1a1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="theming-motion">
+<h1>Theming Motion<a class="headerlink" href="#theming-motion" title="Permalink to this headline">¶</a></h1>
+<p>The Motion templates support theming through both replacement templates and
+new stylesheets and images.</p>
+<div class="section" id="making-a-new-theme">
+<h2>Making a new theme<a class="headerlink" href="#making-a-new-theme" title="Permalink to this headline">¶</a></h2>
+<p>Start a new theme by making a new Django application in your project. Use the
+special <tt class="docutils literal"><span class="pre">typepadapp</span></tt> command to get the basic theme file layout
+automatically. For instance, if you were making a kittens theme, you&#8217;d make a
+new <tt class="docutils literal"><span class="pre">kittens</span></tt> app:</p>
+<div class="highlight-python"><pre>python manage.py typepadapp kittens</pre>
+</div>
+<p>Once it&#8217;s created, tell your Django project about it by adding it to your
+<tt class="docutils literal"><span class="pre">settings.py</span></tt> under <tt class="docutils literal"><span class="pre">INSTALLED_APPS</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s">&#39;django.contrib.contenttypes&#39;</span><span class="p">,</span>
+    <span class="s">&#39;django.contrib.sessions&#39;</span><span class="p">,</span>
+    <span class="s">&#39;typepadapp&#39;</span><span class="p">,</span>
+    <span class="s">&#39;motion&#39;</span><span class="p">,</span>
+    <span class="s">&#39;kittens&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="having-django-serve-your-theme">
+<h2>Having Django serve your theme<a class="headerlink" href="#having-django-serve-your-theme" title="Permalink to this headline">¶</a></h2>
+<p>Django will need to be able to translate the URL for your theme to the path on
+disk where your app is installed. This works differently depending on how your
+Motion project is being served.</p>
+<p>If you&#8217;re using the Django <tt class="docutils literal"><span class="pre">runserver</span></tt> during development, add your theme&#8217;s
+URL by adding your Django app to your project&#8217;s urlconfs. Your app already has
+an <tt class="docutils literal"><span class="pre">urls.py</span></tt> that will hook up your theme; you need only add it to your
+project&#8217;s URLs by adding it to the <tt class="docutils literal"><span class="pre">urls.py</span></tt> in the root of your project:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="s">r&#39;^&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s">&#39;kittens.urls&#39;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s">r&#39;^&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s">&#39;motion.urls&#39;</span><span class="p">)),</span>
+    <span class="p">(</span><span class="s">r&#39;^&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s">&#39;typepadapp.urls&#39;</span><span class="p">)),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Django can then serve your theme at the <tt class="docutils literal"><span class="pre">/static/themes/kittens/</span></tt> URL path.</p>
+<p>When serving your project with mod_wsgi, files are served by Apache instead of
+Django, so you&#8217;ll need to add the <tt class="docutils literal"><span class="pre">Alias</span></tt> yourself in the Apache
+configuration. That will look like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Alias</span> <span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">themes</span><span class="o">/</span><span class="n">kittens</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">kittens</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">theme</span>
+</pre></div>
+</div>
+<p>This needs to be <em>before</em> any more general alias, such as <tt class="docutils literal"><span class="pre">/static</span></tt> or
+<tt class="docutils literal"><span class="pre">/</span></tt>. There are probably other <tt class="docutils literal"><span class="pre">Alias</span></tt> lines in the Apache configuration
+that you can add this new line with.</p>
+</div>
+<div class="section" id="selecting-the-new-theme">
+<h2>Selecting the new theme<a class="headerlink" href="#selecting-the-new-theme" title="Permalink to this headline">¶</a></h2>
+<p>Configure your project to use your theme with the <tt class="docutils literal"><span class="pre">THEME</span></tt> setting in your
+<tt class="docutils literal"><span class="pre">local_settings.py</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">THEME</span> <span class="o">=</span> <span class="s">&#39;kittens&#39;</span>
+</pre></div>
+</div>
+<p>The Motion templates will then link to your new theme. Yay!</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">Theming Motion</a><ul>
+<li><a class="reference external" href="#making-a-new-theme">Making a new theme</a></li>
+<li><a class="reference external" href="#having-django-serve-your-theme">Having Django serve your theme</a></li>
+<li><a class="reference external" href="#selecting-the-new-theme">Selecting the new theme</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="featured.html"
+                                  title="previous chapter">Featured accounts</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="sources/themes.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="featured.html" title="Featured accounts"
+             >previous</a> |</li>
+        <li><a href="index.html">motion v1.1a1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Six Apart.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+  </body>
+</html>
