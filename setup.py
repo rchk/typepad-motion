@@ -38,6 +38,19 @@ setup(
     author_email='python@sixapart.com',
     url='http://code.sixapart.com/svn/motion/',
 
+    classifiers=[
+        'Development Status :: 4 - Beta',
+        'Environment :: Console',
+        'Environment :: Web Environment',
+        'Framework :: Django',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: BSD License',
+        'Operating System :: MacOS :: MacOS X',
+        'Operating System :: POSIX',
+        'Programming Language :: Python',
+        'Topic :: Internet :: WWW/HTTP',
+    ],
+
     packages=find_packages(),
     provides=['motion'],
     include_package_data=True,
