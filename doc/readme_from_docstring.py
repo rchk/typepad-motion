@@ -29,33 +29,9 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from setuptools import setup, find_packages
-from os.path import join, dirname
-setup(
-    name='motion',
-    version='1.1a1',
-    description='Community microblogging in the TypePad cloud',
-    author='Six Apart',
-    author_email='python@sixapart.com',
-    url='http://code.sixapart.com/svn/motion/',
+import motion
 
-    long_description=open(join(dirname(__file__), 'README.rst')).read(),
-    classifiers=[
-        'Development Status :: 4 - Beta',
-        'Environment :: Console',
-        'Environment :: Web Environment',
-        'Framework :: Django',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD License',
-        'Operating System :: MacOS :: MacOS X',
-        'Operating System :: POSIX',
-        'Programming Language :: Python',
-        'Topic :: Internet :: WWW/HTTP',
-    ],
-
-    packages=find_packages(),
-    provides=['motion'],
-    include_package_data=True,
-    zip_safe=False,
-    requires=['Django(>=1.0.2)', 'typepadapp'],
-)
+readme = file('README.rst', 'w')
+readme.write(motion.__doc__.strip())
+readme.write("\n")
+readme.close()
