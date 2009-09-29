@@ -1,0 +1,34 @@
+{% load i18n %}
+<div class="widget-following widget pkg {% if not following %}empty{% endif %}">
+    <h3 class="design-highlight-color">{% trans "Following" %}</h3>
+    <div class="widget-content">
+        <div class="summary">
+            <a href="{% url following userid=member.url_id %}">
+            <span class="label">
+                {% trans "Following" %}
+            </span>
+            <span class="count">
+                {{ following.total_results }}
+            </span>
+            </a>
+        </div>
+        <ul>
+            {% for rel in following %}
+            {% with rel.target as member %}
+            {% with 32 as photo_size %}
+            {% include "motion/bits/member_widget_item.html" %}
+            {% endwith %}
+            {% endwith %}
+            {% endfor %}
+        </ul>
+        {% if following %}
+        <div class="more"><a href="{% url following userid=member.url_id %}" title="View all">
+        {% ifequal view "home" %}
+            &gt;&gt;
+        {% else %}
+            {% trans "view all" %}
+        {% endifequal %}
+        </a></div>
+        {% endif %}
+    </div><!-- end .widget-content -->
+</div><!-- end .widget-following -->

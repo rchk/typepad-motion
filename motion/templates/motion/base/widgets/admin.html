@@ -1,0 +1,30 @@
+{% load i18n %}
+
+<div class="widget widget-admin-options{% if member.email %} display{% endif %}{% if not member.is_superuser %} display{% endif %}">
+    <h3 class="design-highlight-color">{% trans "Administrative Options" %}</h3>
+    <div class="widget-content">
+    {% if member.email %}
+        <p><a href="mailto:{{ member.email }}">{% blocktrans with member.display_name as name %}E-mail {{ name }}{% endblocktrans %}</a></p>
+    {% endif %}
+    {% if not member.is_superuser %}
+        <form id="ban-user-form" action="{{ request.path }}" method="post">
+            <input type="hidden" name="form-action" value="ban-user" />
+        </form>
+        {% if is_blocked %}
+            <p><a href="#" onclick="if (confirm(
+                {% blocktrans %}'Are you sure you want to un-ban this user? They will be able to rejoin this group.'{% endblocktrans %}))
+                { $('#ban-user-form').submit(); } return false;">
+                {% blocktrans with member.display_name as name %}Un-ban {{ name }}{% endblocktrans %}
+            </a></p>
+        {% else %}
+            {% if is_member %}
+            <p><a href="#" onclick="if (confirm(
+                {% blocktrans %}'Are you sure you want to ban this user? They will no longer be a member of the group and will be unable to post, comment, or rejoin.'{% endblocktrans %}))
+                { $('#ban-user-form').submit(); } return false;">
+                {% blocktrans with member.display_name as name %}Ban {{ name }}{% endblocktrans %}
+            </a></p>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+    </div><!-- end .widget-content -->
+</div><!-- end .widget-admin-options -->

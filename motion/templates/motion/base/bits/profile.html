@@ -1,0 +1,54 @@
+{# Custom site profile data #}
+{% load formfieldvalue %}
+{% load withblock %}
+{% load i18n %}
+
+{% if profileform or profiledata %}
+<div class="actions">
+    <h2 class="design-highlight-color">
+    {% blocktrans with member.display_name as name %}
+        More About {{ name }}
+    {% endblocktrans %}
+    </h2>
+    
+    {% if profileform %}
+    <form id="profile-data-form" method="post" action="{{ member.edit_url }}">
+        <img src="{{ settings.media_url }}themes/{{ settings.theme }}/images/spinner.gif" class="spinner" />
+        <ul class="profile-data">
+            {% for field in profileform %}
+            <li>
+                <strong>{{ field.label_tag }}</strong>:
+                <span class="form-field">
+                    <span class="value">{% formfieldvalue field %}</span>
+                    <span class="edit">{{ field }}</span>
+                </span>
+            </li>
+            {% endfor %}
+        </ul>
+        <div id="profile-edit">
+            <a id="edit-profile-link" href="#">{% trans "Edit my profile" %}</a>
+        </div>
+        <div id="profile-buttons" style="display:none;">
+            <input id="profile-save" type="submit" value="Save" />
+            <input id="profile-cancel" type="submit" value="Cancel" />
+        </div>
+    </form>
+    {% else %}
+       {% if profiledata %}
+       <ul class="profile-data">
+          {% for field in profiledata %}
+             {% withblock %}{% formfieldvalue field %}{% as fieldvalue %}
+                {% if fieldvalue %}
+                <li>
+                   <strong>{{ field.label }}</strong>:
+                   <span class="value">{{ fieldvalue }}</span>
+                </li>
+                {% endif %}
+             {% endwithblock %}
+          {% endfor %}
+       </ul>
+       {% endif %}
+    {% endif %}
+
+</div>
+{% endif %}

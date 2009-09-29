@@ -1,0 +1,61 @@
+{% load i18n %}
+<div id="compose">
+    <div id="compose-inner">
+        <div id="compose-content">
+            <form id="form-compose" method="post" action="" enctype="multipart/form-data">
+                <input type="hidden" id="compose-class" name="post_type" value="{{ form.post_type.data|default:"post" }}" />
+                <input type="hidden" name="redirect_to" value="{{ upload_complete_endpoint }}" />
+                <input type="hidden" id="compose-asset" name="asset" value="" />
+                <ul id="entry-types">
+                    {% for type in settings.post_types %}
+                    <li id="entry-{{ type.id }}"><a href="#" title="{{ type.label }}">{{ type.label }}</a></li>
+                    {% endfor %}
+                </ul>
+                <div id="entry-fields">
+                    <p id="compose-prompt-post">{% trans "Add a post!" %}</p>
+                    <p id="compose-prompt-link">{% trans "Add a link!" %}</p>
+                    <p id="compose-prompt-photo">{% trans "Add a photo!" %}</p>
+                    <p id="compose-prompt-video">{% trans "Add a video!" %}</p>
+                    <p id="compose-prompt-audio">{% trans "Add an audio post!" %}</p>
+                    <div id="field-url" class="field" style="display:none">
+                        {% if form.errors.url %}<div class="form-error">{{ form.errors.url|join:" " }}</div>{% endif %}
+                        {{ form.url }}
+                        <em id="hint-link">{% trans "URL of a web page." %}</em>
+                        <em id="hint-video">{% trans "URL of a YouTube or Vimeo video." %}</em>
+                    </div><!-- end #field-url -->
+                    <div id="field-file" class="field" style="display:none">
+                        <label id="label-audio" for="compose-file">{% trans "Select an audio file" %}</label>
+                        <label id="label-photo" for="compose-file">{% trans "Select a photo file" %}</label>
+                        {% if form.errors.file %}<div class="form-error">{{ form.errors.file|join:" " }}</div>{% endif %}
+                        {{ form.file }}<br />
+                        <em id="hint-audio">{% trans "Only MP3 audio files are supported." %}</em>
+                        <em id="hint-photo">{% trans "Only GIF, JPEG and PNG image files are supported." %}</em>
+                    </div><!-- end #field-file -->
+                    <div id="field-embed" class="field" style="display:none">
+                        {% if form.errors.embed %}<div class="form-error">{{ form.errors.embed|join:" " }}</div>{% endif %}
+                        {{ form.embed }}
+                    </div><!-- end #field-embed -->
+                    <div id="field-body" class="field">
+                        {% if form.errors.body %}<div class="form-error">{{ form.errors.body|join:" " }}</div>{% endif %}
+                        {{ form.body }}
+                    </div><!-- end #field-body -->
+                    {% if settings.use_titles %}
+                    <div id="entry-fields-optional">
+                        <div id="field-title" class="field">
+                            {% if form.errors.title %}<div class="form-error">{{ form.errors.title|join:" " }}</div>{% endif %}
+                            {{ form.title }}
+                        </div>
+                    </div><!-- end #entry-fields-optional -->
+                    {% endif %}
+                </div>
+                <p class="submit-wrapper">
+                    {% if settings.use_titles %}
+                    <a href="#more-options" id="more-options" class="more-options">{% trans "+ more options" %}</a>
+                    {% endif %}
+                    <button type="submit" id="post-submit" name="post" value="Post">{% trans "Post" %}</button>
+                    <button id="post-submit-posting" class="posting" name="posting" value="Posting" disabled="true">{% trans "Posting..." %}</button>
+                </p>
+            </form>
+        </div><!-- end #compose-content -->
+    </div><!-- end #compose-inner -->
+</div><!-- end #compose -->

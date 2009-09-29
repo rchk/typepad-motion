@@ -1,0 +1,69 @@
+{% load generic_filters %}
+{% load i18n %}
+
+{% url home as url_home %}
+{% url group_events as url_group_events %}
+{% url following_events as url_following_events %}
+{% url members as url_members %}
+
+<div id="nav">
+    <div id="nav-inner">
+        <ul>
+        {% block navigation_items %}
+            {% if settings.featured_member %}
+
+                {# Featured user is homepage #}
+                <li class="home{% ifequal view 'home' %} current{% endifequal %}">
+                    <a href="{{ url_home }}">{% trans "Home" %}</a>
+                </li>
+                <li class="events{% if request.path|regex_starts_with:url_group_events %} current{% endif %}">
+                    <a href="{{ url_group_events }}">{% trans "Everyone" %}</a>
+                </li>
+                {% if request.user.is_authenticated %}
+                    <li class="following{% if request.path|regex_starts_with:url_following_events %} current{% endif %}">
+                        <a href="{{ url_following_events }}">{% trans "Following" %}</a>
+                    </li>
+                {% endif %}
+                <li class="members{% if request.path|regex_starts_with:url_members %} current{% endif %}{% if request.path|regex_search:"/entry/\w+$" %} current{% endif %}">
+                    <a href="{{ url_members }}">{% trans "Members" %}</a>
+                </li>
+
+            {% else %}{% if settings.home_member_events %}
+
+                {# Following events is homepage #}
+                {% if request.user.is_authenticated %}
+                    <li class="home{% ifequal view 'home' %} current{% endifequal %} {% if request.path|regex_starts_with:url_following_events %} current{% endif %}">
+                        <a href="{{ url_home }}">{% trans "Following" %}</a>
+                    </li>
+                    <li class="events{% if request.path|regex_starts_with:url_group_events %} current{% endif %}">
+                        <a href="{{ url_group_events }}">{% trans "Everyone" %}</a>
+                    </li>
+                {% else %}
+                    <li class="home{% ifequal view 'home' %} current{% endifequal %}{% if request.path|regex_starts_with:url_group_events %} current{% endif %}">
+                        <a href="{{ url_home }}">{% trans "Everyone" %}</a>
+                    </li>
+                {% endif %}
+                <li class="members{% if request.path|regex_starts_with:url_members %} current{% endif %}{% if request.path|regex_search:"/entry/\w+$" %} current{% endif %}">
+                    <a href="{{ url_members }}">{% trans "Members" %}</a>
+                </li>
+
+            {% else %}
+
+                {# Group events is homepage #}
+                <li class="home{% ifequal view 'home' %} current{% endifequal %}{% if request.path|regex_starts_with:url_group_events %} current{% endif %}">
+                    <a href="{{ url_home }}">{% trans "Everyone" %}</a>
+                </li>
+                {% if request.user.is_authenticated %}
+                <li class="following{% if request.path|regex_starts_with:url_following_events %} current{% endif %}">
+                    <a href="{{ url_following_events }}">{% trans "Following" %}</a>
+                </li>
+                {% endif %}
+                <li class="members{% if request.path|regex_starts_with:url_members %} current{% endif %}{% if request.path|regex_search:"/entry/\w+$" %} current{% endif %}">
+                    <a href="{{ url_members }}">{% trans "Members" %}</a>
+                </li>
+
+            {% endif %}{% endif %}
+        {% endblock %}
+        </ul>
+    </div><!-- end #nav-inner -->
+</div><!-- end #nav -->

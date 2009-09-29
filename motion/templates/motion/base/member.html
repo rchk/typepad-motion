@@ -1,0 +1,86 @@
+{% extends "motion/base.html" %}
+{% load i18n %}
+{% load typepad_filters %}
+
+{% block head_title %}{% blocktrans with block.super as super and member.display_name as name %}{{ super }}: {{ name }}&rsquo;s Profile{% endblocktrans %}{% endblock %}
+{% block page_id %}user-profile{% endblock %}
+{% block page_layout %}layout-two-column-right{% endblock %}
+
+{% block feed %}
+    <link rel="alternate" type="application/atom+xml" title="{% blocktrans with member.display_name as name %}Recent Entries from {{ name }}{% endblocktrans %}" href="{{ member.feed_url }}" />
+{% endblock %}
+
+{% block beta_widgets %}
+    {% if user.is_superuser %}
+    {% include "motion/widgets/admin.html" %}
+    {% endif %}
+    {% include "motion/widgets/typepad_frame.html" %}
+    {% include "motion/widgets/elsewhere.html" %}
+{{ block.super }}
+{% endblock %}
+
+{% block content_body %}
+    <div class="profile-header">
+
+        {% include "motion/bits/member_status.html" %}
+
+        <div class="userpic">
+            {% with member|userpicbywidth:100 as userpic %}
+            <img src="{{ userpic.href }}" width="100" height="100" alt="{{ member.display_name }}" />
+            {% endwith %}
+        </div>
+
+        <div class="profile-header-content">
+            <h1>{{ member.display_name }}</h1>
+
+            <ul class="profile-data">
+
+            {% if member.about_me %}
+            <li><strong>{% trans "About Me:" %}</strong> {{ member.about_me }}</em></li>
+            {% endif %}
+
+            {% if member.location %}
+            <li><strong>{% trans "Location:" %}</strong> {{ member.location }}</em></li>
+            {% endif %}
+
+            {% if member.homepage %}
+            <li><strong>{% trans "Homepage:" %}</strong> <a href="{{ member.homepage }}">{{ member.homepage }}</a></em></li>
+            {% endif %}
+
+            {% if member.interests %}
+            <li><strong>{% trans "Interests:" %}</strong>
+                {% for interest in member.interests %}
+                {{ interest }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </li>
+            {% endif %}
+
+            {% if twitter_username %}
+            <li class="user-twitter" id="twitter_status"></li>
+            {% endif %}
+
+            <li><img src="{{ settings.media_url }}motion/images/services/typepad.png" height="16" width="16" alt="{% trans "TypePad" %}" />&nbsp;
+                {% if is_self %}
+                <a href="{{ member.typepad_edit_url }}" rel="me" target="_blank">{% trans "Edit my TypePad profile" %}</a> or <a href="{{ user.typepad_membership_management_url }}">{% trans "manage my TypePad memberships" %}</a>
+                {% else %}
+                <a href="{{ member.typepad_url }}" rel="me" target="_blank">{% trans "View full TypePad profile" %}</a>
+                {% endif %}
+            </li>
+
+            </ul>
+        </div>
+    </div>
+
+    {% include "motion/bits/profile.html" %}
+
+    <div class="actions">
+        <h2>{% trans "Recent Activity" %}</h2>
+        {% with page_obj.object_list as events %}
+        {% include "motion/bits/event_list.html" %}
+        {% endwith %}
+    </div>
+
+    {% if twitter_username %}
+    <script type="text/javascript" src="http://profile.typepad.com/services/embed/twitter_status.js?u={{ twitter_username|urlencode }}" defer="defer"></script>
+    {% endif %}
+{% endblock %}

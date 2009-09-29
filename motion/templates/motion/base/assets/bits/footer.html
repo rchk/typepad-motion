@@ -1,0 +1,34 @@
+{% load date_filters %}
+{% load i18n %}
+
+<div class="asset-meta asset-footer">
+    {% spaceless %}
+    <a href="{{ entry.get_absolute_url }}#comments" class="comment-count">
+        {% blocktrans count entry.comment_count as count %}
+            1 <span>Comment</span>
+        {% plural %}
+            {{ count }} <span>Comments</span>
+        {% endblocktrans %}
+    </a>
+    {% endspaceless %}
+    <span class="separator">|</span>
+    <span class="{% if user.is_authenticated and settings.allow_rating %}favorite-action {% endif %}favorite-count{% if entry.links.favorites.by_user %} scored{% endif %}" id="favorite-{{ entry.url_id }}">{% if entry.favorite_count %}{{ entry.favorite_count }}{% else %}&nbsp;{% endif %}</span>
+    <span class="separator">|</span>
+    <span class="byline">
+    {% block byline %}
+        <span class="date">
+            <abbr class="published" title="{{ event.published|date_microformat }}">
+                {% spaceless %}
+                {% if event.published|is_relative %}
+                    <a rel="bookmark" href="{{ entry.get_absolute_url }}">{{ event.published|pithy_timesince }}</a>
+                {% else %}
+                    {% blocktrans with entry.get_absolute_url as url and event.published|pithy_timesince as timestamp %}
+                    <a rel="bookmark" href="{{ url }}">{{ timestamp }}</a>
+                    {% endblocktrans %}
+                {% endif %}
+                {% endspaceless %}
+            </abbr>
+        </span>
+    {% endblock %}
+    </span>
+</div>

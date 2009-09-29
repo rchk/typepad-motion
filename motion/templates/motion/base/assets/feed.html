@@ -1,0 +1,11 @@
+{% load withblock %}
+
+{% with settings.full_feed_content|yesno:"permalink,feed" as view %}
+{% with "motion/assets/body/base_feed.html" as base %}
+{% with obj as event %}{% with event.object as entry %}
+    {% withblock %}motion/assets/body/{{ entry.type_id }}.html{% as template_name %}
+        {% include template_name %}
+    {% endwithblock %}
+{% endwith %}{% endwith %}
+{% endwith %}
+{% endwith %}

@@ -1,0 +1,11 @@
+{% if page_obj.previous_link %}
+{% with "top" as position %}
+{% include "motion/bits/pagination.html" %}
+{% endwith %}
+{% endif %}
+
+<ul class="hfeed">{% for event in events %}{% with event.object as entry %}
+    {% include "motion/assets/asset.html" %}
+{% endwith %}{% endfor %}</ul>
+
+{% include "motion/bits/pagination.html" %}

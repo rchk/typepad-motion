@@ -1,0 +1,23 @@
+{% load i18n %}
+
+<div class="widget widget-members">
+    <h3 class="design-highlight-color">
+        {% blocktrans count memberships.total_results as count %}
+            1 Member
+        {% plural %}
+            {{ count }} Members
+        {% endblocktrans %}
+    </h3>
+    <div class="widget-content members">
+        <ul>
+        {% for membership in memberships %}
+            {% with membership.target as member %}
+            {% with 50 as photo_size %}
+                {% include "motion/bits/member_widget_item.html" %}
+            {% endwith %}
+            {% endwith %}
+        {% endfor %}
+        </ul>
+        <div class="more"><a href="{% url members %}">{% trans "view all" %}</a></div>
+    </div><!-- end .widget-content -->
+</div><!-- end .widget-members -->

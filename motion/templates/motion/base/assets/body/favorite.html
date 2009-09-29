@@ -1,0 +1,18 @@
+{% extends base|default:"motion/assets/body/base.html" %}
+{% load i18n %}
+{% load date_filters %}
+
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+{% block title %}{% endblock %}
+{% block media %}{% endblock %}
+{% block activity %}
+    <div class="activity">
+    {% ifequal entry.type_id "audio" %}
+    {% blocktrans with event.actor.display_name as actor_name and entry.type_label as post_type and entry.get_absolute_url as url and entry.author.display_name as author_name and event.published|date_microformat as published and event.published|pithy_timesince:"on " as timestamp %}{{ actor_name }} favorited an <a href="{{ url }}">{{ post_type }} by {{ author_name }}</a> <abbr class="published" title="{{ published }}">{{ timestamp }}</abbr>.{% endblocktrans %}
+    {% else %}
+    {% blocktrans with event.actor.display_name as actor_name and entry.type_label as post_type and entry.get_absolute_url as url and entry.author.display_name as author_name and event.published|date_microformat as published and event.published|pithy_timesince:"on " as timestamp %}{{ actor_name }} favorited a <a href="{{ url }}">{{ post_type }} by {{ author_name }}</a> <abbr class="published" title="{{ published }}">{{ timestamp }}</abbr>.{% endblocktrans %}
+    {% endifequal %}
+    </div>
+{% endblock %}
+{% block content %}{% endblock %}

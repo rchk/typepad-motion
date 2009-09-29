@@ -1,0 +1,43 @@
+{% extends "motion/base.html" %}
+{% load i18n %}
+
+{% block page_id %}user-following{% endblock %}
+{% block page_layout %}layout-two-column-right{% endblock %}
+
+{% block content_body %}
+
+{% if not page_obj.object_list %}
+
+{% block empty_events %}
+{% url members as members_url %}
+{% url home as home_url %}
+{% if not following.total_results %}
+
+{% blocktrans with request.group.display_name as group_name %}
+<p>You are not following any members of <a href="{{ home_url }}">{{ group_name }}</a>.</p>
+<p><a href="{{ members_url }}">Find members to follow!</a></p>
+<p>Once you start following other members, their activity on <a href="{{ home_url }}">{{ group_name }}</a>
+will appear on this page.</p>
+{% endblocktrans %}
+
+{% else %}
+
+{% blocktrans with request.group.display_name as group_name %}
+<p>There is no activity from the members you are following on <a href="{{ home_url }}">{{ group_name }}</a>.</p>
+<p><a href="{{ members_url }}">Find more members to follow!</a></p>
+{% endblocktrans %}
+
+{% endif %}
+{% endblock %}
+
+{% else %}
+
+<div class="actions">
+    {% with page_obj.object_list as events %}
+    {% include "motion/bits/event_list.html" %}
+    {% endwith %}
+</div><!-- end .actions -->
+
+{% endif %}
+
+{% endblock %}

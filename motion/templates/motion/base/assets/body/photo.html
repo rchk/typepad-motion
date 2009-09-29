@@ -1,0 +1,43 @@
+{% extends base|default:"motion/assets/body/base.html" %}
+{% load typepad_filters %}
+{% load i18n %}
+
+{% block media %}
+<div>
+    {# select the 500-wide photo since that is a standard size made available #}
+    {% with entry|enclosurebywidth:settings.photo_max_width as thumbnail %}
+    {% spaceless %}
+
+    {% ifequal view "permalink" %}
+        {% if entry.source %}
+            <a href="{{ entry.source.original_link.href }}">
+        {% endif %}
+    {% else %}
+        <a href="{{ entry.get_absolute_url }}">
+    {% endifequal %}
+
+    {# This bit is necessary for IE6, who doesn't respect max-width CSS rules. #}
+    {% if thumbnail.width|greaterthan:settings.photo_max_width %}
+        <img class="constrained" style="width:{{ settings.photo_max_width }}px" width="{{ settings.photo_max_width }}" src="{{ thumbnail.href }}" alt="{{ entry.title }}" />
+    {% else %}
+        <img width="{{ thumbnail.width }}" height="{{ thumbnail.height }}" src="{{ thumbnail.href }}" alt="{{ entry.title }}" />
+    {% endif %}
+
+    {% ifequal view "permalink" %}
+        {% if entry.source %}
+            </a>
+        {% endif %}
+    {% else %}
+        </a>
+    {% endifequal %}
+
+    {% endspaceless %}
+
+    {% ifnotequal entry.link thumbnail.href %}
+    {# provide a link to the original resolution #}
+    <br /><small><a href="{{ entry.link }}">{% trans "original" %}</a></small>
+    {% endifnotequal %}
+    {% endwith %}
+</div>
+{% endblock %}
+

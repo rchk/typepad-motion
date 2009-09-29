@@ -1,0 +1,83 @@
+{% load i18n %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:at="http://www.sixapart.com/ns/at" id="sixapart-standard">
+<head>
+    {% block html_head %}
+    {% include "motion/bits/html_head.html" %}
+    {% block feed %}{% endblock %}
+    <title>{% block head_title %}{{ request.group.display_name }}{% endblock %}</title>
+    {% endblock %}
+</head>
+
+<body id="motion" class="design-background {% block page_id %}{% endblock %} {% block page_layout %}{% endblock %} noscript">
+    <div id="container">
+        <div id="container-inner">
+
+            {% include "motion/banners/header.html" %}
+            {% include "motion/bits/flash.html" %}
+
+            <div id="pagebody" class="design-content-border design-content-font design-content-color">
+                <div id="pagebody-inner">
+
+                    {% block content_head %}
+                    {% if settings.allow_posting %}
+                    <div id="user-compose-friends" class="design-compose-background">
+                        {% if user.is_authenticated %}
+                            {% if settings.featured_member %}
+                                {% if user.is_featured_member %}
+                                    <form class="submit-wrapper" method="GET" action="{% url home %}">
+                                {% else %}
+                                    <form class="submit-wrapper" method="GET" action="{% url group_events %}">
+                                {% endif %}
+                            {% else %}
+                                {% if settings.home_member_events %}
+                                    <form class="submit-wrapper" method="GET" action="{% url group_events %}">
+                                {% else %}
+                                    <form class="submit-wrapper" method="GET" action="{% url home %}">
+                                {% endif %}
+                            {% endif %}
+                            <button>{% trans "POST STUFF" %}</button>
+                            </form>
+                        {% endif %}
+                    </div><!-- end #user-compose-friends -->
+                    {% endif %}
+                    {% endblock %}
+
+                    {% block navigation %}
+                    {% include "motion/bits/navigation.html" %}
+                    {% endblock %}
+
+                     <div id="alpha">
+                         <div id="alpha-inner">
+
+                            {% block content_body %}
+                            {% endblock %}
+
+                        </div><!-- end #alpha-inner -->
+                    </div><!-- end #alpha -->
+
+
+                    <div id="beta">
+                        <div id="beta-inner">
+
+                            {% block beta_widgets %}
+                            {% endblock %}
+
+                        </div><!-- end #beta-inner -->
+                    </div><!-- end #beta -->
+
+
+                </div><!-- end #pagebody-inner -->
+            </div><!-- end #pagebody -->
+
+
+            {% include "motion/banners/footer.html" %}
+
+
+        </div><!-- end #container-inner -->
+    </div><!-- end #container -->
+
+</body>
+</html>

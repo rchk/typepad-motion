@@ -1,0 +1,17 @@
+{% load i18n %}
+<div class="widget-sign-in widget">
+    <div id="signin-widget-content" class="widget-content">
+        {% if not user.is_authenticated %}
+            {% url login as login_url %}
+            {% blocktrans with request.path|urlencode as request_path and request.group.display_name as group_name %}
+                <a href="{{ login_url }}?next={{ request_path }}">Sign in or join {{ group_name }}</a>
+            {% endblocktrans %}
+        {% else %}
+            {% blocktrans with user.get_absolute_url as url and user.display_name as name %}Hi <a href="{{ url }}">{{ name }}</a>{% endblocktrans %}
+            <span class="separator">|</span>
+            <a href="{{ user.get_absolute_url }}">{% trans "Profile" %}</a>
+            <span class="separator">|</span>
+            <a href="{% url logout %}">{% trans "Sign out" %}</a>
+        {% endif %}
+    </div><!-- end .widget-content#signin-widget-content -->
+</div><!-- end .widget.widget-sign-in -->

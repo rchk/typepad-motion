@@ -1,0 +1,10 @@
+{% extends "motion/base.html" %}
+{% load i18n %}
+
+{% block content_body %}
+    <h1>{% trans "An Error Occured" %}</h1>
+    <div id="error-message">
+        <p>{{ message }}</p>
+    </div>
+    <div><a href="{% url home %}">{% trans "Go home?" %}</a></div>
+{% endblock %}

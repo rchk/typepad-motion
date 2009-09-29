@@ -1,0 +1,21 @@
+{% if elsewhere %}
+{% load i18n %}
+<div id="elsewhere" class="widget-elsewhere widget pkg">
+    <h3 class="design-highlight-color">{% trans "Elsewhere" %}</h3>
+    <div class="widget-content">
+        <ul>
+            {% for account in elsewhere %}
+            <li>
+                {% if account.domain %} {# Known service #}
+                <img class="service-icon" src="{{ account.provider_icon_url }}" height="16" width="16" alt="" />
+                <a href="{{ account.url }}" rel="me">{{ account.provider_name }}</a>
+                {% else %} {# Other service #}
+                <img class="service-icon" src="http://static.typepad.com/.shared:v20090616.1:typepad:en_us//images/profile/service_icons/other.png" height="16" width="16" alt="" />
+                <a href="{{ account.url }}" rel="me">{{ account.url }}</a>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div><!-- end .widget-content -->
+</div><!-- end .widget-elsewhere#elsewhere -->
+{% endif %}

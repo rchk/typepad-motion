@@ -1,0 +1,13 @@
+{% load typepad_filters %}
+
+<li style="z-index:{{ forloop.revcounter }};">
+    <div class="userpic">
+        {% spaceless %}
+        <a class="userpic-link source-user-avatar" href="{{ member.get_absolute_url }}">
+            {% with member|userpicbywidth:photo_size as userpic %}
+            <img src="{{ userpic.href }}" alt="{{ member.display_name }}" title="{{ member.display_name }}" width="{{ photo_size }}" height="{{ photo_size }}" class="photo" />
+            {% endwith %}
+        </a>
+        {% endspaceless %}
+    </div>
+</li>

@@ -1,0 +1,30 @@
+{% load typepad_filters %}
+{% load generic_filters %}
+{% load withblock %}
+{% load twittilize %}
+
+{% ifequal view "permalink" %}
+    {% ifequal entry.source.provider.uri "http://www.twitter.com/" %}
+        {{ entry.content|twittilize }}
+    {% else %}
+        {% ifequal entry.text_format "html" %}
+            {{ entry.content|sanitizetags }}
+        {% else %}
+            {{ entry.content|urlize|linebreaks }}
+        {% endifequal %}
+    {% endifequal %}
+{% else %}
+    {% ifequal entry.source.provider.uri "http://www.twitter.com/" %}
+        {{ entry.content|twittilize }}
+    {% else %}
+        {% ifequal entry.text_format "html" %}
+            {% withblock %}{% autoescape off %}{{ entry.content|striptags }}{% endautoescape %}{% as content %}
+            {{ content|urlize|linebreaks|truncatewords:settings.paragraph_wordcount }}
+            {{ entry|morelink:settings.paragraph_wordcount }}
+            {% endwithblock %}
+        {% else %}
+            {{ entry.content|urlize|linebreaks|truncatewords_html:settings.paragraph_wordcount }}
+            {{ entry|morelink:settings.paragraph_wordcount }}
+        {% endifequal %}
+    {% endifequal %}
+{% endifequal %}

@@ -1,0 +1,36 @@
+{% extends "motion/base.html" %}
+{% load i18n %}
+
+{% block page_id %}group-events{% endblock %}
+{% block head_title %}{% blocktrans with block.super as super %}{{ super }}: Recent Activity{% endblocktrans %}{% endblock %}
+{% block page_layout %}layout-two-column-right{% endblock %}
+
+{% block feed %}
+    <link rel="alternate" type="application/atom+xml" title="Recent Entries" href="{% url feeds url="events" %}" />
+{% endblock %}
+
+{% block beta_widgets %}
+    {% include "motion/widgets/members.html" %}
+    {# include "motion/widgets/popular_entries.html" #}
+    {# include "motion/widgets/gallery.html" #}
+{{ block.super }}
+{% endblock %}
+
+{% block content_head %}
+    <div id="user-compose-friends" class="design-compose-background pkg">
+        {% if settings.allow_posting and user.is_authenticated %}
+        <div id="user-compose-friends-inner" class="pkg">
+            {% include "motion/bits/compose_form.html" %}
+            {% include "motion/widgets/compose_user.html" %}
+        </div><!-- end #user-compose-friends-inner -->
+        {% endif %}
+    </div><!-- end #user-compose-friends -->
+{% endblock %}
+
+{% block content_body %}
+    <div class="actions">
+        {% with page_obj.object_list as events %}
+        {% include "motion/bits/event_list.html" %}
+        {% endwith %}
+    </div><!-- end .actions -->
+{% endblock %}

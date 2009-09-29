@@ -1,0 +1,30 @@
+{% load i18n %}
+
+<div class="asset-header">
+    <span class="byline">
+    {% block byline %}
+        {% blocktrans with event.actor.get_absolute_url as url and event.actor.display_name as name %}
+        <span class="vcard author"><a href="{{ url }}">{{ name }}</a></span>
+        {% endblocktrans %}
+
+        {% if entry.source %}
+        <span class="source">
+            {% trans "posted from" %}
+            {% with entry.source.original_link.href as original_href %}
+                {% if entry.source.provider %}
+                    {% if entry.source.provider.icon %}
+                    <a href="{{ original_href }}"><img src="{{ entry.source.provider.icon }}" height="16" width="16" alt="" /></a>
+                    {% endif %}
+                    <a href="{{ original_href }}">{{ entry.source.provider.name }}</a>
+                {% else %}
+                    {{ original_href|urlizetrunc:35 }}
+                {% endif %}
+            {% endwith %}
+        </span>
+        {% else %}
+            {% trans "posted" %}
+        {% endif %}
+
+    {% endblock %}
+    </span>
+</div>

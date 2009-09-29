@@ -1,0 +1,42 @@
+{% comment %}
+Template used for displaying a list of the users followers.
+{% endcomment %}
+{% load i18n %}
+
+<div class="widget-followers widget pkg {% if not followers %}empty{% endif %}">
+    <h3 class="design-highlight-color">{% trans "Followers" %}</h3>
+    <div class="widget-content">
+        <div class="summary">
+            <a href="{% url followers userid=member.url_id %}">
+            <span class="count">
+                {{ followers.total_results }}
+            </span>
+            <span class="label">
+                {% blocktrans count followers.total_results as count %}
+                    Follower
+                {% plural %}
+                    Followers
+                {% endblocktrans %}
+            </span>
+            </a>
+        </div>
+        <ul>
+            {% for rel in followers %}
+            {% with rel.source as member %}
+            {% with 32 as photo_size %}
+            {% include "motion/bits/member_widget_item.html" %}
+            {% endwith %}
+            {% endwith %}
+            {% endfor %}
+        </ul>
+        {% if followers %}
+        <div class="more"><a href="{% url followers userid=member.url_id %}" title="View all">
+        {% ifequal view "home" %}
+            &gt;&gt;
+        {% else %}
+            {% trans "view all" %}
+        {% endifequal %}
+        </a></div>
+        {% endif %}
+    </div><!-- end .widget-content -->
+</div><!-- end .widget-followers -->

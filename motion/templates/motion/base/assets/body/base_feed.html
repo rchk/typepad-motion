@@ -1,0 +1,9 @@
+{# base template for producing strictly entry content #}
+
+{% block media %}{% endblock %}
+{% block activity %}{% endblock %}
+{% block content %}
+{% if entry.content %}
+{% include "motion/assets/bits/content.html" %}
+{% endif %}
+{% endblock %}

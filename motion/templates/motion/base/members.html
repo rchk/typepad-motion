@@ -1,0 +1,73 @@
+{% extends "motion/base.html" %}
+{% load i18n %}
+
+{% comment %}
+Template used for displaying the member directory for the group.
+{% endcomment %}
+
+{% block head_title %}{% blocktrans with block.super as super %}{{ super }}: Members{% endblocktrans %}{% endblock %}
+{% block page_id %}members-list{% endblock %}
+
+{% block content_body %}
+
+    {% if request.user.is_superuser and not rel %}
+    <div style="float: right;"><a href="{% url export_members %}">{% trans "Export Member List" %}</a></div>
+    {% endif %}
+
+    <h1 id="page-title">
+    {% if rel %}
+        {% ifequal rel "following" %}
+            {% blocktrans count page_obj.paginator.count as count and member.display_name as name %}
+                {{ name }} follows 1 person.
+            {% plural %}
+                {{ name }} follows {{ count }} people.
+            {% endblocktrans %}
+        {% else %}
+            {% blocktrans count page_obj.paginator.count as count and member.display_name as name %}
+                {{ name }}&rsquo;s 1 Follower
+            {% plural %}
+                {{ name }}&rsquo;s {{ count }} Followers
+            {% endblocktrans %}
+        {% endifequal %}
+    {% else %}
+        {% blocktrans count page_obj.paginator.count as count %}
+            1 Member
+        {% plural %}
+            {{ count }} Members
+        {% endblocktrans %}
+        <span class="range">
+            {% blocktrans with page_obj.paginator.offset as offset and page_obj.end_index as end_index %}
+                Showing {{ offset }}-{{ end_index }}
+            {% endblocktrans %}
+        </span>
+    {% endif %}
+    </h1>
+
+    {% if page_obj.has_previous %}
+    {% with "top" as position %}
+    {% include "motion/bits/pagination.html" %}
+    {% endwith %}
+    {% endif %}
+
+    {% if request.user.is_authenticated %}
+    <p class="hint hint-following">{% trans "To follow a member, hover over their picture and click &lsquo;Follow&rsquo;." %}</p>
+    {% endif %}
+
+    <ul class="member-list">
+        {% for relationship in page_obj.object_list %}
+            <!-- {% cycle "1" "2" "3" as column %} -->
+            {% ifequal rel "followers" %}
+            {% with relationship.source as member %}
+                {% include "motion/bits/member_page_item.html" %}
+            {% endwith %}
+            {% else %}
+            {% with relationship.target as member %}
+                {% include "motion/bits/member_page_item.html" %}
+            {% endwith %}
+            {% endifequal %}
+        {% endfor %}
+    </ul>
+
+    {% include "motion/bits/pagination.html" %}
+
+{% endblock %}

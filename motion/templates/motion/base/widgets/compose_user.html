@@ -1,0 +1,24 @@
+{% load i18n %}
+{% load generic_filters %}
+<div id="friends">
+    <div id="friends-innner">
+        <div id="compose-userpic">
+            {% spaceless %}
+            <a href="{{ user.get_absolute_url }}">
+                <img id="compose-userpic-img" src="{{ user.userpic }}" height="50" width="50" alt="" />
+            </a>
+            {% endspaceless %}
+        </div><!-- end #compose-userpic -->
+        <div id="user-meta" class="pkg">
+            <div id="user-username">{{ user.display_name }}</div>
+            <div id="user-data">
+                {% if user.location %}<p>{{ user.location|truncatechars:35 }}</p>{% endif %}
+                {% if user.about_me %}<p>{{ user.about_me|truncatechars:35 }}</p>{% endif %}
+            </div>
+        </div>
+        {% with user as member %}
+        {% include "motion/widgets/following.html" %}
+        {% include "motion/widgets/followers.html" %}
+        {% endwith %}
+    </div><!-- end #friends-inner -->
+</div><!-- end #friends -->

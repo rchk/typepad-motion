@@ -1,0 +1,20 @@
+<div id="banner">
+    <div id="banner-inner">
+        <div id="banner-content">
+            {% block banner_content %}
+
+            {% include "motion/widgets/signin.html" %}
+
+            {# Use h1 and h2 html tags on the main index of the site as the title, use divs on all other pages where there are page titles. #}
+            {% ifequal request.path url_home %}
+                <h1 id="banner-header"><a href="{% url home %}" accesskey="1" class="design-logo">{{ request.group.display_name }}</a></h1>
+                <h2 id="banner-description">{# group.tagline #}</h2>
+            {% else %}
+                <div id="banner-header"><a href="{% url home %}" accesskey="1" class="design-logo">{{ request.group.display_name }}</a></div>
+                <div id="banner-description">{# group.tagline #}</div>
+            {% endifequal %}
+
+            {% endblock %}
+        </div><!-- end #banner-content -->
+    </div><!-- end #banner-inner -->
+</div><!-- end #banner -->

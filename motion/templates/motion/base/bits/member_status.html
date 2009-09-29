@@ -1,0 +1,17 @@
+{% load i18n %}
+
+{% if is_blocked %}
+<div class="msg msg-info">
+    {% blocktrans with member.display_name as name %}
+    {{ name }} has been banned from this site.
+    {% endblocktrans %}
+</div>
+{% else %}
+    {% if not is_member %}
+    <div class="msg msg-info">
+        {% blocktrans with member.display_name as name %}
+        {{ name }} is no longer a member of this site, but their activity is archived.
+        {% endblocktrans %}
+    </div>
+    {% endif %}
+{% endif %}

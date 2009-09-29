@@ -1,0 +1,13 @@
+{% load generic_filters %}
+<li class="member-listitem {% cycle '' 'even' %}{% ifequal column '1' %} first{% endifequal %}">
+    <div class="userpic">
+        {% with member as user %}
+            {% include "motion/assets/bits/userpic.html" %}
+        {% endwith %}
+    </div>
+    <div class="member-info">
+        <h4><a href="{{ member.get_absolute_url }}" class="name">{{ member.display_name }}</a></h4>
+        {% if member.location %}<p>{{ member.location|truncatechars:35 }}</p>{% endif %}
+        {% if member.about_me %}<p>{{ member.about_me|truncatechars:35 }}</p>{% endif %}
+    </div>
+</li>

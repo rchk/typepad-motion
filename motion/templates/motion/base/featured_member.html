@@ -1,0 +1,28 @@
+{% extends "motion/member.html" %}
+{% load i18n %}
+
+{% block page_id %}featured-member{% endblock %}
+
+{% block beta_widgets %}
+    {% include "motion/widgets/members.html" %}
+    {% if user.is_superuser %}
+    {% include "motion/widgets/admin.html" %}
+    {% endif %}
+    {% include "motion/widgets/elsewhere.html" %}
+{% endblock %}
+
+{% block content_body %}
+    {% if is_self and user.is_featured_member %}
+	    <div id="featured-member-compose" class="pkg">
+        {% include "motion/bits/compose_form.html" %}
+        </div>
+    {% endif %}
+
+    <div class="actions">
+        <h2>{% blocktrans with member.display_name as name %}{{ name }}&rsquo;s Recent Activity{% endblocktrans %}</h2>
+
+        {% with page_obj.object_list as events %}
+        {% include "motion/bits/event_list.html" %}
+        {% endwith %}
+    </div>
+{% endblock %}

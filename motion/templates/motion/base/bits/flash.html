@@ -1,0 +1,6 @@
+{% for error in flash.errors %}
+<div class="flash error">{{ error }}</div>
+{% endfor %}
+{% for notice in flash.notices %}
+<div class="flash notice">{{ notice }}</div>
+{% endfor %}

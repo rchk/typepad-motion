@@ -1,0 +1,666 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" id="sixapart-standard">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="spacegiraffe 1.0" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../typepadapp/typepadapp/static/css/reset.css" type="text/css" />
+    <link rel="start" href="/" title="Home" />
+</head>
+
+<body id="motion" class="design-background home layout-two-column-right noscript">
+    <div id="container">
+        <div id="container-inner">
+
+            <div id="banner">
+                <div id="banner-inner">
+                    <div id="banner-content">
+
+                        <div class="widget-sign-in widget">
+                            <div id="signin-widget-content" class="widget-content">
+                                Hi <a href="#">Your Name</a>
+                                <span class="separator">|</span>
+                                <a href="#">Profile</a>
+                                <span class="separator">|</span>
+                                <a href="#">Sign out</a>
+                            </div><!-- end .widget-content#signin-widget-content -->
+                        </div><!-- end .widget.widget-sign-in -->
+
+                        <h1 id="banner-header"><a href="#" accesskey="1" class="design-logo">Group Name</a></h1>
+                        <h2 id="banner-description">Welcome to our community.</h2>
+                    </div><!-- end #banner-content -->
+                </div><!-- end #banner-inner -->
+            </div><!-- end #banner -->
+
+            <div class="flash error">
+                <a class="flash-close" href="#">x</a>This is an error message.
+            </div>
+
+            <div class="flash notice">
+                <a class="flash-close" href="#">x</a>This is an informational message.
+            </div>
+
+            <div id="pagebody" class="design-content-border design-content-font design-content-color">
+                <div id="pagebody-inner">
+
+                    <div id="user-compose-friends" class="pkg">
+                        <div id="user-compose-friends-inner" class="pkg">
+                            <div id="compose">
+                                <div id="compose-inner">
+                                    <div id="compose-content">
+                                        <form id="form-compose" method="post" action="" enctype="multipart/form-data">
+                                            <ul id="entry-types">
+                                                <li id="entry-text" class="active"><a href="#">Text
+                                                    <span class="hint"><span class="tip"></span>Note</span></a></li>
+                                                <li id="entry-link"><a href="#">Link
+                                                    <span class="hint"><span class="tip"></span>Link</span></a></li>
+                                                <li id="entry-photo"><a href="#">Photo
+                                                    <span class="hint"><span class="tip"></span>Photo</span></a></li>
+                                                <li id="entry-audio"><a href="#">Audio
+                                                    <span class="hint"><span class="tip"></span>Audio</span></a></li>
+                                                <li id="entry-embed"><a href="#">Embed
+                                                    <span class="hint"><span class="tip"></span>Video</span></a></li>
+                                            </ul>
+                                            <div id="entry-fields">
+                                                <p id="compose-prompt-post">Add a post!</p>
+                                                <p id="compose-prompt-link">Add a link!</p>
+                                                <p id="compose-prompt-photo">Add a photo!</p>
+                                                <p id="compose-prompt-video">Add a video!</p>
+                                                <p id="compose-prompt-audio">Add an audio post!</p>
+                                                <div id="field-url" class="field" style="display:none">
+                                                    <input type="text" id="compose-url" name="customfield_url" title="URL of web page" />
+                                                    <em id="hint-link">URL of a web page.</em>
+                                                    <em id="hint-video">URL of a YouTube or Vimeo video.</em>
+                                                </div><!-- end #field-url -->
+                                                <div id="field-file" class="field" style="display:none">
+                                                    <label id="label-audio" for="compose-file">Select an audio file</label>
+                                                    <label id="label-photo" for="compose-file">Select a photo file</label>
+                                                    <input type="file" name="photo_file" title="Select photo file" /><br />
+                                                    <em id="hint-audio">Only MP3 audio files are supported.</em>
+                                                    <em id="hint-photo">Only GIF, JPEG and PNG image files are supported.</em>
+                                                </div><!-- end #field-file -->
+                                                <div id="field-embed" class="field" style="display:none">
+                                                    <textarea name="embed" title="Paste embed code"></textarea>
+                                                </div><!-- end #field-embed -->
+                                                <div id="field-body" class="field">
+                                                    <textarea id="compose-body" class="ta" name="text" title="Say something..." rows="5"></textarea>
+                                                </div><!-- end #field-body -->
+                                            </div>
+                                            <p class="submit-wrapper">
+                                                <button type="submit" id="post-submit" name="post" value="Post">Post</button>
+                                                <button id="post-submit-posting" class="posting" name="posting" value="Posting" disabled="true">Posting...</button>
+                                            </p>
+                                        </form>
+                                    </div><!-- end #compose-content -->
+                                </div><!-- end #compose-inner -->
+                            </div><!-- end #compose -->
+
+                            <div id="friends">
+                                <div id="friends-innner">
+                                    <div id="compose-userpic">
+                                        <a href="#"><img id="compose-userpic-img" src="../../../assets/images/default-avatars/avatar-03-50x50.gif" height="50" width="50" /></a>
+                                    </div><!-- end #compose-userpic -->
+                                    <div id="user-meta" class="pkg">
+                                        <div id="user-username">Jim Ramsey</div>
+                                        <div id="user-data"><p>San Francisco</p></div>
+                                        <div id="user-data"><p>Web designer.</p></div>
+                                    </div>
+
+                                    <div class="widget-following widget pkg" id="following">
+                                        <h3 class="design-highlight-color">Following</h3>
+                                        <div class="widget-content">
+                                            <div class="summary">
+                                                <a href="#">
+                                                    <span class="label">Following</span>
+                                                    <span class="count">35</span>
+                                                </a>
+                                            </div>
+                                            <ul>
+                                                <li style="z-index:2;">
+                                                    <div class="userpic">
+                                                        <a href="/members/2" class="userpic-link">
+                                                            <img src="../../../assets/images/default-avatars/avatar-03-50x50.gif" width="24" height="24" alt="Mike" class="photo" />
+                                                        </a>
+                                                        <div class="user-info">
+                                                            <a href="/members/2" class="name">Mike</a>
+                                                            <ul class="stats">
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li style="z-index:1;">
+                                                    <div class="userpic">
+                                                        <a href="/members/1" class="userpic-link">
+                                                            <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="24" height="24" alt="Tawana Bolduc" class="photo" />
+                                                        </a>
+                                                        <div class="user-info">
+                                                            <a href="/members/1" class="name">Tawana Bolduc</a>
+                                                            <ul class="stats">
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <div class="more"><a href="#">View all
+                                            &gt;&gt;
+                                            </a></div>
+                                        </div><!-- end .widget-content -->
+                                    </div><!-- end .widget-following -->
+                                    <div id="followers" class="pkg">
+                                        <div class="summary">
+                                            <span class="count">
+                                                21
+                                            </span>
+                                            <label>
+                                                Followers
+                                            </label>
+                                        </div>
+                                        <ul>
+                                            <li style="z-index:2;">
+                                                <div class="userpic">
+                                                    <a href="/members/2" class="userpic-link">
+                                                        <img src="../../../assets/images/default-avatars/avatar-03-50x50.gif" width="24" height="24" alt="Mike" class="photo" />
+                                                    </a>
+                                                    <div class="user-info">
+                                                        <a href="/members/2" class="name">Mike</a>
+                                                        <ul class="stats">
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li style="z-index:1;">
+                                                <div class="userpic">
+                                                    <a href="/members/1" class="userpic-link">
+                                                        <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="24" height="24" alt="Tawana Bolduc" class="photo" />
+                                                    </a>
+                                                    <div class="user-info">
+                                                        <a href="/members/1" class="name">Tawana Bolduc</a>
+                                                        <ul class="stats">
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!--
+                                    Following
+                                    35
+                                    
+                                    21
+                                    Followers
+                                    -->
+                                </div><!-- end #friends-inner -->
+                            </div><!-- end #friends -->
+                        </div><!-- end #user-compose-friends-inner -->
+                    </div><!-- end #user-compose-friends -->
+
+                    <div id="nav">
+                        <div id="nav-inner">
+                            <ul>
+                                <li class="home current"><a href="#">Everyone</a></li>
+                                <li class="following"><a href="#">Following</a></li>
+                                <li class="members"><a href="#">Members</a></li>
+                            </ul>
+                        </div><!-- end #nav-inner -->
+                    </div><!-- end #nav -->
+
+                    <div id="alpha">
+                        <div id="alpha-inner">
+
+                            <div class="actions">
+                                <ul>
+
+                                    <!-- Entry -->
+                                    <li id="38" class="asset action-asset hentry entry">
+                                        <div class="icon icon-post">
+                                        </div>
+                                        <div class="userpic">
+                                            <a href="#" class="userpic-link">
+                                                <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="50" height="50" alt="Tawana Bolduc" />
+                                            </a>
+                                        </div>
+                                        <div class="asset-content entry-content">
+                                            <div class="asset-body">
+                                                <h2><a href=""></a></h2>
+                                                <p>
+                                                    Orci. Netus lacus
+                                                    fermentum et. Lacinia
+                                                    magna metus nisi velit,
+                                                    sodales urna a diam. Erat
+                                                    id sollicitudin mattis ac,
+                                                    lacinia nibh, et. Ac
+                                                    congue a, parturient est,
+                                                    etiam aliquam est, eget.
+                                                    Rutrum in, nibh taciti
+                                                    tortor. Etiam nisl purus,
+                                                    euismod montes, vel eget
+                                                    nisl pretium ac.
+                                                </p>
+                                                <p>
+                                                    Consectetuer eu, felis
+                                                    varius fermentum
+                                                    adipiscing sodales. Sit
+                                                    ridiculus hac class,
+                                                    vestibulum condimentum
+                                                    tempus ac litora amet
+                                                    libero.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="asset-meta">
+                                            <span class="separator">|</span> <a href="#" class="comment-count">0 <span>Comments</span></a>
+                                            <span class="separator">|</span> <span id="favtog157" class="favtog favorite-action" title="0">0</span>
+                                            <span class="byline">
+                                                posted by <span class="vcard author">
+                                                    <a href="#">Tawana Bolduc</a>
+                                                </span>
+                                                <span class="date">on <abbr class="published" title="1999-11-09T14:22:520">Nov 9, 1999</abbr></span>
+                                            </span>
+                                        </div>
+                                    </li>
+
+                                    <!-- Entry -->
+                                    <li id="35" class="asset action-asset hentry entry">
+                                        <div class="icon icon-photo">
+                                        </div>
+                                        <div class="userpic">
+                                            <a href="/members/1" class="userpic-link">
+                                                <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="50" height="50" alt="Tawana Bolduc" />
+                                            </a>
+                                        </div>
+                                        <div class="asset-content entry-content">
+                                            <div class="asset-body">
+                                                <h2><a href=""></a></h2>
+                                                <p>
+                                                    Curabitur. Suspendisse et,
+                                                    semper velit pharetra ad.
+                                                    Parturient cursus, neque
+                                                    leo eget dui. In placerat
+                                                    aliquet conubia imperdiet.
+                                                    Senectus suspendisse,
+                                                    facilisi, arcu molestie
+                                                    imperdiet quam eni lacus
+                                                    vulputate. Per vel eu
+                                                    porttitor netus ad sapien
+                                                    ut. Ridiculus taciti
+                                                    elementum. Suspendisse.
+                                                    Hac etiam risus, turpis
+                                                    nec, ac nulla.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="asset-meta">
+                                            <span class="separator">|</span> <a href="/events/38#comments" class="comment-count">0 <span>Comments</span></a>
+                                            <span class="separator">|</span> <span id="favtog157" class="favtog favorite-action" title="0">0</span>
+                                            <span class="byline">
+                                                By <span class="vcard author">
+                                                    <a href="#">Tawana Bolduc</a>
+                                                </span>
+                                                <span class="date">on <abbr class="published" title="2004-07-24T14:57:560">Jul 24, 2004</abbr></span>
+                                            </span>
+                                        </div>
+                                    </li>
+
+                                    <!-- Entry -->
+                                    <li id="30" class="asset action-asset hentry entry">
+                                        <div class="icon icon-link">
+                                        </div>
+                                        <div class="userpic">
+                                            <a href="/members/1" class="userpic-link">
+                                                <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="50" height="50" alt="Tawana Bolduc" />
+                                            </a>
+                                        </div>
+                                        <div class="asset-content entry-content">
+                                            <div class="asset-body">
+                                                <h2><a href=""></a></h2>
+                                                <p>
+                                                    Orci, hac lacinia dictum
+                                                    sed. Etiam parturient mi,
+                                                    facilisi praesent, ac.
+                                                    Tortor diam, curabitur
+                                                    sapien, vestibulum
+                                                    bibendum. Accumsan.
+                                                    Hendrerit porta tristique
+                                                    vel potenti felis ut
+                                                    dignissim a cum curabitur
+                                                    potenti, dictum nec
+                                                    cubilia senectus. Porta.
+                                                    Et pharetra erat rutrum
+                                                    est, integer. Porta ante
+                                                    curae class nibh ipsum
+                                                    iaculis eget, quam. Et
+                                                    ornare mus blandit erat
+                                                    sit per.
+                                                </p>
+                                            </div>
+                                        </div> 
+                                        <div class="asset-meta">
+                                            <span class="separator">|</span> <a href="/events/33#comments" class="comment-count">0 <span>Comments</span></a>
+                                            <span class="separator">|</span> <span id="favtog157" class="favtog favorite-action" title="0">0</span>
+                                            <span class="byline">
+                                                By <span class="vcard author">
+                                                    <a href="/members/1">Tawana Bolduc</a>
+                                                </span>
+                                                <span class="date">on <abbr class="published" title="2000-12-03T06:24:400">Dec 3, 2000</abbr></span>
+                                            </span>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div><!-- end .actions -->
+                        </div><!-- end #alpha-inner -->
+                    </div><!-- end #alpha -->
+
+                    <div id="beta">
+                        <div id="beta-inner">
+
+                            <div class="widget widget-members members">
+                                <h3>Members</h3>
+                                <div class="widget-content">
+                                    <ul>
+
+                                        <li style="z-index:2;">
+                                            <div class="userpic">
+                                                <a href="/members/2" class="userpic-link">
+                                                    <img src="../../../assets/images/default-avatars/avatar-03-50x50.gif" width="24" height="24" alt="Mike" class="photo" />
+                                                </a>
+                                                <div class="user-info">
+                                                    <a href="/members/2" class="name">Mike</a>
+                                                    <ul class="stats">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li style="z-index:1;">
+                                            <div class="userpic">
+                                                <a href="/members/1" class="userpic-link">
+                                                    <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="24" height="24" alt="Tawana Bolduc" class="photo" />
+                                                </a>
+                                                <div class="user-info">
+                                                    <a href="/members/1" class="name">Tawana Bolduc</a>
+                                                    <ul class="stats">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li style="z-index:1;">
+                                            <div class="userpic">
+                                                <a href="/members/1" class="userpic-link">
+                                                    <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="24" height="24" alt="Tawana Bolduc" class="photo" />
+                                                </a>
+                                                <div class="user-info">
+                                                    <a href="/members/1" class="name">Tawana Bolduc</a>
+                                                    <ul class="stats">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li style="z-index:1;">
+                                            <div class="userpic">
+                                                <a href="/members/1" class="userpic-link">
+                                                    <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="24" height="24" alt="Tawana Bolduc" class="photo" />
+                                                </a>
+                                                <div class="user-info">
+                                                    <a href="/members/1" class="name">Tawana Bolduc</a>
+                                                    <ul class="stats">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li style="z-index:1;">
+                                            <div class="userpic">
+                                                <a href="/members/1" class="userpic-link">
+                                                    <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="24" height="24" alt="Tawana Bolduc" class="photo" />
+                                                </a>
+                                                <div class="user-info">
+                                                    <a href="/members/1" class="name">Tawana Bolduc</a>
+                                                    <ul class="stats">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li style="z-index:1;">
+                                            <div class="userpic">
+                                                <a href="/members/1" class="userpic-link">
+                                                    <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="24" height="24" alt="Tawana Bolduc" class="photo" />
+                                                </a>
+                                                <div class="user-info">
+                                                    <a href="/members/1" class="name">Tawana Bolduc</a>
+                                                    <ul class="stats">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li style="z-index:1;">
+                                            <div class="userpic">
+                                                <a href="/members/1" class="userpic-link">
+                                                    <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="24" height="24" alt="Tawana Bolduc" class="photo" />
+                                                </a>
+                                                <div class="user-info">
+                                                    <a href="/members/1" class="name">Tawana Bolduc</a>
+                                                    <ul class="stats">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li style="z-index:1;">
+                                            <div class="userpic">
+                                                <a href="/members/1" class="userpic-link">
+                                                    <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="24" height="24" alt="Tawana Bolduc" class="photo" />
+                                                </a>
+                                                <div class="user-info">
+                                                    <a href="/members/1" class="name">Tawana Bolduc</a>
+                                                    <ul class="stats">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li style="z-index:1;">
+                                            <div class="userpic">
+                                                <a href="/members/1" class="userpic-link">
+                                                    <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="24" height="24" alt="Tawana Bolduc" class="photo" />
+                                                </a>
+                                                <div class="user-info">
+                                                    <a href="/members/1" class="name">Tawana Bolduc</a>
+                                                    <ul class="stats">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li style="z-index:1;">
+                                            <div class="userpic">
+                                                <a href="/members/1" class="userpic-link">
+                                                    <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="24" height="24" alt="Tawana Bolduc" class="photo" />
+                                                </a>
+                                                <div class="user-info">
+                                                    <a href="/members/1" class="name">Tawana Bolduc</a>
+                                                    <ul class="stats">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li style="z-index:1;">
+                                            <div class="userpic">
+                                                <a href="/members/1" class="userpic-link">
+                                                    <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="24" height="24" alt="Tawana Bolduc" class="photo" />
+                                                </a>
+                                                <div class="user-info">
+                                                    <a href="/members/1" class="name">Tawana Bolduc</a>
+                                                    <ul class="stats">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li style="z-index:1;">
+                                            <div class="userpic">
+                                                <a href="/members/1" class="userpic-link">
+                                                    <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="24" height="24" alt="Tawana Bolduc" class="photo" />
+                                                </a>
+                                                <div class="user-info">
+                                                    <a href="/members/1" class="name">Tawana Bolduc</a>
+                                                    <ul class="stats">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li style="z-index:1;">
+                                            <div class="userpic">
+                                                <a href="/members/1" class="userpic-link">
+                                                    <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="24" height="24" alt="Tawana Bolduc" class="photo" />
+                                                </a>
+                                                <div class="user-info">
+                                                    <a href="/members/1" class="name">Tawana Bolduc</a>
+                                                    <ul class="stats">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li style="z-index:1;">
+                                            <div class="userpic">
+                                                <a href="/members/1" class="userpic-link">
+                                                    <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="24" height="24" alt="Tawana Bolduc" class="photo" />
+                                                </a>
+                                                <div class="user-info">
+                                                    <a href="/members/1" class="name">Tawana Bolduc</a>
+                                                    <ul class="stats">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li style="z-index:1;">
+                                            <div class="userpic">
+                                                <a href="/members/1" class="userpic-link">
+                                                    <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="24" height="24" alt="Tawana Bolduc" class="photo" />
+                                                </a>
+                                                <div class="user-info">
+                                                    <a href="/members/1" class="name">Tawana Bolduc</a>
+                                                    <ul class="stats">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li style="z-index:1;">
+                                            <div class="userpic">
+                                                <a href="/members/1" class="userpic-link">
+                                                    <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="24" height="24" alt="Tawana Bolduc" class="photo" />
+                                                </a>
+                                                <div class="user-info">
+                                                    <a href="/members/1" class="name">Tawana Bolduc</a>
+                                                    <ul class="stats">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li style="z-index:1;">
+                                            <div class="userpic">
+                                                <a href="/members/1" class="userpic-link">
+                                                    <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="24" height="24" alt="Tawana Bolduc" class="photo" />
+                                                </a>
+                                                <div class="user-info">
+                                                    <a href="/members/1" class="name">Tawana Bolduc</a>
+                                                    <ul class="stats">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li style="z-index:1;">
+                                            <div class="userpic">
+                                                <a href="/members/1" class="userpic-link">
+                                                    <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="24" height="24" alt="Tawana Bolduc" class="photo" />
+                                                </a>
+                                                <div class="user-info">
+                                                    <a href="/members/1" class="name">Tawana Bolduc</a>
+                                                    <ul class="stats">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li style="z-index:1;">
+                                            <div class="userpic">
+                                                <a href="/members/1" class="userpic-link">
+                                                    <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="24" height="24" alt="Tawana Bolduc" class="photo" />
+                                                </a>
+                                                <div class="user-info">
+                                                    <a href="/members/1" class="name">Tawana Bolduc</a>
+                                                    <ul class="stats">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li style="z-index:1;">
+                                            <div class="userpic">
+                                                <a href="/members/1" class="userpic-link">
+                                                    <img src="../../../assets/images/default-avatars/avatar-02-50x50.gif" width="24" height="24" alt="Tawana Bolduc" class="photo" />
+                                                </a>
+                                                <div class="user-info">
+                                                    <a href="/members/1" class="name">Tawana Bolduc</a>
+                                                    <ul class="stats">
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                    <div class="more"><a href="#">view all</a></div>
+                                </div><!-- end .widget-content -->
+                            </div><!-- end .widget.members -->
+
+                            <div id="beta-columns">
+                                <div id="beta-columns-left">
+                                </div><!-- end #beta-columns-left -->
+
+                                <div id="beta-columns-right">
+                                        <!-- if post: entry widgets -->
+                                </div><!-- end #beta-columns-right -->
+                            </div><!-- end #beta-columns -->
+                        </div><!-- end #beta-inner -->
+                    </div><!-- end #beta -->
+
+                </div><!-- end #pagebody-inner -->
+            </div><!-- end #pagebody -->
+
+            <div id="footer">
+                <div id="footer-inner">
+                    <div id="footer-content">
+                        <div class="widget-about-site widget">
+                            <h3 class="widget-header">About</h3>
+                            <div class="widget-content">
+                                The Motion Template Set is a great example of the type of site you can build with Movable Type.
+                            </div><!-- end .widget-content -->
+                        </div><!-- end .widget.widget-about-site -->
+                        <div class="widget-powered widget">
+                            <div class="widget-content">
+                                Powered by <a href="#" rel="generator">space giraffe</a>
+                            </div><!-- end .widget-content -->
+                        </div><!-- end .widget.widget-powered -->
+                    </div><!-- end #footer-content -->
+                </div><!-- end #footer-inner -->
+            </div><!-- end #footer -->
+
+
+        </div><!-- end #container-inner -->
+    </div><!-- end #container -->
+
+</body>
+</html>

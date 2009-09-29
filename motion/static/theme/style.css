@@ -1,0 +1,1962 @@
+/* FIXME:
+- position of favorite control overlaps images/videos that take full width
+  of asset container.
+- IE6: favorite control doesn't use 'hand' cursor, doesn't change when
+  hovering over it.
+- stylesheet retains a lot of additional rules for things not used in
+  TypePad/Motion, like for sign-in UI, which is wholly on TypePad
+  (#auth-options, .signin rules in the "Sign in" section)
+- Do we still use the .embed-* classes?
+- IE 8 doesn't render any background on the navigation tabs (IE6 does due to the conditioned IE6 stylesheet that uses DXImageTransform to do it; should this be loaded for all IE versions?)
+*/
+
+/* USEFUL INFO:
+- Alpha is the left main column, beta is the right side column.
+- The main top logo is under "branding".
+- To change the colors of the avatar-hover stuff, you have to edit the url codes in the two templates in /templates.
+- Good luck and have fun!
+*/
+
+@import url(../../typepadapp/css/reset.css);
+
+/* Default Styles --------------------------------------------------------- */
+
+
+body {
+    font-size: 62.5%;
+    font-family: "Helvetica Neue", Arial, Verdana;
+    background-color: #dddddd;
+    color: #777;
+}
+a:link,
+a:visited,
+a:hover,
+a:active {
+    color: #444;
+}
+a {
+    text-decoration: none;
+    color: #444;
+}
+a:hover {
+    text-decoration: underline;
+}
+sup {
+    font-size: small;
+}
+h2,
+h3 {
+    font-size: 20px;
+    font-weight: normal;
+    clear: both;
+    color: #444;
+    padding: 8px 10px 7px;
+    border-bottom: 1px solid #aaa;
+    margin-bottom:15px;
+}
+h1 {
+    font-size: 24px;
+    margin: 0 0 15px 0;
+    padding: 0;
+    border: none;
+    color: #444;
+    font-style: normal;
+    font-weight: normal;
+    clear: none;
+}
+textarea {
+    font-family: inherit;
+    background: #fff;
+    padding: 2px;
+    border:1px solid #aaa;
+}
+p {
+    margin: 0 0 10px;
+}
+.default-value,
+.tip,
+.hint { color: #aaa; }
+
+.right {
+    float: right;
+}
+
+.hiddenBox {
+    display: none;
+}
+
+/* Userpics/User info --------------------------------------------------------------- */
+
+.userpic {
+    position: relative;
+}
+.userpic .userpic-link img.photo {
+    margin-bottom: 0;
+}
+.userpic .user-info {
+    display: none;
+}
+.members ul li {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+}
+.members ul li,
+.widget-followers ul li,
+.widget-following ul li {
+    float: left;
+    margin: 0 4px 2px 0;
+}
+.user-info {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    top: 40px;
+    padding: 15px 10px 10px;
+    width: 160px;
+    height: 136px;
+    font-size: 11px;
+    line-height: 1.4;
+}
+.members .user-info,
+.widget-followers .user-info,
+.widget-following .user-info {
+    top: 24px;
+    left: 0;
+}
+.user-info h4 {
+    font-size: 13px;
+    font-weight: normal;
+    margin-bottom: 3px;
+    color: #444;
+}
+
+.user-info a {
+    color: #444;
+}
+
+/* Layout ----------------------------------------------------------------- */
+
+#container {
+    margin-left: auto;
+    margin-right: auto;
+}
+#pagebody {
+    background: #fff;
+    margin: 0 auto;
+    font-size: 1.2em;
+    border: 1px solid #aaaaaa;
+    padding-bottom: 20px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -webkit-border-top-left-radius: 5px;
+}
+
+/* Submit button, used 3 places: user-compose/comments/POST STUFF ----------------------------- */
+.submit-wrapper {
+    float: right;
+    text-align: right;
+    margin-bottom: 0;
+}
+#form-compose .submit-wrapper {
+    float: none;
+}
+.submit-wrapper button, #comment-submit {
+    background-color: #555555;
+    height: 31px;
+    border: 1px solid #999;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    width:100px;
+}
+.submit-wrapper button.posting {
+    display: none;
+}
+#pagebody-inner {
+    margin: 0;
+}
+#alpha {
+    clear: both;
+}
+#footer {
+    color: #ccc;
+    font-size: 1.1em;
+}
+
+/* banner ----------------------------------------------------------------- */
+/* The main logo image is under "branding" */
+
+#banner {
+    margin: 0 auto;
+    padding-left: 22px;
+    padding-right: 22px;
+}
+#banner-inner {
+    margin: 0 auto;
+}
+#banner #banner-header {
+    margin: 0;
+    padding: 25px 0;
+    font-size: 5em;
+}
+#banner #banner-header a {
+    display: block;
+    font-weight:lighter;
+}
+.widget-sign-in .separator {
+    padding-right: 5px;
+    padding-left: 5px;
+}
+#banner #banner-description {
+    margin: 0;
+    border: 0;
+}
+#banner sup {
+    height: 0;
+    line-height: 1;
+    position: relative;
+    top: -1.8em;
+    vertical-align: baseline !important;
+    vertical-align: bottom;
+}
+
+/* Authentication --------------------------------------------------------- */
+
+#banner .widget-sign-in {
+    float: right;
+    right: 20px;
+    padding-top: 20px;
+    top: 6px;
+    font-size: 12px;
+}
+#banner .widget-sign-in h3 {
+    display: none;
+}
+.widget-sign-in { color: #666 }
+.widget-sign-in a,
+.widget-sign-in a:link,
+.widget-sign-in a:visited,
+.widget-sign-in a:hover,
+.widget-sign-in a:active {
+    color: #444;
+}
+
+/* Flash Notifications (for post/comments actions) ------------------------ */
+
+.flash {
+    width: 930px;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 4px;
+    padding: 8px 10px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 15px;
+    border: 1px solid #aaa;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    color: #444;
+    cursor: pointer;
+    cursor: hand;
+}
+.flash.notice {
+    background: #EFEFEF url(images/cross.png) no-repeat 925px;
+
+}
+.flash.error {
+    background: #EFEFEF url(images/cross.png) no-repeat 925px;
+}
+
+/* Navigation (tabs) ------------------------------------------------------------- */
+
+#nav {
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: -11px !important;
+    position: relative;
+    top: -31px;
+}
+#nav-inner {
+    margin: 0 auto;
+}
+#nav-inner ul {
+    padding: 0 20px;
+}
+#nav li {
+    float: left;
+    line-height: 15px;
+    margin: 0;
+    padding: 0;
+}
+#nav li a {
+    display: block;
+    margin: 0;
+    margin-right: 8px;
+    padding: 8px 10px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 15px;
+    font-weight: bold;
+    height: 15px; /* with padding, 31px */
+    color: #777;
+    float: left;
+    -moz-border-radius-topleft: 4px;
+    -moz-border-radius-topright: 4px;
+    -webkit-border-top-left-radius: 4px;
+    -webkit-border-top-right-radius: 4px;
+}
+#nav li.current a {
+}
+
+/* Main Index */
+#form-compose .submit-wrapper {
+    text-align: center !important;
+}
+.featured-member .asset-body img,
+.group-events .asset-body img {
+    max-height: 20em;
+    width: auto;
+}
+.featured-member .asset-body img.constrained,
+.group-events .asset-body img.constrained {
+    max-height: none;
+    width: inherit;
+}
+#user-compose-friends {
+    padding: 10px 20px 40px 20px;
+}
+
+/* Search ----------------------------------------------------------------- */
+
+#nav .widget-search {
+    position: absolute;
+    top: 0;
+    right: 20px;
+    width: 300px;
+    text-align: right;
+}
+#nav .widget-banner {
+    display: none;
+}
+#nav .widget-content {
+    padding-top: 6px;
+}
+#nav .widget-search .search-query {
+    font-size: 12px;
+    color: #fff;
+    margin-right: 2px;
+    border: none;
+    border-top: 1px solid #111;
+    border-left: 1px solid #111;
+    padding: 3px;
+    width: 180px;
+    vertical-align: middle;
+}
+#nav .widget-search .search-submit {
+    vertical-align: middle;
+}
+
+/* Footer ----------------------------------------------------------------- */
+
+#footer-inner {
+    margin: 0 auto;
+    padding: 20px 0;
+}
+#footer-content {
+    font-size: 12px;
+    color: #999;
+    line-height: 1.4;
+}
+
+/* Main Index ------------------------------------------------------------- */
+
+#authenticate {
+    background: #F1F7FB;
+    margin-bottom: 15px;
+    padding: 15px;
+    font-size: 20px;
+    text-align: center;
+}
+#authenticate a {
+    text-decoration: none;
+}
+#authenticate a:hover {
+    text-decoration: underline;
+}
+#authenticate .signin-link {
+    font-size: 12px;
+    color: #777;
+}
+
+#cannot-post {
+    display: none;
+}
+
+/* Signed-In Add-A-Post Top Area */
+
+/* Top Area Main Box */
+#user-compose-friends {
+    background-color: #efefef;
+    -moz-border-radius-topleft: 4px;
+    -moz-border-radius-topright: 4px;
+    -webkit-border-top-right-radius: 4px;
+    -webkit-border-top-left-radius: 4px;
+}
+#user-compose-friends-inner {
+    margin-top: 10px;
+    border: 5px solid #fff;
+    background-color: #fff;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    margin-bottom: 25px;
+}
+.group-events #user-compose-friends-inner {
+    margin-bottom: 10px;
+}
+#user-username {
+    font-size: large;
+    line-height: 1.5em;
+    overflow: hidden;
+    color: #444;
+}
+#user-compose-friends .widget-following h3,
+#user-compose-friends .widget-followers h3 {
+    display: none;
+}
+#beta .widget-following label,
+#beta .widget-followers label {
+    display: none;
+}
+
+/* Top Area User profile Following/Follwers */
+.widget-following, .widget-followers {
+    border-top: 1px solid #ddd;
+    margin-top: 10px;
+    padding-top: 5px;
+    clear: both;
+}
+#user-compose-friends .widget-following ul,
+#user-compose-friends .widget-followers ul {
+    padding-top: 7px;
+}
+#user-compose-friends .widget-following .more,
+#user-compose-friends .widget-followers .more {
+    padding-top: 7px;
+    margin-right: 6px;
+    font-size: 12px;
+    float: right;
+}
+#friends .summary a {
+    text-decoration: none;
+    line-height: 1.1;
+}
+#friends .summary .label {
+    color: #777;
+    display: block;
+}
+#friends .summary .count {
+    font-size: 2em;
+    display: block;
+}
+#friends .summary {
+    width: 65px;
+    float: left;
+}
+#user-data {
+    color: #555;
+}
+#compose {
+    margin-right: 25px;
+    float: left;
+}
+#compose .form-error {
+    color: #b00;
+    clear: both;
+    margin-bottom: 4px;
+}
+
+/* Top Area Add-A-Post! prompt */
+#compose-prompt-post,
+#compose-prompt-link,
+#compose-prompt-photo,
+#compose-prompt-video,
+#compose-prompt-audio {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 1.5em;
+    display: none;
+    color:#444;
+    font-size:22px;
+}
+#compose label {
+    color: #000;
+    clear: both;
+    margin: 2px 0;
+}
+#compose-inner {
+    background-color: #efefef;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    padding: 10px;
+    text-align: center;
+}
+#compose h3 {
+    font-weight: bold;
+    font-style: italic;
+    font-size: 14px;
+    line-height: 16px;
+    padding: 10px 15px;
+    border: none;
+    margin: 0 0 10px;
+    color: #111;
+    border-bottom: 1px solid #ddd;
+}
+#form-compose {
+    position: relative;
+    padding-top: 45px;
+}
+#compose-userpic {
+    border: 1px solid #ddd;
+    padding: 2px;
+    width: 50px;
+    height: 50px;
+    background: #fff;
+    float: left;
+    margin-right: 10px;
+    position: relative;
+}
+#entry-fields {
+    text-align: left;
+}
+#field-file label,
+#field-file em,
+#field-url label,
+#field-url em {
+    display: none;
+}
+#form-compose .post #compose-prompt-post,
+#form-compose .audio #field-file #label-audio,
+#form-compose .audio #field-file #hint-audio,
+#form-compose .audio #compose-prompt-audio,
+#form-compose .photo #field-file #label-photo,
+#form-compose .photo #field-file #hint-photo,
+#form-compose .photo #compose-prompt-photo,
+#form-compose .video #field-url #label-video,
+#form-compose .video #field-url #hint-video,
+#form-compose .video #compose-prompt-video,
+#form-compose .link #field-url #label-link,
+#form-compose .link #field-url #hint-link,
+#form-compose .link #compose-prompt-link {
+    display: block !important;
+}
+#friends {
+    float: left;
+    margin-top: 10px;
+    width: 280px;
+}
+#entry-fields .field {
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #aaa;
+}
+#entry-fields-optional {
+    display: none;
+}
+#form-compose .submit-wrapper {
+    margin-top: 10px;
+}
+#form-compose .submit-wrapper input {
+    font-size: 13px;
+}
+#form-compose .more-options,
+#form-compose .live-preview {
+    float: right;
+    display: block;
+    font-size: 11px;
+    line-height: 22px;
+    padding-left: 10px;
+    text-decoration: none;
+}
+#form-compose .ti,
+#form-compose .ta {
+    font-size: 13px;
+    width: 550px;
+    max-width: 550px;
+    padding: 2px 4px;
+    background: #fff;
+    border:1px solid #aaa;
+}
+#form-compose .fi {
+    width: 100%;
+}
+#form-compose .ta {
+    height: 90px;
+}
+#form-compose label {
+}
+#form-compose #field-title input {
+    font-size: 20px;
+}
+
+/* Entry-type sprites, for the Add-A-Post Area */
+/* There is a psd in images to easily customize the sprites */
+
+#entry-types {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+#entry-types li {
+    float: left;
+}
+
+#entry-types li a {
+    display: block;
+    text-decoration: none;
+    overflow: hidden;
+    text-indent: -9999px;
+    width: 32px;
+    height: 32px;
+    background-image: url(images/post-types.gif);
+    background-repeat: no-repeat;
+    background-position: 0 -65px;
+    margin: 0px 1px 0 0;
+}
+#entry-types li a .hint {
+    position: absolute;
+    font-size: 11px;
+    padding: 3px 0;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    background-color: #dcdcdc;
+    color: #444;
+    text-indent: 0;
+    width: 42px;
+    top: 38px;
+    margin-left: -5px;
+    text-align: center;
+    line-height: 1.5em;
+    display: none;
+}
+#entry-types li a .hint .tip {
+    height: 3px;
+    width: 5px;
+    position: absolute;
+    top: -3px;
+    left: 18px;
+}
+#entry-types li a:hover .hint {
+    display: block;
+}
+
+#entry-types #entry-post a { background-position: 0 -65px }
+#entry-types .active#entry-post a,
+#entry-types .active#entry-post a:hover { background-position: 0 0 }
+#entry-types #entry-post a:hover { background-position: 0 -33px }
+
+#entry-types #entry-photo a { background-position: -33px -65px }
+#entry-types .active#entry-photo a,
+#entry-types .active#entry-photo a:hover { background-position: -33px 0 }
+#entry-types #entry-photo a:hover { background-position: -33px -33px }
+
+#entry-types #entry-link a { background-position: -66px -65px }
+#entry-types .active#entry-link a,
+#entry-types .active#entry-link a:hover { background-position: -66px 0 }
+#entry-types #entry-link a:hover { background-position: -66px -33px }
+
+#entry-types #entry-video a { background-position: -132px -65px }
+#entry-types .active#entry-video a,
+#entry-types .active#entry-video a:hover { background-position: -132px 0 }
+#entry-types #entry-video a:hover { background-position: -132px -33px }
+
+#entry-types #entry-audio a { background-position: -99px -65px }
+#entry-types .active#entry-audio a:hover,
+#entry-types .active#entry-audio a { background-position: -99px 0 }
+#entry-types #entry-audio a:hover { background-position: -99px -33px }
+
+.content-nav {
+    padding: 15px 0;
+    text-align: center;
+    font-size: 12px;
+}
+#response-handler {
+    display: none;
+}
+
+/* There is a coorinating spinner in images incase this is used... */
+#spinner,
+#spinner-status {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent url(images/spinner.gif) no-repeat center center;
+}
+#spinner {
+    filter: alpha(opacity=5);
+    -moz-opacity: .5;
+    opacity: .5;
+    background: #fff;
+}
+
+/* Error Page: 500.html */
+
+body.error {
+    background-color: #fff;
+    background-image: none;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 12px;
+}
+
+/* Entry Listing ---------------------------------------------------------- */
+
+
+#alpha .userpic .userpic-link {
+    border: 1px solid #ddd;
+    padding: 2px;
+    display: block;
+    float: left;
+}
+
+/* Actions Listing -------------------------------------------------------- */
+
+/* entry type tab sprites */
+/* There is a psd in images to easily customize the sprites */
+.asset .icon {
+    background-image: url(images/post-type-tabs.gif);
+    height: 32px;
+    width: 38px;
+    top: 10px;
+    left: -15px;
+    background-position: 0 -224px;
+    background-repeat: none;
+    position: absolute;
+}
+.asset .icon-post { background-position: 0 0 }
+.asset .icon-photo { background-position: 0 -32px }
+.asset .icon-link { background-position: 0 -64px }
+.asset .icon-audio { background-position: 0 -96px }
+.asset .icon-video { background-position: 0 -128px }
+.asset .icon-comment { background-position: 0 -160px }
+.asset .icon-favorite { background-position: 0 -192px }
+.service-icon { background-repeat: no-repeat; }
+
+.actions ul {
+    position: relative;
+}
+
+.actions .asset.external {
+}
+
+.controls {
+    text-align: center;
+}
+.comment .controls,
+.asset .controls {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    padding: 5px;
+}
+button.button-more {
+    font-size: 18px;
+}
+.comment .controls button,
+.asset .controls button {
+    border: none;
+    padding: 3px 10px;
+    cursor: hand; /* HACK - ie */
+    cursor: pointer;
+}
+/* Delete Button */
+button.button-delete {
+    background-image: url(images/cross.png);
+    background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+    text-indent: -9999px;
+    padding: 0;
+    background-color: transparent;
+}
+
+.asset.admin {
+    border-right: 1px solid #efefef;
+}
+
+/* Entry Area! */
+.asset,
+.action {
+    position: relative;
+    list-style-type: none;
+    margin-bottom: 40px;
+    padding-bottom: 0px;
+    margin-top: 15px;
+    margin-left: 8px;
+	background: url(images/asset-action-bg.gif) repeat-y left top;
+}
+.action {
+    padding: 8px 10px 15px 35px;
+    margin: 0;
+    font-size: 11px;
+    color: #222;
+    border-top: 1px solid #aaa;
+    background-repeat: no-repeat;
+    background-position: 10px 5px;
+}
+.action a {
+    color: #444;
+}
+
+.action .date, .asset .date {
+
+}
+.asset .asset-body, 
+.action .asset-body { 
+    margin-bottom: 18px;
+}
+
+.asset-banner {
+    margin-top: 10px;
+    margin-right: 30px;
+}
+
+/* Entry Footer Area */
+.asset-meta {
+    font-size: 11px;
+    color: #aaa;
+    margin-bottom: 0px;
+    text-align: right;
+    float: left;
+}
+
+.asset .asset-meta .separator {
+    display: none;
+}
+.asset .asset-meta {
+    line-height: 20px;
+}
+.asset .asset-banner .byline {
+    display: block;
+    
+}
+.noscript .favorite-action {
+    display: none !important;
+}
+
+/* Entry Footer comment/favorite icons and counters */
+.asset .asset-meta .comment-count,
+.asset .asset-meta .favorite-count {
+    display: block;
+    padding-left: 20px;
+    background-repeat: no-repeat;
+    background-position: 10px 50%;
+    text-decoration: none;
+    font-weight: bold;
+    line-height: 20px;
+    text-align: right;
+}
+
+.asset .asset-meta .comment-count {
+    margin-right: 10px;
+}
+
+.asset .asset-meta .byline {
+    float: left;
+}
+.asset .asset-meta .comment-count {
+    background: url(images/comments.png) no-repeat 0 0;
+    float: left;
+}
+
+.asset-meta .comment-count span {
+    display: none;
+}
+.user-profile .asset-meta .comment-count,
+.hover .asset-meta .comment-count {
+    visibility: visible;
+}
+.asset .asset-meta .favorite-count {
+    background: url(images/fav-off.gif) no-repeat left 0;
+    float: left;
+    margin-right: 10px;
+    color: #999;
+    /* height of favorite image is 16px */
+}
+.asset .asset-meta .favorite-action:hover {
+    background-image: url(images/fav-hover.gif);
+    cursor: hand; /* HACK - ie */
+    cursor: pointer;
+}
+.asset .asset-meta .loading {
+    background-image: url(images/icons/throbber.gif);
+}
+.asset .asset-meta .scored {
+    background-image: url(images/fav-on.gif);
+}
+.asset .asset-meta .scored:hover {
+    background-image: url(images/fav-off.gif);
+}
+.asset-meta a {
+    color: #aaa;
+    text-decoration: underline;
+}
+
+/* More Entry styles */
+.asset .userpic {
+    position: relative;
+    margin-top: 15px;
+    margin-left: 32px;
+}
+.asset .asset-content {
+    margin: 15px 15px 0 0;
+    font-size: 13px;
+    line-height: 1.5;
+}
+.asset-body ul {
+    list-style: disc;
+}
+.asset-body li {
+    margin-left: 15px;
+    padding-left: 15px;
+}
+.asset .asset-content .photo,
+.asset .asset-content .video,
+.asset .asset-content object {
+    margin-bottom: 10px;
+}
+.asset .asset-content p {
+    margin-bottom: 10px;
+}
+#alpha .asset .entry-title {
+    font-size: 25px;
+    margin: 0 0 5px 0;
+    font-style: normal;
+    clear: none;
+    border: none;
+    padding: 0;
+    line-height: 1.2;
+    text-transform: none;
+    background: none;
+}
+.asset .entry-title a {
+    text-decoration: none;
+    color: #333;
+    font-weight: normal;
+}
+.asset .asset-inner {
+    margin-left: 96px;
+}
+.asset .asset-footer {
+    clear: both;
+    font-size: 11px;
+    color: #222;
+    margin-bottom: .5em;
+    padding: 0 10px;
+}
+
+/* textpost */
+
+.hfeed .asset .entry-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+/* linkpost */
+
+.hfeed .icon-link .entry-title {
+    font-size: 12px;
+    margin-bottom: 2px;
+}
+.hfeed .icon-link .entry-title a {
+    color: #444;
+    font-weight: bold;
+    padding-right: 15px;
+}
+
+.user-profile .asset .asset-inner {
+    margin-left: 35px !important;
+}
+.user-profile .asset .asset-banner,
+.user-profile .asset .asset-banner .byline .author,
+.user-profile .asset .userpic {
+    display: none;
+}
+.user-profile .asset.elsewhere .asset-banner {
+    display: block;
+}
+
+.asset-content .activity {
+    font-style: italic;
+}
+.comment .asset-content {
+}
+.comment.action-asset .asset-content {
+    background: none;
+}
+.asset-content .link a {
+    text-decoration: none;
+    padding: 2px 6px 2px 24px;
+    background: #efefef url(images/icons/external_link.gif) no-repeat 6px 50%;
+    border: 1px solid #ddd;
+}
+.asset-content .link a:hover {
+    background: #eee url(images/icons/external_link.gif) no-repeat 6px 50%;
+    border: 1px solid #fc3;
+}
+
+.entry-tags h4 { 
+    margin-bottom: 0;
+    margin-right: .25em;
+    display: inline;
+    font-weight: bold;
+}
+
+.entry-tags ul { 
+    display: inline;
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+}
+.entry-tags ul li { 
+    display: inline;
+}
+
+.most-recent-comment {
+    margin-top: 10px;
+    padding: 13px 5px 7px;
+    line-height: 24px;
+    font-size: 12px;
+    font-style: italic;
+    border-bottom: 1px solid #ddd;
+}
+.most-recent-comment a {
+    color: #777;
+    text-decoration: none;
+}
+.most-recent-comment a:hover {
+    color: #444;
+    text-decoration: underline;
+}
+.most-recent-comment .userpic,
+#alpha .most-recent-comment .userpic .userpic-link {
+    border: none;
+    margin: 0 5px 0 0;
+    padding: 0;
+}
+
+/* audio post */
+
+.baconplayer.audio {
+    background-color: #ccc;
+}
+
+.baconplayer.audio .progress {
+    background-color: #ddd;
+}
+
+/* Pages ------------------------------------------------------------------ */
+
+.page-asset .asset-content {
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+/* Sidebar ---------------------------------------------------------------- */
+
+#beta .widget .summary {
+    display: none;
+}
+#beta .widget {
+    clear: left;
+}
+#beta .widget .widget-content {
+    margin: 0 10px;
+}
+.widget-ad .widget-content {
+    margin: 0 !important;
+}
+.widget-ad h4 {
+    color: #777777;
+    margin-bottom: 6px;
+}
+#beta h2,
+#beta h3 {
+    color: #444;
+    margin-bottom: 10px;
+    font-size: 18px;
+    clear: both;
+    font-style: normal;
+}
+#beta .widget-followers.empty,
+#beta .widget-following.empty {
+    display: none;
+}
+
+/* Admin options ---------------------------------------------------------- */
+
+#beta .widget-admin-options h3 {
+    font-size: small;
+}
+#beta .widget-admin-options {
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #DDDDDD;
+    background-color: #F6F6F2;
+}
+#beta .widget-admin-options {
+    display: none;
+}
+#beta .widget-admin-options.display {
+    display: block;
+}
+
+.widget-gallery .widget-content h3 {
+    display: none;
+}
+
+
+.widget-recent-comments .widget-content {
+    line-height: 1.4;
+}
+.widget-recent-comments li {
+    margin-bottom: 15px;
+}
+.widget-recent-comments li .comment-attribution {
+    font-size: 11px;
+    margin: 4px 0 0 25px;
+    color: #777;
+}
+
+#beta .widget .more {
+    padding-top: 5px;
+    text-align: right;
+    font-weight: bold;
+    clear: both;
+}
+.widget .more a {
+    text-decoration: none;
+}
+
+.widget-elsewhere .service-icon {
+    position: relative;
+    top: 3px;
+}
+.widget-elsewhere li {
+    line-height: 18px;
+}
+.widget-elsewhere a {
+    text-decoration: none;
+}
+
+#beta .archives ul,
+#beta .archives p {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+#beta .archives li {
+    list-style: disc;
+    margin-left: 20px;
+    padding: 0 0 2px;
+}
+
+.widget-gallery {
+    position: relative;
+}
+#gall-prev,
+#gall-next {
+    position: absolute;
+    top: 90px;
+    display: block;
+    overflow: hidden;
+    width: 16px;
+    height: 16px;
+    background: #444;
+    text-indent: -9999px;
+    background: url(images/gallery-nav.gif) no-repeat 0 0;
+}
+#gall-prev {
+    left: 5px;
+    background: url(images/gallery-nav.gif) no-repeat 0 -36px;
+}
+#gall-next {
+    right: 5px;
+    background: url(images/gallery-nav.gif) no-repeat -36px -36px;
+}
+#gall-prev:hover {
+    background-position: 0 -72px;
+}
+#gall-next:hover {
+    background-position: -36px -72px;
+}
+#gall-prev.disabled {
+    background-position: 0 0;
+    cursor: default;
+}
+#gall-next.disabled {
+    background-position: 0 0;
+    cursor: default;
+}
+#beta .widget-gallery .widget-content {
+    height: 120px;
+    overflow: hidden;
+    position: relative;
+    margin-left: 30px;
+    width: 240px;
+}
+#photo-gallery {
+    width: 1100px;
+    position: absolute;
+    left: 0;
+}
+#photo-gallery li {
+    float: left;
+    margin: 5px;
+    width: 110px;
+}
+.widget-tag-cloud .widget-content ul {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.widget-tag-cloud .widget-content li {
+    display: inline;
+    margin: 0 5px 0 0;
+    padding: 0;
+    line-height: 1.2;
+    background: none;
+}
+
+.widget-tag-cloud .rank-1  { font-size: 1.75em; }
+.widget-tag-cloud .rank-2  { font-size: 1.75em; }
+.widget-tag-cloud .rank-3  { font-size: 1.625em; }
+.widget-tag-cloud .rank-4  { font-size: 1.5em; }
+.widget-tag-cloud .rank-5  { font-size: 1.375em; }
+.widget-tag-cloud .rank-6  { font-size: 1.25em; }
+.widget-tag-cloud .rank-7  { font-size: 1.125em; }
+.widget-tag-cloud .rank-8  { font-size: 1em; }
+.widget-tag-cloud .rank-9  { font-size: 0.95em; }
+.widget-tag-cloud .rank-10 { font-size: 0.9em; }
+
+/* Archives --------------------------------------------------------------- */
+
+.action-listing {
+    margin: 0 0 15px 0;
+}
+.action-listing li {
+    border-bottom: 1px solid #aaa;
+    clear: left;
+    position: relative;
+    padding: 8px 0 6px 10px;
+    line-height: 18px;
+    background-repeat: no-repeat;
+    background-position: 95px 8px;
+}
+#alpha .action-listing li .userpic {
+    position: absolute;
+    left: 0;
+    top: 2px;
+}
+#alpha .action-listing li .userpic .userpic-link {
+    border: none;
+    margin-top: 3px;
+    padding: 0;
+}
+.action-listing li a {
+    text-decoration: none;
+}
+.action-listing li span {
+    display: block;
+    float: left;
+    color: #222;
+}
+.action-listing li span.action-listing-date {
+    width: 80px;
+    margin-right: 32px;
+}
+.action-listing li span.action-listing-title {
+    width: 468px;
+    display: block;
+    font-size: 13px;
+}
+.action-listing li span.action-listing-comments {
+    width: 30px;
+    display: block;
+    font-size: 13px;
+    text-align: right;
+    background-repeat: no-repeat;
+}
+.widget .action-listing .action-listing-date {
+    display: none;
+}
+.widget .action-listing li {
+    background-position: 0 8px;
+    border-bottom: none;
+    padding: 8px 0 6px 24px;
+}
+.widget .action-listing li .action-listing-title {
+    width: 100%;
+}
+
+/* Comments --------------------------------------------------------------- */
+
+body.user-following .comment .asset-body{
+    position: absolute;
+    top: 20px;
+}
+
+#comment-posting { display: none }
+
+.comments,
+#comments-list {
+    clear: left;
+    margin-bottom: 25px;
+}
+
+/* Comment Box */
+.comment {
+    clear: both;
+    position: relative;
+    margin-top: 25px;
+    margin-left: 40px;
+    width: 510px;
+}
+
+body.user-profile .comment, body.user-following .comment {
+    margin-left: 8px;
+    width: 100%;
+    position: relative;
+}
+.comment-last {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+.comment-content {
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 0;
+}
+.comment-footer,
+.comment-content {
+    margin-left: 60px;
+    text-align: left;
+}
+.comment-content {
+    position: relative;
+}
+.comment-content-inner {
+    padding: 10px 15px;
+    margin-left: 7px;
+    border-bottom: 1px solid #ddd;
+}
+.comment-footer {
+    padding: 5px 0 0 22px;
+    line-height: 1.5;
+}
+.comment-by-author .comment-content {
+}
+.comment-by-author .comment-content-inner {
+    border-bottom: 1px solid #999;
+}
+.comment-highlight .comment-content {
+}
+.comment-highlight .comment-content-inner {
+    border-bottom: 1px solid #999;
+}
+
+.comments-open-banner,
+.comments-banner {
+    margin-bottom: 15px;
+    font-size:22px;
+}
+.comment .userpic {
+    float: left;
+    position: relative;
+}
+.comment .userpic .auth-icon {
+    position: absolute;
+    top: 32px;
+    left: 32px;
+}
+.comment .asset-meta {
+    color: #777;
+    font-size: 11px;
+    border: none;
+    padding: 0;
+}
+.comment .asset-meta .commenter-profile {
+    display: none; /* hide the small userpic */
+}
+
+/* Comment Form ----------------------------------------------------------- */
+
+#comment-greeting,
+#comments-form {
+    margin-top,
+    margin-bottom: 10px;
+    margin-left: 0;
+    text-align: center;
+}
+#comment-preview-comment {
+    display: none;
+    margin-top: 30px;
+}
+#comments-form div {
+    margin-bottom: 5px;
+}
+
+/* Comment Input */
+#comments-form input.ti,
+#comments-form textarea {
+    width: 250px;
+    font-size: 13px;
+    color: #000;
+    background: #fff;
+    border:1px solid #ddd;
+}
+
+#comments-form input.default-value  ,
+#comments-form textarea.default-value {
+    background: #fff;
+    border:1px solid #aaa;
+}
+#comments-form textarea {
+    width: 400px;
+    height: 200px;
+    margin-bottom: 5px;
+    border:1px solid #aaa;
+}
+#comment-form-remember-me,
+#comment-form-reply,
+#comments-open-footer {
+    
+}
+#comment-form-remember-me label,
+#comment-form-reply label {
+    float: none;
+    width: auto;
+    text-align: left;
+    display: inline;
+}
+
+/* Members Area ---------------------------------------------------------------- */
+
+.featured-member .actions h2,
+.user-profile .actions h2,
+.members-list #page-title {
+    border-bottom: 1px solid #aaa;
+    color: #444;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    font-size: 20px;
+}
+#page-title .range {
+    color: #aaa;
+    font-size: 18px;
+}
+.members-list .member-list {
+    margin-right: -20px;
+}
+.member-listitem {
+    float: left;
+    width: 262px;
+    border: none;
+    border-top: #DDDDDD 1px solid !important;
+    background: #fff;
+    padding: 10px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    height: 68px;
+}
+.member-listitem.first {
+    clear: left;
+}
+.member-listitem:hover {
+    background: #f1f1f1;
+}
+.member-listitem .userpic {
+    float: left;
+    margin: 0;
+}
+#alpha .member-listitem .userpic-link {
+    border: 0;
+    padding: 0;
+}
+.member-listitem .member-info {
+    margin-top: 0;
+    padding-left: 8px;
+    width: 200px;
+    height: 68px;
+    float: left;
+    overflow: hidden;
+}
+.member-listitem .member-info h4 {
+    margin-bottom: 3px;
+    font-size: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+    width: 220px;
+}
+.member-listitem .member-info p {
+    font-size: 12px;
+}
+.member-listitem .member-info p a {
+    white-space: nowrap;
+}
+
+.members-list .hint-following {
+    font-style: italic;
+    text-align: center;
+}
+
+/* Profile Area ---------------------------------------------------------------- */
+
+.user-profile #page-title {
+    border-bottom: 1px solid #aaa;
+    color: #000;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    font-size: 24px;
+}
+.user-profile .profile-header .userpic {
+    float: left;
+    border: 1px solid #ddd;
+    padding: 2px;
+}
+.user-profile .profile-header,
+.user-profile .recent-entry,
+.user-profile .actions,
+.user-profile .comment-threads {
+    margin-bottom: 15px;
+}
+.profile-header-content {
+    margin-left: 125px;
+    overflow: hidden;
+}
+.profile-header-content #page-title {
+    white-space: nowrap;
+}
+#edit-profile-link {
+    padding-left: 22px;
+    background: url(images/icons/edit-field.png) no-repeat 0 0;
+}
+.user-profile .recent-entry .asset {
+    margin-bottom: 10px;
+}
+.comment-threads li {
+    background-repeat: no-repeat;
+    background-position: 0 7px;
+    padding:8px 0 6px 24px;
+    margin: 0 10px 10px;
+    border-bottom: 1px solid #aaa;
+}
+.comment-threads .excerpt {
+    padding: 6px 0 0;
+}
+
+/* Sign in ---------------------------------------------------------------- */
+
+.signin #alpha {
+    width: 940px;
+    float: none;
+    margin: 0;
+}
+#auth-options {
+    float: left;
+    width: 200px;
+    border-right: 3px solid #D9E8F0;
+}
+#auth-options li {
+    padding-bottom: 1px;
+}
+#auth-options a {
+    text-decoration: none;
+    display: block;
+}
+#auth-options img {
+    vertical-align: middle;
+}
+#auth-forms {
+    float: left;
+    position: relative;
+    left: -3px;
+    border-left: 3px solid #D9E8F0;
+    width: 500px;
+    padding: 10px;
+}
+#auth-options .selected {
+    background: #D9E8F0;
+}
+#signin_with_OpenID img.right {
+    float: none;
+    position: absolute;
+    left: 255px;
+}
+.actions-bar {
+    margin-bottom: 20px;
+}
+
+/* Utility ---------------------------------------------------------------- */
+
+.more-button {
+    text-align: center;
+}
+
+.default-value { color: #aaa; }
+
+.pkg:after,
+#footer-inner:after,
+#pagebody-inner:after,
+#compose-inner:after,
+.widget:after,
+.comment:after,
+.member-listitem:after,
+.asset .asset-meta:after,
+.actions ul li:after,
+.actions ul li .asset-meta:after,
+.action-listing li:after,
+.profile-banner:after {
+    content: " ";
+    display: block;
+    visibility: hidden;
+    clear: both;
+    height: 0.1px;
+    font-size: 0.1em;
+    line-height: 0;
+}
+.pkg,
+#footer-inner,
+#pagebody-inner,
+#compose-inner,
+.widget,
+#nav ul,
+.comment,
+.member-listitem,
+.asset .asset-meta,
+.actions ul li,
+.actions ul li .asset-meta,
+.action-listing li,
+.profile-banner {
+    display: inline-block;
+}
+/* no ie mac \*/
+* html .pkg,
+* html #footer-inner,
+* html #pagebody-inner,
+* html #compose-inner,
+* html .widget,
+* html #nav ul,
+* html .comment,
+* html .member-listitem,
+* html .entry-asset .asset-meta,
+* html .actions ul li
+* html .actions ul li .asset-meta
+* html .action-listing li,
+* html .profile-banner {
+    height: 1%;
+}
+.pkg,
+#footer-inner,
+#pagebody-inner,
+#compose-inner,
+.widget,
+#nav ul,
+.comment,
+.member-listitem,
+.asset .asset-meta,
+.actions ul li,
+.actions ul li .asset-meta,
+.action-listing li,
+.profile-banner {
+    display: block;
+}
+/* */
+
+/* Forms ------------------------------------------------------------------ */
+
+
+.user-profile-edit form {
+    margin-bottom: .75em;
+}
+.field {
+    border: 0;
+    margin-bottom: 1em;
+}
+
+#profile-data-form .spinner {
+    display: none;
+}
+
+ul.profile-data li {
+    margin: 0 0 10px;
+    padding-left: 0;
+    list-style: none;
+}
+
+ul.profile-data li .edit {
+    display: none;
+}
+
+
+#profile_userpic-field .field-content label {
+    display: block;
+    margin-top: 5px;
+}
+
+.custom-field-radio-list {
+    margin-bottom: .25em;
+}
+.custom-field-radio-list li {
+    list-style: none;
+    margin-left: 0;
+}
+
+.user-profile-edit .field .field-banner,
+.register .field .field-banner {
+    float: left;
+    width: 130px;
+    margin-right: 10px;
+    text-align: right;
+}
+.user-profile-edit .field .field-content,
+.register .field .field-content,
+.register .actions-bar,
+.user-profile-edit .actions-bar {
+    margin-left: 140px;
+}
+
+.register .hint { font-size: 12px; }
+
+#userpic-field .field-content img {
+    vertical-align: top;
+}
+
+/* Pagination */
+
+.pagination {
+    clear: both;
+    margin: 20px;
+}
+.pagination.top {
+    margin-bottom: 15px;
+}
+.pagination.bottom {
+    margin-top: 15px;
+}
+
+/* Status Messages -------------------------------------------------------- */
+
+#comment-exclamation,
+#comment-error {
+    margin: 35px 37px 35px 97px;
+}
+
+.msg {
+    margin: 0 0 10px 0;
+    padding: 16px 10px 16px 46px;
+    background-repeat: no-repeat;
+    background-position: 12px center;
+}
+.msg-success {
+    background-color: #CFC;
+    background-image: url(images/icon_success.png);
+}
+.msg-error {
+    background-color: #FF9;
+    background-image: url(images/icon_error.png);
+}
+.msg-info {
+    background-color: #fff;
+    background-image: url(images/icon_info.gif);
+}
+.msg-alert {
+    background-color: #FF9;
+    background-image: url(images/icon_alert.png);
+}
+.msg-publishing {
+    background-color: #fff;
+    background-image: url(images/ani-rebuild.gif);
+}
+
+.msg a.close-me {
+    background: transparent url(images/icon_close.png) no-repeat scroll 3px 4px;
+    display: block;
+    float: right;
+    height: 18px;
+    min-width: 0;
+    padding: 2px;
+    width: 22px;
+    margin: 0;
+}
+.msg a.close-me span {
+    display: none;
+}
+
+.note {
+    margin: 10px 0;
+}
+
+#system-allow-pings a.close-me,
+#system-allow-comments a.close-me,
+.msg-error a.close-me,
+.rebuilding-screen .msg a.close-me,
+.restore-publishing-config .msg a.close-me,
+.insert-asset-dialog .msg a.close-me,
+.edit-template .msg-info a.close-me,
+.rebuilding-screen .msg-info a.close-me,
+.pinging-screen .msg-info a.close-me,
+.list-notification .msg-info a.close-me,
+.zero-state a.close-me {
+    display: none;
+}
+
+/* embedded object styling */
+
+.asset-content .embed-image,
+.asset-content .embed-video {
+    position: relative;
+    padding: 5px;
+    clear: both;
+    text-align: center;
+}
+.asset-content .embed-image .caption,
+.asset-content .embed-video .caption {
+    display: block;
+    margin-top: 5px;
+    padding-top: 5px;
+    border-top: 1px solid #999;
+    font-size: small;
+    font-style: italic;
+}
+.asset-content .embed-image .embed-inner,
+.asset-content .embed-video .embed-inner {
+    display: inline-block;
+    background-color: #000;
+    border: 10px solid #000;
+    margin-left: auto;
+    margin-right: auto;
+    color: #fff;
+    text-align: right;
+}
+.asset-content .embed-image img {
+    max-width: 100%;
+}
+
+/* dimensions and layout */
+#container {
+    width: 954px;
+}
+
+#compose {
+    width: 580px;
+}
+#form-compose .ti,
+#form-compose .ta {
+    width: 550px;
+    /* Prevents horizontal sizing of textarea with Safari */
+    max-width: 550px;
+}
+#alpha,
+#beta {
+    float: left;
+    margin-left: 20px;
+}
+#alpha {
+    margin-right: 20px;
+}
+/* main column */
+.layout-two-column-right #alpha {
+    width: 590px;
+    margin-right: 0;
+}
+/* sidebar */
+.layout-two-column-right #beta {
+    width: 300px;
+}
+#footer-inner {
+    width: 940px;
+}
+
+/* colors:
+
+-- Backgrounds/Borders --
+Content background: #fff
+Post background: #f6f6f2
+Page background: #00334c
+Nav background (base): #9c9
+General borders/lines: #ddddd1
+
+-- Text --
+Base text: #1f1f1f
+Light grey text: #888
+Link text: #069
+Link hover text: #047
+Headings: #f60
+
+*/
+
+#banner #banner-header a {
+    color: #444;
+}
+#nav li a:hover,
+#nav li.current a {
+    color: #222;
+    background-color: #fff;
+    opacity: 1;
+}
+#nav li a {
+    background-color: rgba(255,255,255,0.5);
+}
+#footer-inner {
+    color: #777;
+}
+
+#error-big-space {
+    height: 300px;
+}
+
+.error-page {
+    font-size: 16px;
+}
+
+/* Easily overridable classes that are assigned to the right places in the DOM */
+
+/* assigned to body tag */
+.design-background {
+    /* background: #0099B9 url(YOUR_URL_HERE) fixed no-repeat top left; */
+}
+.design-compose-background {
+    /* background: #9AE4E8 url(YOUR_URL_HERE) fixed no-repeat top left !important; */
+}
+/* assigned to #banner #banner-header a */
+.design-logo {
+    /* background-image: url(YOUR_URL_HERE) !important; */
+}
+/* assigned to #pagebody */
+.design-content-color {
+    /* color: #f00; */
+}
+/* assigned to #pagebody */
+.design-content-font {
+    /* font-family: "Comic Sans MS" !important; */
+}
+/* assigned to #pagebody */
+.design-content-border, h2, h3 {
+    /* border-color: #0f0 !important; */
+}
+/* applied to headings; notably widgets, etc. */
+.design-highlight-color {
+    /* color: #00f !important; */
+}

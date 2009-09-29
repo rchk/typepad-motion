@@ -1,0 +1,21 @@
+{% extends base|default:"motion/assets/body/base.html" %}
+{% load i18n %}
+{% load date_filters %}
+
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+{% block activity %}
+    <div class="activity">
+        {% block byline %}
+        {% ifequal event.object.in_reply_to.type_id "audio" %}
+            {% blocktrans with event.actor.display_name as name and event.actor.get_absolute_url as author_url and entry.get_absolute_url as url and event.object.in_reply_to.type_id as type and event.object.in_reply_to.author.display_name as author and entry.published|date_microformat as published and entry.published|pithy_timesince:"on " as timestamp %}
+                <span class="vcard author"><a href="{{ author_url }}">{{ name }}</a></span> commented on an <a href="{{ url }}">{{ type }} post by {{ author }}</a> <abbr class="published" title="{{ published }}">{{ timestamp }}</abbr>.
+            {% endblocktrans %}
+        {% else %}
+            {% blocktrans with event.actor.display_name as name and event.actor.get_absolute_url as author_url and entry.get_absolute_url as url and event.object.in_reply_to.type_id as type and event.object.in_reply_to.author.display_name as author and entry.published|date_microformat as published and entry.published|pithy_timesince:"on " as timestamp %}
+                <span class="vcard author"><a href="{{ author_url }}">{{ name }}</a></span> commented on a <a href="{{ url }}">{{ type }} by {{ author }}</a> <abbr class="published" title="{{ published }}">{{ timestamp }}</abbr>.
+            {% endblocktrans %}
+        {% endifequal %}
+        {% endblock %}
+    </div>
+{% endblock %}

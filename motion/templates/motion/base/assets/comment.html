@@ -1,0 +1,40 @@
+{% load date_filters %}
+{% load typepad_filters %}
+
+<div id="comment-{{ comment.url_id }}" class="comment {% ifequal entry.author.id comment.author.id %}comment-by-author{% endifequal %}">
+
+    <div class="inner">
+        {% with comment.author as user %}
+            {% include "motion/assets/bits/userpic.html" %}
+        {% endwith %}
+    </div>
+    <div class="comment-content">
+        {% with comment as entry %}
+            {% include "motion/assets/bits/delete.html" %}
+        {% endwith %}
+
+        <div class="comment-content-inner">
+            {% with comment as entry %}
+            {% include "motion/assets/bits/content.html" %}
+            {% endwith %}
+        </div>
+    </div>
+    <div class="comment-footer">
+        <div class="asset-meta">
+            <span class="byline">
+                {% spaceless %}
+                <a class="commenter-profile" href="{{ comment.author.get_absolute_url }}">
+                    {% with comment.author|userpicbywidth:16 as userpic %}
+                    <img alt="Author Profile Page" src="{{ userpic.href }}" width="16" height="16" />
+                    {% endwith %}
+                </a>
+                {% endspaceless %}
+                <span class="vcard author">
+                    <a title="{{ comment.author.get_absolute_url }}" href="{{ comment.author.get_absolute_url }}">{{ comment.author.display_name }}</a>
+                </span>
+                <span class="separator">|</span>
+                <abbr class="published" title="{{ comment.published|date_microformat }}">{{ comment.published|pithy_timesince }}</abbr>
+            </span>
+        </div>
+    </div>
+</div>

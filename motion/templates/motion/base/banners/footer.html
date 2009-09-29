@@ -1,0 +1,13 @@
+{% load i18n %}
+<div id="footer">
+    <div id="footer-inner">
+        <div id="footer-content">
+            <div>
+                <a href="{% url terms %}">{% trans "Terms of Service" %}</a>
+                <span class="separator">&bull;</span>
+                <a href="{% url privacy %}">{% trans "Privacy" %}</a>
+            </div>
+            {% trans "Copyright &copy; 2009 Six Apart Ltd. All rights reserved." %}
+        </div>
+    </div>
+</div>

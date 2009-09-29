@@ -1,0 +1,63 @@
+<script type="text/javascript" language="javascript" src="{{ request.get_session_synchronization_url }}"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="TypePad Motion" />
+<link rel="stylesheet" href="{{ settings.media_url }}themes/{{ settings.theme }}/style.css" type="text/css" />
+<link rel="start" href="{% url home %}" title="Home" />
+<link rel="shortcut icon" type="image/x-icon" href="{{ settings.media_url }}themes/{{ settings.theme }}/favicon.ico" />
+<script type="text/javascript" src="{{ settings.media_url }}typepadapp/js/jquery.js"></script>
+
+<!-- JSON Functions -->
+<script type="text/javascript" src="{{ settings.media_url }}typepadapp/js/jquery.json-1.3.min.js"></script>
+
+<!-- Form Submission -->
+<script type="text/javascript" src="{{ settings.media_url }}typepadapp/js/jquery.form.js"></script>
+
+{% if debug %}
+<script type="text/javascript" src="{{ settings.media_url }}typepadapp/js/jquery.dump.js"></script>
+{% endif %}
+
+<!--[if IE]>
+<link rel="stylesheet" href="{{ settings.media_url }}themes/motion/ie.css" type="text/css" />
+<![endif]--> 
+<!--[if lt IE 7]>
+<script type="text/javascript">
+// the following is for transparent images in IE < 7
+var clear_pixel = '{{ settings.media_url }}typepadapp/images/clear.gif';
+</script>
+<script type="text/javascript" src="{{ settings.media_url }}typepadapp/js/ie6pngfix.js"></script>
+<![endif]--> 
+<script type="text/javascript" src="{{ settings.media_url }}motion/js/motion.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+// user data
+var profileUrlTemplate = '{{ settings.frontend_url }}{% url member userid="__profilealias__" %}'.replace('__profilealias__', '<profile-alias>');
+{% if user.is_authenticated %}
+user = {
+    is_authenticated: true,{% if user.is_admin %}
+    is_admin: true,{% endif %}{% if user.is_staff %}
+    is_staff: true,{% endif %}{% if settings.allow_posting and user.can_post %}
+    can_post: true,{% endif %}
+    name: '{{ user.display_name|escapejs }}',
+    email: '{{ user.email|escapejs }}',
+    url: '{{ user.aboutMe|escapejs }}',
+    userpic: '{{ user.userpic|escapejs }}'
+};
+{% endif %}
+settings.upload_xhr_endpoint = '{{ upload_xhr_endpoint|escapejs }}';
+settings.comments_url = '{% url comments_url %}';
+settings.favorite_url = '{% url favorite_url %}';
+/* ]]> */
+</script>
+
+<!-- Userpic flyouts for TypePad following -->
+<script type="text/javascript" src="{{ request.application.user_flyouts_script }}"></script>
+
+<!-- Audio Player for audio files -->
+<link rel="stylesheet" type="text/css" href="{{ settings.media_url }}typepadapp/soundmanager/bacon-player.css" />
+<script type="text/javascript" src="{{ settings.media_url }}typepadapp/soundmanager/soundmanager2-nodebug-jsmin.js"></script>
+<script type="text/javascript" src="{{ settings.media_url }}typepadapp/soundmanager/bacon-player.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+soundManager.url = '{{ settings.media_url }}typepadapp/soundmanager/';
+/* ]]> */
+</script>

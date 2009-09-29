@@ -1,0 +1,47 @@
+{# base template for entry content #}
+
+{# post type icon, userpic, post controls #}
+{% block chrome %}
+{% include "motion/assets/bits/chrome.html" %}
+{% endblock %}
+
+<div class="asset-inner">
+
+{% block header %}
+{# author name, post source #}
+{% include "motion/assets/bits/header.html" %}
+{% endblock %}
+
+    <div class="asset-content entry-content">
+        <div class="asset-body">
+
+{% block title %}
+    {% if entry.title %}{% spaceless %}
+        {% if not entry.source %}
+            {% if settings.use_titles %}
+            <h2 class="entry-title"><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h2>
+            {% endif %}
+        {% else %}
+            <h2 class="entry-title"><a href="{{ entry.get_absolute_url }}">{% autoescape off %}{{ entry.title|striptags }}{% endautoescape %}</a></h2>
+        {% endif %}
+    {% endspaceless %}{% endif %}
+{% endblock %}
+
+{% block media %}{% endblock %}
+{% block activity %}{% endblock %}
+
+{% block content %}
+{% if entry.content %}
+    {% include "motion/assets/bits/content.html" %}
+{% endif %}
+{% endblock %}
+
+        </div>
+    </div>
+
+{% block footer %}
+{# comment count, favorite control, timestamp #}
+{% include "motion/assets/bits/footer.html" %}
+{% endblock %}
+
+</div>

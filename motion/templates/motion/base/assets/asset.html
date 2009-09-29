@@ -1,0 +1,16 @@
+{% load generic_filters %}
+{% load withblock %}
+
+<!-- Entry -->
+<li id="{{ entry.url_id }}" class="asset {% if event %}action-asset{% endif %} hentry {{ entry.type_id }} {% if event.actor.is_superuser %}admin{% endif %} {% if event.actor.is_featured_member %}featured{% endif %} {% if entry.source %}elsewhere elsewhere-{{ entry.source.provider.name|lower }}{% endif %} {% if not entry.is_local %}external{% endif %}">
+
+{% if event and event.is_added_favorite %}
+    {% include "motion/assets/body/favorite.html" %}
+{% else %}
+    {# Asset body is determined by the type of asset #}
+    {% withblock %}motion/assets/body/{{ entry.type_id }}.html{% as template_name %}
+        {% include template_name %}
+    {% endwithblock %}
+{% endif %}
+
+</li>

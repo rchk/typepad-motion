@@ -1,0 +1,14 @@
+{% extends "motion/base.html" %}
+{% load i18n %}
+
+{% block head_title %}{{ block.super }} - {% trans "500 Internal Server Error" %}{% endblock %}
+
+{% block content_body %}
+
+<h1>{% trans "500 Internal Server Error" %}</h1>
+
+<p class="error-page">{% trans "An internal server has occurred. Please contact the server administrator to let us know that an error has occurred. Thank you!" %}</p>
+<p class="error-page"><strong><a href="{% url home %}">{% trans "Head home!" %}</a></strong></p>
+<div id="error-big-space"></div>
+
+{% endblock %}
