@@ -37,7 +37,7 @@ setup(
     description='Community microblogging in the TypePad cloud',
     author='Six Apart',
     author_email='python@sixapart.com',
-    url='http://code.sixapart.com/svn/motion/',
+    url='http://github.com/sixapart/typepad-motion',
 
     long_description=open(join(dirname(__file__), 'README.rst')).read(),
     classifiers=[
