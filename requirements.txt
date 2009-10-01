@@ -2,8 +2,8 @@ oauth==1.0.1
 simplejson==2.0.9
 httplib2==0.5.0
 Django==1.0.2-final
-remoteobjects==1.0#egg=remoteobjects
-batchhttp==1.0#egg=batchhttp
-python-typepad-api==1.0#egg=typepad
-typepadapp==1.0#egg=typepadapp
-django-flash==1.6.2#egg=djangoflash
+django-flash==1.6.2
+remoteobjects==1.0
+batchhttp==1.0
+typepad==1.0
+typepadapp==1.0
