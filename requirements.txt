@@ -4,6 +4,6 @@ httplib2==0.5.0
 Django==1.0.2-final
 -e git://github.com/sixapart/remoteobjects#egg=remoteobjects
 -e git://github.com/sixapart/batchhttp#egg=batchhttp
--e git+ssh://git@github.com/sixapart/python-typepad-api.git#egg=typepad
--e git+ssh://git@github.com/sixapart/typepadapp.git#egg=typepadapp
+-e git://github.com/sixapart/python-typepad-api.git#egg=typepad
+-e git://github.com/sixapart/typepadapp.git#egg=typepadapp
 -e git://github.com/danielfm/django-flash.git#egg=djangoflash
